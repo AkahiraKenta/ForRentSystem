@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.RoomEquipmentDao">
+		<insert id="registRoomEquipment" parameterType="jp.co.forrentsystem.dto.RoomEquipmentDto" keyProperty="buildingId,roomId,equipmentId">
+			INSERT INTO
+				t_room_equipment
+			(
+				building_id,
+				room_id,
+				equipment_id,
+				created,
+				modified,
+				delete_flag
+			)
+			VALUES
+			(
+				#{buildingId},
+				#{roomId},
+				#{equipmentId},
+				sysdate(),
+				sysdate(),
+				#{deleteFlag}
+			)
+		</insert>
+
+		<select id="getRoomEquipmentIdList"  parameterType="jp.co.forrentsystem.dto.RoomEquipmentDto" resultType="Integer">
+			SELECT
+				equipment_id AS equipmentId
+			FROM
+				t_room_equipment
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+		</select>
+
+		<delete id="deleteRoomEquipment" parameterType="jp.co.forrentsystem.dto.RoomEquipmentDto">
+			DELETE
+			FROM
+				t_room_equipment
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+		</delete>
+
+		<update id="deleteRoomEquipmentByBuildingId" parameterType="Integer">
+			UPDATE
+				t_room_equipment
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				building_id = #{buildingId}
+		</update>
+
+		<update id="deleteRoomEquipmentByRoomId" parameterType="jp.co.forrentsystem.dto.RoomsDto">
+			UPDATE
+				t_room_equipment
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+		</update>
+	</mapper>

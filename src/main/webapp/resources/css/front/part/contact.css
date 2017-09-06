@@ -1,0 +1,145 @@
+@charset "utf-8";
+/*----------------------------------------------------------------------
+contact.css
+物件お問合せページ/contact_bukken.html
+一般のお問合せページ/contact.html
+
+-----------------------------------------------------------------------*/
+
+/*-------------物件お問合せページ-------------*/
+
+
+/*注意書き*/
+.contact_bukken_attention {
+	font-size: 150%;
+}
+
+
+/*お問合せ物件の物件名ほか*/
+.contact_bukken_name{
+	width: 720px;
+	background-color: #f0efea;
+	margin-top: 23px;
+	padding: 8px 20px 12px 20px;
+	border-radius: 5px;
+}
+
+.contact_bukken_name h6{
+	font-size: 150%;
+	color: #695c9f;
+	font-weight: bold;
+}
+
+.contact_bukken_name dl{
+	font-size: 120%;
+	line-height: 0.1em;
+}
+
+.contact_bukken_name dt{
+	width: 60px;
+	float: left;
+	clear: left;
+}
+
+.contact_bukken_name dd{
+	width: 660px;
+	float: left;
+}
+
+.contact_bukken_name dd.breakWord{
+	word-wrap: break-word;
+	line-height:100%;
+    margin-top: 4px;
+}
+
+.contact_bukken_h6{
+	font-size: 150%;
+	color: #695c9f;
+	font-weight: bold;
+}
+
+
+.contact_bukkenn_td{
+	text-align: left;
+	vertical-align: top;
+	width: 118px;
+}
+
+.contact_bukkenn_td p{
+	color: #76738E;
+	font-weight: bold;
+	float: left;
+	margin-right: 12px;
+}
+
+/*必須*/
+.contact_bukkenn_td p.contact_must{
+	font-size: 100%;
+	color: #FFFFFF;
+	float: left;
+	background-color: #C33;
+	padding: 3px 5px 2px 5px;
+	border-radius: 3px;
+}
+
+/*完了画面テキスト*/
+.contact_thanks_p {
+	font-size: 150%;
+}
+
+
+
+
+/*-------------一般お問合せページ-------------*/
+
+.contact {
+	width: 712px;
+	padding: 20px;
+	border-radius: 5px;
+	border: 4px solid #D6E4E3;
+}
+
+.contact_h6{
+	font-size: 150%;
+	color: #5FAFAD;
+	font-weight: bold;
+}
+
+.contact table {
+	font-size: 120%;
+}
+
+.contact tr{
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #DCDAE4;
+}
+
+.contact td{
+	padding-top: 14px;
+	padding-bottom: 14px;
+	text-align: left;
+	vertical-align: top;
+}
+
+.contact_td p{
+	color: #666666;
+	font-weight: bold;
+	float: left;
+	margin-right: 12px;
+}
+
+.contact input{
+	margin-top: 6px;
+	vertical-align:middle;
+}
+
+/*必須*/
+.contact_td p.contact_must{
+	font-size: 100%;
+	color: #FFFFFF;
+	float: left;
+	background-color: #C33;
+	padding: 3px 5px 2px 5px;
+	border-radius: 3px;
+}

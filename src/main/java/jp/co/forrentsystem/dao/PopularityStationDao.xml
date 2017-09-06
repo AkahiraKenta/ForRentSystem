@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.forrentsystem.dao.PopularityStationDao">
+	<resultMap id="popularityStation" type="jp.co.forrentsystem.dto.PopularityStationDto">
+		<result property="stationId" column="station_id"/>
+		<result property="stationName" column="station_name"/>
+		<result property="popularityStationCount" column="popularity_station_count"/>
+		<result property="rank" column="rank"/>
+	</resultMap>
+
+	<select id="getPopularityStationList" resultMap="popularityStation">
+		SELECT
+			POPULARITY_STATION.station_id as station_id,
+			STATION.station_name as station_name,
+			POPULARITY_STATION.rank as rank
+		FROM
+			t_popularity_station POPULARITY_STATION
+		INNER JOIN
+			m_station STATION
+			ON
+				POPULARITY_STATION.station_id = STATION.station_id
+		WHERE
+			POPULARITY_STATION.delete_flag = 0
+		ORDER BY
+			POPULARITY_STATION.rank ASC
+	</select>
+
+	<select id="getRank" resultType="Integer">
+		SELECT
+			MAX(POPULARITY_STATION.rank)+1 as rank
+		FROM
+			t_popularity_station POPULARITY_STATION
+		WHERE
+			POPULARITY_STATION.delete_flag = 0
+	</select>
+
+	<insert id="registPopularityStation" parameterType="jp.co.forrentsystem.dto.PopularityStationDto" keyProperty="station_id">
+		INSERT INTO
+			t_popularity_station
+			(
+				station_id,
+				rank,
+				created,
+				modified,
+				delete_flag
+			)
+			VALUES
+			(
+				#{stationId},
+				#{rank},
+				sysdate(),
+				sysdate(),
+				#{deleteFlag}
+			)
+	</insert>
+
+	<delete id="deletePopularityStation" parameterType="jp.co.forrentsystem.dto.PopularityStationDto">
+		DELETE FROM
+			t_popularity_station
+		WHERE
+			station_id = #{stationId}
+	</delete>
+
+	<update id="updateRank" parameterType="jp.co.forrentsystem.dto.PopularityStationDto">
+		UPDATE
+			t_popularity_station
+		SET
+			rank = #{rank},
+			modified = sysdate()
+		WHERE
+			station_id = #{stationId}
+	</update>
+
+	<select id="getPopularityStationListByViewNumber" parameterType="Integer" resultMap="popularityStation">
+		SELECT
+			POPULARITY_STATION.station_id as station_id,
+			STATION.station_name as station_name,
+			POPULARITY_STATION.rank as rank,
+			COUNT(ROOMS.room_id) as popularity_station_count
+		FROM
+			t_popularity_station POPULARITY_STATION
+		INNER JOIN
+			m_station STATION
+			ON
+				POPULARITY_STATION.station_id = STATION.station_id
+		LEFT OUTER JOIN
+			t_nearest_station NEAREST_STATION
+			ON
+				NEAREST_STATION.station_id = POPULARITY_STATION.station_id
+			AND
+			NEAREST_STATION.delete_flag = 0
+		LEFT OUTER JOIN
+			m_building BUILDING
+			ON
+				BUILDING.building_id = NEAREST_STATION.building_id
+			AND
+				BUILDING.delete_flag = 0
+		LEFT OUTER JOIN
+			m_rooms ROOMS
+			ON
+				ROOMS.building_id = BUILDING.building_id
+			AND
+				ROOMS.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+		WHERE
+			POPULARITY_STATION.delete_flag = 0
+		GROUP BY
+			station_id, station_name, rank
+		ORDER BY
+			POPULARITY_STATION.rank
+		LIMIT
+			0, #{popularityStationViewNumber}
+	</select>
+</mapper>

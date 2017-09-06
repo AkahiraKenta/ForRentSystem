@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.HdFtDao">
+		<resultMap id="hdFt" type="jp.co.forrentsystem.dto.HdFtDto">
+			<result property="id" column="id"/>
+			<result property="headerFileName" column="header_file_name"/>
+			<result property="headerFilePath" column="header_file_path"/>
+			<result property="footerFileName" column="footer_file_name"/>
+			<result property="footerFilePath" column="footer_file_path"/>
+			<result property="headerFileName" column="header_file_name"/>
+			<result property="companyName" column="company_name"/>
+			<result property="tel" column="tel"/>
+			<result property="fax" column="fax"/>
+			<result property="mailAddress" column="mail_address"/>
+			<result property="transitionUrl" column="transition_url"/>
+			<result property="transitionFlag" column="transition_flag"/>
+		</resultMap>
+
+		<select id="getHdFt" parameterType="jp.co.forrentsystem.dto.HdFtDto" resultMap="hdFt">
+			SELECT
+				id AS id,
+				header_file_name AS header_file_name,
+				header_file_path AS header_file_path,
+				footer_file_name AS footer_file_name,
+				footer_file_path AS footer_file_path,
+				company_name AS company_name,
+				tel AS tel,
+				fax AS fax,
+				mail_address AS mail_address,
+				transition_url AS transition_url,
+				transition_flag AS transition_flag
+			FROM
+				m_hd_ft
+			LIMIT 1
+		</select>
+
+		<update id="updateHdFt" parameterType="jp.co.forrentsystem.dto.HdFtDto">
+			UPDATE
+				m_hd_ft
+			SET
+				header_file_name = #{headerFileName},
+				header_file_path = #{headerFilePath},
+				footer_file_name = #{footerFileName},
+				footer_file_path = #{footerFilePath},
+				company_name = #{companyName},
+				tel = #{tel},
+				fax = #{fax},
+				mail_address = #{mailAddress},
+				transition_url = #{transitionUrl},
+				transition_flag = #{transitionFlag},
+				modified = sysdate()
+			WHERE
+				id = #{id}
+		</update>
+	</mapper>

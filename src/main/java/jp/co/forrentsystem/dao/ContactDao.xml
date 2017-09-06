@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.ContactDao">
+		<resultMap id="contact" type="jp.co.forrentsystem.dto.ContactDto">
+			<result property="contactId" column="contact_id"/>
+			<result property="processStatus" column="process_status"/>
+			<result property="lastName" column="last_name"/>
+			<result property="firstName" column="first_name"/>
+			<result property="companyName" column="company_name"/>
+			<result property="mailAddress" column="mail_address"/>
+			<result property="tel" column="tel"/>
+			<result property="contactContent" column="contact_content"/>
+			<result property="created" column="created"/>
+		</resultMap>
+
+		<insert id="registContact" parameterType="jp.co.forrentsystem.dto.ContactDto" keyProperty="contactId">
+			<selectKey resultType="int" keyProperty="contactId" order="BEFORE">
+				SELECT IFNULL(MAX(contact_id),0)+1 FROM t_contact
+			</selectKey>
+			INSERT INTO
+				t_contact
+				(
+					contact_id,
+					process_status,
+					last_name,
+					first_name,
+					company_name,
+					mail_address,
+					tel,
+					contact_content,
+					created,
+					modified,
+					delete_flag
+				)
+			VALUE
+				(
+					#{contactId},
+					#{processStatus},
+					#{lastName},
+					#{firstName},
+					#{companyName},
+					#{mailAddress},
+					#{tel},
+					#{contactContent},
+					sysdate(),
+					sysdate(),
+					0
+				)
+		</insert>
+
+		<select id="getContactId" resultType="Integer">
+			SELECT IFNULL(MAX(contact_id),0) as contactId FROM t_contact
+		</select>
+
+		<select id="getContactCount" parameterType="Integer" resultType="Integer">
+			SELECT
+				count(*)
+			FROM
+				t_contact CONTACT
+			WHERE
+				CONTACT.process_status = #{processStatus}
+			AND
+				CONTACT.delete_flag = 0
+		</select>
+
+		<select id="getContactList" parameterType="jp.co.forrentsystem.dto.ContactDto" resultMap="contact">
+			SELECT
+				CONTACT.contact_id as contact_id,
+				CONTACT.process_status as process_status,
+				CONTACT.last_name as last_name,
+				CONTACT.first_name as first_name,
+				CONTACT.company_name as company_name,
+				CONTACT.mail_address as mail_address,
+				CONTACT.tel as tel,
+				CONTACT.contact_content as contact_content,
+				DATE_FORMAT(CONTACT.created, '%Y/%m/%d') as created
+			FROM
+				t_contact CONTACT
+			WHERE
+				CONTACT.process_status = #{processStatus}
+			AND
+				CONTACT.delete_flag = 0
+			<if test="processStatus != 2">
+				ORDER BY
+					CONTACT.modified ASC
+			</if>
+			<if test="processStatus == 2">
+				ORDER BY
+					CONTACT.modified DESC
+			</if>
+			LIMIT #{fromNumber}, #{viewNumber}
+
+		</select>
+
+		<select id="getContactByContactId" parameterType="Integer" resultMap="contact">
+			SELECT
+				CONTACT.contact_id as contact_id,
+				CONTACT.process_status as process_status,
+				CONTACT.last_name as last_name,
+				CONTACT.first_name as first_name,
+				CONTACT.company_name as company_name,
+				CONTACT.mail_address as mail_address,
+				CONTACT.tel as tel,
+				CONTACT.contact_content as contact_content,
+				DATE_FORMAT(CONTACT.created, '%Y/%m/%d') as created
+			FROM
+				t_contact CONTACT
+			WHERE
+				CONTACT.contact_id = #{contactId}
+			AND
+				CONTACT.delete_flag = 0
+		</select>
+
+		<update id="updateContactForProcessStatus" parameterType="jp.co.forrentsystem.dto.BuildingContactDto">
+			UPDATE
+				t_contact CONTACT
+			SET
+				CONTACT.process_status = #{processStatus},
+				CONTACT.modified = sysdate()
+			WHERE
+				CONTACT.contact_id = #{contactId}
+		</update>
+	</mapper>

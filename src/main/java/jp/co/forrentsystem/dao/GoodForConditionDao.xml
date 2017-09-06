@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.GoodForConditionDao">
+		<resultMap id="goodForCondition" type="jp.co.forrentsystem.constants.MasterDto">
+			<result property="id" column="conditionId"/>
+			<result property="name" column="conditionName"/>
+		</resultMap>
+
+		<resultMap id="goodForConditionDisplayNumber" type="jp.co.forrentsystem.dto.GoodForConditionDto">
+			<result property="conditionId" column="condition_id"/>
+			<result property="conditionName" column="condition_name"/>
+			<result property="displayNumber" column="display_number"/>
+		</resultMap>
+
+		<select id="getGoodForConditionList" resultMap="goodForCondition">
+			SELECT
+				condition_id as conditionId,
+				condition_name as conditionName
+			FROM
+				m_good_for_condition
+			WHERE
+				delete_flag = 0
+			ORDER BY
+				display_number
+		</select>
+
+		<select id="getGoodForConditionListOrderByDisplayNumber" resultMap="goodForConditionDisplayNumber">
+			SELECT
+				condition_id as condition_id,
+				condition_name as condition_name,
+				display_number as display_number
+			FROM
+				m_good_for_condition
+			WHERE
+				delete_flag = 0
+			ORDER BY
+				display_number
+		</select>
+
+		<select id="getGoodForConditionMaxDisplayNumber" resultType="Integer">
+			SELECT
+				MAX(display_number)+1 as display_number
+			FROM
+				m_good_for_condition
+			WHERE
+				delete_flag = 0
+		</select>
+
+		<insert id="registGoodForCondition" parameterType="jp.co.forrentsystem.dto.GoodForConditionDto" keyProperty="conditionId">
+			<selectKey resultType="int" keyProperty="conditionId" order="BEFORE">
+				SELECT IFNULL(MAX(condition_id),0)+1 FROM m_good_for_condition
+			</selectKey>
+			INSERT INTO
+				m_good_for_condition
+				(
+					condition_id,
+					condition_name,
+					display_number,
+					created,
+					modified,
+					delete_flag
+				)
+			VALUE
+				(
+					#{conditionId},
+					'',
+					#{displayNumber},
+					sysdate(),
+					sysdate(),
+					#{deleteFlag}
+				)
+		</insert>
+
+		<delete id="deleteGoodForCondition" parameterType="Integer">
+			DELETE FROM
+				m_good_for_condition
+			WHERE
+				condition_id = #{conditionId}
+		</delete>
+
+		<update id="updateGoodForCondition" parameterType="jp.co.forrentsystem.dto.GoodForConditionDto">
+			UPDATE
+				m_good_for_condition
+			SET
+				condition_name = #{conditionName},
+				modified = sysdate()
+			WHERE
+				condition_id = #{conditionId}
+		</update>
+
+		<update id="updateGoodForConditionDisplayNumber" parameterType="jp.co.forrentsystem.dto.GoodForConditionDto">
+			UPDATE
+				m_good_for_condition
+			SET
+				display_number = #{displayNumber},
+				modified = sysdate()
+			WHERE
+				condition_id = #{conditionId}
+		</update>
+	</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.StructureDao">
+		<resultMap id="structure" type="jp.co.forrentsystem.dto.StructureDto">
+			<result property="structureId" column="structure_id"/>
+			<result property="structureName" column="structure_name"/>
+		</resultMap>
+		<select id="getStructure" resultMap="structure">
+			SELECT
+				structure_id as structureId,
+				structure_name as structureName
+			FROM
+				m_structure
+		</select>
+
+		<select id="getStructureByStructureId" parameterType="Integer" resultMap="structure">
+			SELECT
+				structure_id as structureId,
+				structure_name as structureName
+			FROM
+				m_structure
+			WHERE
+				structure_id = #{structureId}
+		</select>
+
+		<select id="getStructureByMaxStructureId" resultMap="structure">
+			SELECT
+				structure_id as structureId,
+				structure_name as structureName
+			FROM
+				m_structure
+			where
+				structure_id = (SELECT IFNULL(MAX(structure_id),0) FROM m_structure)
+		</select>
+
+		<insert id="registStructure" parameterType="jp.co.forrentsystem.dto.StructureDto" keyProperty="structureId">
+			<selectKey resultType="int" keyProperty="structureId" order="BEFORE">
+				SELECT IFNULL(MAX(structure_id),0)+1 FROM m_structure
+			</selectKey>
+			INSERT INTO
+				m_structure
+				(
+					structure_id,
+					structure_name,
+					created,
+					modified,
+					delete_flag
+				)
+			VALUE
+				(
+					#{structureId},
+					'',
+					sysdate(),
+					sysdate(),
+					#{deleteFlag}
+				)
+		</insert>
+
+		<delete id="deleteStructure" parameterType="Integer">
+			DELETE FROM
+				m_structure
+			WHERE
+				structure_id = #{structureId}
+		</delete>
+
+		<update id="updateStructure" parameterType="jp.co.forrentsystem.dto.StructureDto">
+			UPDATE
+				m_structure
+			SET
+				structure_name = #{structureName},
+				modified = sysdate()
+			WHERE
+				structure_id = #{structureId}
+		</update>
+	</mapper>

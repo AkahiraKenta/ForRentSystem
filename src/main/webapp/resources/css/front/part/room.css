@@ -1,0 +1,388 @@
+@charset "utf-8";
+/*----------------------------------------------------------------------
+room.css
+物件詳細ページ
+-----------------------------------------------------------------------*/
+
+
+/*----------物件写真----------*/
+.room{
+	margin-bottom: 20px;
+}
+
+.room_photo{
+	width: 340px;
+	float: left;
+	margin-bottom: 10px;
+}
+
+/*物件の写真（大）*/
+.room_photo pre{
+	height: 226px;
+	width: 305px;
+   	background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: #f0efea;
+}
+
+/*物件の写真（コメント）*/
+.room_photo p{
+	font-size: 110%;
+	margin-bottom: 8px;
+}
+
+/*
+.slider-for {
+	height: 160px;
+}
+*/
+/*物件の写真（スライド）*/
+
+.room_photo_slide{
+	width: 310px;
+	padding-left:20px;
+	padding-right:22px;
+}
+
+.room_photo_slide_arrow{
+	float: left;
+	margin-right: 4px;
+
+}
+
+.room_photo_slide_arrow pre{
+	width: 11px;
+	height: 45px;
+	margin-top: 2px;
+
+}
+
+.room_photo_slide_in{
+	width: 272px;
+	float: left;
+	margin-left: 4px;
+
+}
+
+.room_photo_slide_in pre {
+	width: 62px;
+	height:45px;
+	float: left;
+	margin-right: 4px;
+	margin-bottom: 6px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+/*----------物件名、部屋番号、コピー----------*/
+.room_name_box{
+	width: 420px;
+	float: left;
+	text-align: left;
+	vertical-align: top;
+	margin-bottom: 15px;
+	overflow: hidden;
+}
+
+.room_name{
+	width: 393px;
+	height: 100%;
+	margin-bottom: 20px;
+	overflow: hidden;
+	border-left-width: 7px;
+	border-left-style: solid;
+	border-left-color: #695C9F;
+}
+
+.room_name h4{
+	height: 100%;
+	font-size: 190%;
+	color: #695c9f;
+	font-weight: bold;
+	background-image: none;
+	padding-top: 1px;
+	padding-bottom:1px;
+	line-height: 1.2em;
+	overflow: hidden;
+}
+
+/*部屋番号*/
+.room_num{
+	font-size: 190%;
+	color: #695c9f;
+	font-weight: bold;
+	float: left;
+	padding-top: 14px;
+	padding-left: 6px;
+}
+
+/*部屋のキャッチコピー（大）*/
+.room_copy{
+	font-size: 160%;
+	clear: both;
+	line-height: 1.3em;
+	margin-bottom: 12px;
+	color: #F95100;
+	word-break: break-all;
+}
+
+/*部屋の間取り、賃料、最寄り駅*/
+.room_madori_box{
+	width: 380px;
+	border-radius: 4px;
+	clear: both;
+	margin-bottom: 12px;
+	padding: 3px 20px 10px 20px;
+	background-color: #EAE9E6;
+}
+
+.room_madori_box p{
+	font-size: 140%;
+	margin-right: 7px;
+	margin-bottom: 1px;
+}
+
+/*賃料*/
+.room_price{
+	width: 380px;
+	clear: both;
+	overflow: hidden;
+}
+
+.room_price_yen{
+	font-size: 150%;
+	color: #695c9f;
+	float: left;
+}
+
+.room_price_yen p{
+	font-weight: bold;
+}
+
+.room_price_kanri{
+	font-size: 90%;
+	float: left;
+}
+.room_price_kanri p{
+	margin-top: 10px;
+}
+
+/*スタッフコメント*/
+.room_madori_comment{
+	font-size: 120%;
+	line-height: 1.5em;
+}
+
+
+
+
+/*----------物件概要----------*/
+
+.room_gaiyou{
+	width: 708px;
+	padding: 15px 20px 25px 20px;
+	border-radius: 4px;
+	border: 6px solid #E6E4E1;
+}
+
+.room_gaiyou h6{
+	font-size: 160%;
+	font-weight: bold;
+}
+
+.room_gaiyou table{
+	width: 708px;
+	border: 1px solid #CBCAC2;
+}
+
+.room_gaiyou td{
+	font-size: 120%;
+	border: 1px solid #CBCAC2;
+	padding: 7px;
+}
+
+.room_gaiyou_td_gray{
+	background-color: #F0F0EE;
+}
+
+/*グーグルマップ*/
+.room_gaiyou_map{
+	width: 285px;
+	float: left;
+	margin-left: 6px;
+}
+
+
+
+
+/*----------この物件について問い合わせる----------*/
+.room_toiawase{
+	width: 720px;
+	background-color: #DCDBE8;
+	padding: 15px 20px;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.room_toiawase_midashi{
+	font-size: 200%;
+	font-weight: bold;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.room_toiawase img{
+	float: left;
+	margin-top: 15px;
+
+}
+
+.btn_room_toiawase{
+	float: left;
+}
+
+.btn_room_toiawase a{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #76738E;
+	display: block;
+	padding: 12px;
+	margin-left: 18px;
+}
+
+
+.btn_room_toiawase a:link{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #76738E;
+	display: block;
+	padding: 12px;
+	margin-left: 18px;
+}
+
+.btn_room_toiawase a:visited{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #76738E;
+	display: block;
+	padding: 12px;
+	margin-left: 18px;
+}
+
+.btn_room_toiawase a:hover{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #A6A4B5;
+	display: block;
+	padding: 12px;
+	margin-left: 18px;
+}
+
+/*----------この物件の空室一覧----------*/
+.room_aki {
+	width: 760px;
+	margin: 8px 0px;
+	padding: 3px 0px;
+	border-bottom-width: 5px;
+	border-bottom-style: solid;
+	border-bottom-color: #695C9F;
+	clear:both;
+	overflow: hidden;
+}
+
+.room_aki p{
+	font-size: 160%;
+}
+
+
+.room_aki_table{
+	width: 760px;
+	border: 1px solid #CBCAC2;
+	margin-top: 15px;
+}
+
+.room_aki_table td{
+	font-size: 120%;
+	padding:5px;
+	border: 1px solid #CBCAC2;
+
+}
+
+.room_aki_tr{
+	border: 1px solid #CBCAC2;
+	padding:5px;
+	background-color: #F0F0EE;
+}
+
+.btn_room_aki{
+	width: 60px;
+	margin: 0 auto;
+
+}
+
+.btn_room_aki a{
+	width: 50px;
+	text-align: center;
+	border-radius: 3px;
+	font-size: 110%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #76738E;
+	display: block;
+	padding: 4px;
+}
+
+.btn_room_aki a:link{
+	width: 50px;
+	text-align: center;
+	border-radius: 3px;
+	font-size: 110%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #76738E;
+	display: block;
+	padding: 4px;
+}
+
+.btn_room_aki a:visited{
+	width: 50px;
+	text-align: center;
+	border-radius: 3px;
+	font-size: 110%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #76738E;
+	display: block;
+	padding: 4px;
+}
+
+.btn_room_aki a:hover{
+	width: 50px;
+	text-align: center;
+	border-radius: 3px;
+	font-size: 110%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #A6A4B5;
+	display: block;
+	padding: 4px;
+}

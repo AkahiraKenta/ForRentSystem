@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.BuildingContactHeaderDao">
+		<insert id="registBuildingContactHeader" parameterType="jp.co.forrentsystem.dto.BuildingContactDto" keyProperty="buildingContactId">
+			INSERT INTO
+				t_building_contact_header
+				(
+					building_contact_id,
+					process_status,
+					process_class,
+					last_name,
+					first_name,
+					mail_address,
+					tel,
+					contact_means_id,
+					residents_hope_time,
+					contact_content,
+					created,
+					modified,
+					delete_flag
+				)
+			VALUE
+				(
+					#{buildingContactId},
+					#{processStatus},
+					#{processClass},
+					#{lastName},
+					#{firstName},
+					#{mailAddress},
+					#{tel},
+					#{contactMeansTime},
+					#{residentsHopeTime},
+					#{contactContent},
+					sysdate(),
+					sysdate(),
+					0
+				)
+		</insert>
+	</mapper>

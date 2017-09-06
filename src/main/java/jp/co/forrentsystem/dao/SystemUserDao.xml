@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.SystemUserDao">
+		<resultMap id="login" type="jp.co.forrentsystem.dto.SystemUserDto">
+			<result property="systemUserLoginId" column="system_user_login_id"/>
+			<result property="systemUserPassword" column="system_user_password"/>
+			<result property="sysytemUserClass" column="sysytem_user_class"/>
+			<result property="systemUserName" column="system_user_name"/>
+		</resultMap>
+
+		<resultMap id="systemUserDto" type="jp.co.forrentsystem.dto.SystemUserDto" >
+			<result property="systemUserId" column="system_user_id"/>
+			<result property="systemUserName" column="system_user_name"/>
+			<result property="systemUserLoginId" column="system_user_login_id"/>
+			<result property="systemUserPassword" column="system_user_password"/>
+			<result property="sysytemUserClass" column="sysytem_user_class"/>
+			<result property="systemUserAddress" column="system_user_address"/>
+			<result property="availableFlag" column="available_flag"/>
+			<result property="created" column="created"/>
+			<result property="modified" column="modified"/>
+			<result property="deleteFlag" column="delete_flag"/>
+		</resultMap>
+
+		<select id="getSystemUserLoginId" parameterType="String" resultMap="login">
+			SELECT
+				system_user_login_id as systemUserLoginId,
+				system_user_password as systemUserPassword,
+				system_user_class,
+				system_user_name as system_user_name
+			FROM
+				m_system_user
+			WHERE
+				system_user_login_id = #{systemUserLoginId}
+			AND delete_flag = 0
+			AND available_flag = 1
+		</select>
+
+		<select id="getSystemUserList" resultMap="systemUserDto">
+			SELECT
+				*
+			FROM
+				m_system_user
+			WHERE
+				delete_flag = 0
+		</select>
+
+		<select id="getTargetSystemUser" parameterType="int" resultMap="systemUserDto">
+			SELECT
+				*
+			FROM
+				m_system_user
+			WHERE
+				system_user_id = #{systemUserId}
+		</select>
+
+		<insert id="registSystemUser" parameterType="jp.co.forrentsystem.dto.SystemUserDto" keyProperty="systemUserId">
+			<selectKey resultType="int" keyProperty="systemUserId" order="BEFORE">
+				select @@IDENTITY
+			</selectKey>
+
+			INSERT INTO
+				m_system_user
+				(
+					system_user_id,
+					system_user_name,
+					system_user_login_id,
+					system_user_password,
+					system_user_class,
+					system_user_address,
+					available_flag,
+					created,
+					modified,
+					delete_flag
+				)
+			VALUES
+				(
+					#{systemUserId},
+					#{systemUserName},
+					#{systemUserLoginId},
+					#{systemUserPassword},
+					#{systemUserClass},
+					#{systemUserAddress},
+					#{availableFlag},
+					sysdate(),
+					sysdate(),
+					0
+				)
+		</insert>
+
+		<update id="updateSystemUser" parameterType="jp.co.forrentsystem.dto.SystemUserDto">
+			UPDATE
+				m_system_user
+			SET
+				system_user_name = #{systemUserName},
+				system_user_class = #{systemUserClass},
+				system_user_address = #{systemUserAddress},
+				modified = sysdate(),
+				available_flag = #{availableFlag}
+			WHERE
+				system_user_id = #{systemUserId}
+		</update>
+
+		<update id="deleteSystemUser" parameterType="Integer">
+			UPDATE
+				m_system_user
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				system_user_id = #{systemUserId}
+		</update>
+
+		<update id="updateSystemUserForPassword" parameterType="jp.co.forrentsystem.dto.SystemUserDto">
+			UPDATE
+				m_system_user
+			SET
+				system_user_password = #{systemUserPassword},
+				modified = sysdate()
+			WHERE
+				system_user_id = #{systemUserId}
+		</update>
+
+	</mapper>

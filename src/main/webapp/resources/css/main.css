@@ -1,0 +1,105 @@
+@charset "utf-8";
+
+/*  *** admin/css/common.css ***  */
+/*  本アプリケーションメインCSS*/
+
+
+/*管理画面 全体*/
+/*--------------------------------------------------*/
+.navbar-brand{
+    padding:5px 15px;
+}
+nav.navbar.navbar-default.navbar-static-top {
+    background-color: #18274a;
+    color: #fff;
+}
+.breadcrumb{
+    margin-top: 20px;
+    margin-bottom: -10px;
+}
+
+.errorMessage{
+    margin: 10px 5px 0px;
+}
+
+.dlBtnBox{
+    margin:20px 0 60px;
+}
+
+.panel-body > h4{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+
+/*登録データ画面*/
+/*--------------------------------------------------*/
+.sortValBox{
+    padding: 5px 5px;
+    margin-left: 20px;
+    background-color: lightskyblue;
+    color: #fff;
+    font-size: 80%;
+    border-radius: 5px;
+}
+.sortValBox .badge{
+    background-color: #fff;
+    color: #888;
+    margin-left: 5px;
+}
+
+.editTable .radio-inline{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.mainDataTable th,
+.editTable th{
+    width:20%;
+}
+.editSortValBox{
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+.editSortValBox .control-label{
+    text-align: right;
+}
+
+
+/*モーダル内*/
+/*--------------------------------------------------*/
+.uploadFileSelect{
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+
+/*ログイン画面用*/
+/*--------------------------------------------------*/
+.login-panel > .panel-heading{
+    background-color: #18274a;
+    text-align: center;
+    border-color: #18274a;
+}
+
+.login-panel > .panel-heading > img{
+    width:100%;
+}
+.login-panel > .panel-body{
+    background-color: #18274a;;
+}
+.item_font_size{
+	font-size:14px;
+}
+.item_font_size_sm{
+	font-size:12px;
+}
+
+/* エラー文言 */
+/*--------------------------------------------------*/
+.validateErrors {
+	font-size:14px;
+	color: #ff0000;
+}

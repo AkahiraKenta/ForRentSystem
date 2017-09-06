@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.RoomGoodForConditionDao">
+		<insert id="registRoomGoodForCondition" parameterType="jp.co.forrentsystem.dto.RoomGoodForConditionDto" keyProperty="buildingId,roomId,conditionId">
+			INSERT INTO
+				t_room_good_for_condition
+			(
+				building_id,
+				room_id,
+				condition_id
+			)
+			VALUES
+			(
+				#{buildingId},
+				#{roomId},
+				#{conditionId}
+			)
+		</insert>
+
+		<select id="getRoomGoodForConditionIdList"  parameterType="jp.co.forrentsystem.dto.RoomGoodForConditionDto" resultType="Integer">
+			SELECT
+				condition_id AS conditionId
+			FROM
+				t_room_good_for_condition
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+		</select>
+
+		<delete id="deleteRoomGoodForCondition"  parameterType="jp.co.forrentsystem.dto.RoomGoodForConditionDto">
+			DELETE
+			FROM
+				t_room_good_for_condition
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+		</delete>
+
+		<update id="deleteRoomGoodForConditionByBuildingId" parameterType="Integer">
+			UPDATE
+				t_room_good_for_condition
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				building_id = #{buildingId}
+		</update>
+
+		<update id="deleteRoomGoodForConditionByRoomId" parameterType="jp.co.forrentsystem.dto.RoomsDto">
+			UPDATE
+				t_room_good_for_condition
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+		</update>
+	</mapper>

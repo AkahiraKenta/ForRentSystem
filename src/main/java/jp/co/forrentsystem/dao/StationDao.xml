@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.forrentsystem.dao.StationDao">
+	<resultMap id="station" type="jp.co.forrentsystem.dto.StationDto">
+		<result property="stationId" column="station_id"/>
+		<result property="stationName" column="station_name"/>
+	</resultMap>
+
+	<select id="getStationListByRouteId" parameterType="Integer" resultMap="station">
+		SELECT
+			STATION.station_id as station_id,
+			STATION.station_name as station_name
+		FROM
+			m_station STATION
+		INNER JOIN
+			m_stop_station STOP_STATION
+			ON
+				STATION.station_id = STOP_STATION.station_id
+		INNER JOIN
+			m_route ROUTE
+		    ON
+				ROUTE.route_id = STOP_STATION.route_id
+		WHERE
+			STOP_STATION.route_id = #{routeId}
+		ORDER BY
+			STATION.station_id
+	</select>
+
+	<select id="getStationByStationId" parameterType="Integer" resultMap="station">
+		SELECT
+			STATION.station_id as station_id,
+			STATION.station_name as station_name
+		FROM
+			m_station STATION
+		INNER JOIN
+			m_stop_station STOP_STATION
+			ON
+				STATION.station_id = STOP_STATION.station_id
+		INNER JOIN
+			m_route ROUTE
+		    ON
+				ROUTE.route_id = STOP_STATION.route_id
+		WHERE
+			STATION.station_id = #{stationId}
+		GROUP BY
+			STATION.station_id, STATION.station_name
+	</select>
+
+	<select id="getStationListForPopularityStationByRouteId" parameterType="Integer" resultMap="station">
+		SELECT
+			STATION.station_id as station_id,
+			STATION.station_name as station_name
+		FROM
+			m_station STATION
+		INNER JOIN
+			t_nearest_station NEAREST_STATION
+			ON
+				NEAREST_STATION.route_id = #{routeId}
+			AND
+				NEAREST_STATION.station_id = STATION.station_id
+		INNER JOIN
+			m_rooms ROOMS
+			ON
+				ROOMS.building_id = NEAREST_STATION.building_id
+		INNER JOIN
+			m_stop_station STOP_STATION
+			ON
+				STATION.station_id = STOP_STATION.station_id
+			AND
+				STOP_STATION.route_id = #{routeId}
+		INNER JOIN
+			m_route ROUTE
+		    ON
+				ROUTE.route_id = #{routeId}
+		WHERE
+			NOT EXISTS
+			(
+				SELECT
+					POPULARITY_STATION.station_id
+				FROM
+					t_popularity_station POPULARITY_STATION
+				WHERE
+					STATION.station_id = POPULARITY_STATION.station_id
+				AND
+					POPULARITY_STATION.delete_flag = 0
+			)
+		AND
+			ROUTE.delete_flag = 0
+		AND
+			ROOMS.publication_flag = 1
+		AND
+			ROOMS.recruitment_status &lt; 3
+		AND
+			ROOMS.delete_flag = 0
+		GROUP BY
+			STATION.station_id, STATION.station_name
+		ORDER BY
+			STATION.station_id
+	</select>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.AddressImportHistoryDao">
+		<resultMap id="addressImportHistory" type="jp.co.forrentsystem.dto.AddressImportHistoryDto">
+			<result property="targetYear" column="target_year"/>
+			<result property="targetMonth" column="target_month"/>
+		</resultMap>
+
+		<select id="getAddressImportHistoryToMaxYears" resultMap="addressImportHistory">
+			SELECT
+				address.target_year as target_year,
+				address.target_month as target_month
+			FROM
+				(
+					SELECT
+						target_year as target_year,
+						target_month as target_month
+					FROM
+						m_address_import_history
+					ORDER BY
+						target_year, target_month DESC
+				) as address
+			limit 1
+		</select>
+	</mapper>

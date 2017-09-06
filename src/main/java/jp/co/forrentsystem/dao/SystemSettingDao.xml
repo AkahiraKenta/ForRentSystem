@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.SystemSettingDao">
+		<resultMap id="systemSetting" type="jp.co.forrentsystem.dto.SystemSettingDto">
+			<result property="systemUserLoginId" column="system_user_login_id"/>
+			<result property="systemUserPassword" column="system_user_password"/>
+		</resultMap>
+
+		<select id="getSystemSettingList" resultMap="systemSetting">
+			SELECT
+				system_setting_id as system_setting_id,
+				system_setting_name as system_setting_name,
+				display_number as display_number
+			FROM
+				m_system_setting
+			WHERE
+				delete_flag = 0
+			ORDER BY
+				system_setting_id
+		</select>
+
+		<update id="updateDisplayNumber" parameterType="jp.co.forrentsystem.dto.SystemSettingDto">
+			UPDATE
+				m_system_setting
+			SET
+				display_number = #{displayNumber},
+				modified = sysdate()
+			WHERE
+				system_setting_id = #{systemSettingId}
+			AND
+				delete_flag = #{deleteFlag}
+		</update>
+	</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.FloorPlanDao">
+		<resultMap id="floorPlan" type="jp.co.forrentsystem.dto.FloorPlanDto">
+			<result property="floorPlanId" column="floor_plan_id"/>
+			<result property="floorPlanName" column="floor_plan_name"/>
+		</resultMap>
+
+		<select id="getFloorPlanList" resultMap="floorPlan">
+			SELECT
+				floor_plan_id as floor_plan_id,
+				floor_plan_name as floor_plan_name
+			FROM
+				m_floor_plan
+			WHERE
+				delete_flag = 0
+		</select>
+
+		<select id="getFloorPlanByFloorPlanId" parameterType="Integer" resultMap="floorPlan">
+			SELECT
+				floor_plan_id as floor_plan_id,
+				floor_plan_name as floor_plan_name
+			FROM
+				m_floor_plan
+			WHERE
+				floor_plan_id = #{floorPlanId}
+			AND
+				delete_flag = 0
+		</select>
+
+		<insert id="registFloorPlan" parameterType="jp.co.forrentsystem.dto.FloorPlanDto" keyProperty="floorPlanId">
+			<selectKey resultType="int" keyProperty="floorPlanId" order="BEFORE">
+				SELECT IFNULL(MAX(floor_plan_id),0)+1 FROM m_floor_plan
+			</selectKey>
+			INSERT INTO
+				m_floor_plan
+				(
+					floor_plan_id,
+					floor_plan_name,
+					created,
+					modified,
+					delete_flag
+				)
+				VALUES
+				(
+					#{floorPlanId},
+					'',
+					sysdate(),
+					sysdate(),
+					0
+				)
+		</insert>
+
+		<delete id="deleteFloorPlan" parameterType="Integer">
+			DELETE FROM
+				m_floor_plan
+			WHERE
+				floor_plan_id = #{floorPlanId}
+		</delete>
+
+		<update id="updateFloorPlan" parameterType="jp.co.forrentsystem.dto.FloorPlanDto">
+			UPDATE
+				m_floor_plan
+			SET
+				floor_plan_name = #{floorPlanName},
+				modified = sysdate()
+			WHERE
+				floor_plan_id = #{floorPlanId}
+		</update>
+
+		<select id="getFloorPlanByMaxFloorPlanId" resultMap="floorPlan">
+			SELECT
+				floor_plan_id as floor_plan_id,
+				floor_plan_name as floor_plan_name
+			FROM
+				m_floor_plan
+			WHERE
+				floor_plan_id = (SELECT IFNULL(MAX(floor_plan_id),0) FROM m_floor_plan)
+			AND
+				delete_flag = 0
+		</select>
+	</mapper>

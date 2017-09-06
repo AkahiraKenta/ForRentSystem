@@ -1,0 +1,64 @@
+@charset "utf-8";
+
+/*----------見出し（エリア）----------*/
+h2.midashi_area {
+	height: 38px;
+	font-size: 190%;
+	color: #695c9f;
+	font-weight: bold;
+	background-image: url(/images/common/icon_area.jpg);
+	background-repeat: no-repeat;
+	margin-top: 10px;
+	padding-top: 14px;
+	padding-left: 55px;
+}
+
+/*----------人気エリアから探す----------*/
+.top_area{
+	width: 370px;
+	float: left;
+	margin: 0;
+}
+
+.top_area_box{
+	width: 330px;
+	float: left;
+	margin: 0;
+	padding: 15px;
+	background-color: #f0efea;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.top_area dl{
+	width: 320px;
+	height:140px;
+	font-size: 140%;
+	line-height: 0.6em;
+}
+
+.top_area dt{
+	width: 30px;
+	float: left;
+	margin-right: 20px;
+}
+
+.top_area dd{
+	width: 250px;
+	float: left;
+}
+
+.top_area dd a:link{
+    color: #434343;
+	text-decoration: none;
+}
+
+.top_area dd a:visited{
+    color: #434343;
+	text-decoration: none;
+}
+
+.top_area dd a:hover{
+	color: #FF0000;
+	text-decoration: underline;
+}

@@ -1,0 +1,85 @@
+@charset "utf-8";
+/*----------------------------------------------------------------------
+search.css
+エリア検索ページ/search_area.html
+最寄り駅検索ページ/search_station.html
+-----------------------------------------------------------------------*/
+
+
+/*----------見出し（検索）----------*/
+h2.midashi_search {
+	height: 38px;
+	font-size: 190%;
+	color: #695c9f;
+	font-weight: bold;
+	background-image: url(/images/common/icon_search.jpg);
+	background-repeat: no-repeat;
+	margin-top: 10px;
+	padding-top: 14px;
+	padding-left: 55px;
+}
+
+/*----------エリアから探す----------*/
+.search_area {
+	width: 712px;
+	padding: 10px 20px 0px 20px;
+	border-radius: 5px;
+	border: 4px solid #E0DAE0;
+}
+
+/*都道府県名*/
+
+.search_area h5 {
+	font-size: 180%;
+	color: #695c9f;
+	font-weight: bold;
+	padding: 7px 0px 2px 18px;
+	background-image: url(/images/common/midashi_line_v.jpg);
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+
+
+/*区,市の名前*/
+.search_area_name {
+	width: 682px;
+	background-color: #f0efea;
+	margin-top: 15px;
+	padding: 0px 15px;
+}
+
+
+.search_area_name h6 {
+	font-size: 140%;
+	font-weight: bold;
+	float:  left;
+}
+
+.search_area_name div{
+	font-size: 120%;
+	float:  right;
+	margin-top: 6px;
+
+}
+
+.search_area_name input{
+	position:relative;
+	top:2px;
+}
+
+
+/*○丁目などの名前*/
+.search_area_name2 {
+	width: 682px;
+	margin-bottom: 15px;
+	padding: 15px;
+	font-size: 120%;
+}
+
+.search_area_name2 input{
+    vertical-align:middle;
+	position:relative;
+	top: 3px;
+	margin-bottom: 12px;
+}

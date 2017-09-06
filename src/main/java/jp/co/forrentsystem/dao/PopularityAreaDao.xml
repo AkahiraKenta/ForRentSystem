@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.forrentsystem.dao.PopularityAreaDao">
+	<resultMap id="popularityArea" type="jp.co.forrentsystem.dto.PopularityAreaDto">
+		<result property="popularityAreaId" column="popularity_area_id"/>
+		<result property="province" column="province"/>
+		<result property="city" column="city"/>
+		<result property="townArea" column="town_area"/>
+		<result property="rank" column="rank"/>
+	</resultMap>
+
+	<select id="getPopularityAreaList" parameterType="Integer" resultMap="popularityArea">
+		SELECT
+			POPULARITY_AREA.popularity_area_id as popularity_area_id,
+			POPULARITY_AREA.province as province,
+			POPULARITY_AREA.city as city,
+			POPULARITY_AREA.town_area as town_area,
+			POPULARITY_AREA.rank as rank
+		FROM
+			t_popularity_area POPULARITY_AREA
+		WHERE
+			POPULARITY_AREA.delete_flag = 0
+		ORDER BY
+			POPULARITY_AREA.rank
+	</select>
+
+	<select id="getRank" resultType="Integer">
+		SELECT
+			MAX(POPULARITY_AREA.rank)+1 as rank
+		FROM
+			t_popularity_area POPULARITY_AREA
+		WHERE
+			POPULARITY_AREA.delete_flag = 0
+	</select>
+
+	<insert id="registPopularityArea" parameterType="jp.co.forrentsystem.dto.PopularityAreaDto" keyProperty="popularityAreaId">
+		<selectKey resultType="int" keyProperty="popularityAreaId" order="BEFORE">
+				select @@IDENTITY
+		</selectKey>
+		INSERT INTO
+			t_popularity_area
+			(
+				popularity_area_id,
+				province,
+				city,
+				town_area,
+				rank,
+				created,
+				modified,
+				delete_flag
+			)
+			VALUES
+			(
+				#{popularityAreaId},
+				#{province},
+				#{city},
+				#{townArea},
+				#{rank},
+				sysdate(),
+				sysdate(),
+				#{deleteFlag}
+			)
+	</insert>
+
+	<select id="getPopularityAreaByDto" parameterType="jp.co.forrentsystem.dto.PopularityAreaDto" resultMap="popularityArea">
+		SELECT
+			POPULARITY_AREA.popularity_area_id as popularity_area_id,
+			POPULARITY_AREA.province as province,
+			POPULARITY_AREA.city as city,
+			POPULARITY_AREA.town_area as town_area,
+			POPULARITY_AREA.rank as rank
+		FROM
+			t_popularity_area POPULARITY_AREA
+		WHERE
+			POPULARITY_AREA.province = #{province}
+		AND
+			POPULARITY_AREA.city = #{city}
+		AND
+			POPULARITY_AREA.town_area = #{townArea}
+		AND
+			POPULARITY_AREA.delete_flag = 0
+		ORDER BY
+			POPULARITY_AREA.rank
+	</select>
+
+	<delete id="deletePopularityArea" parameterType="jp.co.forrentsystem.dto.PopularityStationDto">
+		DELETE FROM
+			t_popularity_area
+		WHERE
+			popularity_area_id = #{popularityAreaId}
+	</delete>
+
+	<select id="getPopularityAreaByPopularitAreaId" parameterType="Integer" resultMap="popularityArea">
+		SELECT
+			POPULARITY_AREA.popularity_area_id as popularity_area_id,
+			POPULARITY_AREA.province as province,
+			POPULARITY_AREA.city as city,
+			POPULARITY_AREA.town_area as town_area,
+			POPULARITY_AREA.rank as rank
+		FROM
+			t_popularity_area POPULARITY_AREA
+		WHERE
+			POPULARITY_AREA.popularity_area_id = #{popularityAreaId}
+		AND
+			POPULARITY_AREA.delete_flag = 0
+	</select>
+
+	<update id="updateAreaRank" parameterType="jp.co.forrentsystem.dto.PopularityAreaDto">
+		UPDATE
+			t_popularity_area
+		SET
+			rank = #{rank},
+			modified = sysdate()
+		WHERE
+			popularity_area_id = #{popularityAreaId}
+	</update>
+
+	<select id="getPopularityAreaListByViewNumber" parameterType="Integer" resultMap="popularityArea">
+		SELECT
+			POPULARITY_AREA.popularity_area_id as popularity_area_id,
+			POPULARITY_AREA.province as province,
+			POPULARITY_AREA.city as city,
+			POPULARITY_AREA.town_area as town_area,
+			POPULARITY_AREA.rank as rank,
+			COUNT(ROOMS.room_id) as popularityAreaCount
+		FROM
+			t_popularity_area POPULARITY_AREA
+		INNER JOIN
+			m_address_sort ADDRESS_SORT
+			ON
+				POPULARITY_AREA.province = ADDRESS_SORT.province
+		LEFT OUTER JOIN
+			m_building BUILDING
+			ON
+				BUILDING.province = POPULARITY_AREA.province
+			AND
+				BUILDING.city = POPULARITY_AREA.city
+			AND
+				BUILDING.town_area = POPULARITY_AREA.town_area
+			AND
+				BUILDING.delete_flag = 0
+		LEFT OUTER JOIN
+			m_rooms ROOMS
+			ON
+				ROOMS.building_id = BUILDING.building_id
+			AND
+				ROOMS.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+		WHERE
+			POPULARITY_AREA.delete_flag = 0
+		GROUP BY
+			POPULARITY_AREA.popularity_area_id, POPULARITY_AREA.province, POPULARITY_AREA.city,
+			POPULARITY_AREA.town_area, POPULARITY_AREA.rank
+		ORDER BY
+			ADDRESS_SORT.display_number, POPULARITY_AREA.rank
+		LIMIT
+			0, #{popularityAreaViewNumber}
+	</select>
+</mapper>

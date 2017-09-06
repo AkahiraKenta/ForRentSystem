@@ -1,0 +1,81 @@
+@charset "utf-8";
+
+/*  *** css/common.css ***  */
+/*  汎用性の高い全アプリ共通CSS */
+
+
+.disnon{
+    display: none;
+}
+
+.debugsBlock{
+    margin: 15rem 10rem;
+}
+.btnBox{
+    text-align: center;
+}
+
+.tooltip {
+    position: absolute;
+    z-index: 1070;
+    display: block;
+    font-size: 12px;
+    line-height: 1.8;
+    visibility: visible;
+    filter: alpha(opacity=85);
+    opacity: .85;
+}
+.tooltip.in {
+    filter: alpha(opacity=80);
+    opacity: .8;
+}
+.tooltip-inner {
+    padding: 5px 10px;
+}
+
+.btn-sm,
+.btn-group-sm > .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    margin: 2px 5px;
+}
+
+/** フォーム部品 **/
+.input-w-3 {
+  width: 30%;
+}
+select.input-.w-3 {
+width: 30%;
+}
+textarea.input-w-3,
+select[multiple].input-w-3 {
+  height: auto;
+  width: 30%;
+}
+
+/** 地図用 **/
+#map{
+	position: relative;
+	padding: 0 0 56%;
+	height: 0;
+	overflow: hidden;
+}
+#map iframe{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100% !important;
+	height: 100% !important;
+}
+
+/** ボタン **/
+.btn-lg {
+	margin: 0px 35px;
+	padding: 10px 30px;
+}
+.btn-md {
+	margin: 0px 35px;
+	padding: 6px 30px;
+}

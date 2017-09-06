@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.BuildingDao">
+		<resultMap id="buildingId" type="jp.co.forrentsystem.dto.BuildingDto">
+			<result property="buildingId" column="building_id"/>
+		</resultMap>
+
+		<resultMap id="searchBuilding" type="jp.co.forrentsystem.dto.BuildingDto">
+			<result property="buildingId" column="building_id"/>
+			<result property="buildingCode" column="building_code"/>
+			<result property="buildingName" column="building_name"/>
+			<result property="buildingType" column="building_type"/>
+			<result property="zipCode" column="zip_code"/>
+			<result property="province" column="province"/>
+			<result property="city" column="city"/>
+			<result property="builtYear" column="built_year"/>
+			<result property="builtMonth" column="built_month"/>
+		</resultMap>
+
+		<resultMap id="buildingInfo" type="jp.co.forrentsystem.dto.BuildingDto">
+			<result property="buildingId" column="building_id"/>
+			<result property="buildingCode" column="building_code"/>
+			<result property="buildingName" column="building_name"/>
+			<result property="buildingType" column="building_type"/>
+			<result property="zipCode" column="zip_code"/>
+			<result property="province" column="province"/>
+			<result property="city" column="city"/>
+			<result property="townArea" column="town_area"/>
+			<result property="townAreaBelow" column="town_area_below"/>
+			<result property="latitude" column="latitude"/>
+			<result property="longitude" column="longitude"/>
+			<result property="builtYear" column="built_year"/>
+			<result property="builtMonth" column="built_month"/>
+			<result property="numberOfStoreys" column="number_of_storeys"/>
+			<result property="structureId" column="structure_id"/>
+			<result property="prTitle" column="pr_title"/>
+			<result property="prDetail" column="pr_detail"/>
+		</resultMap>
+
+		<resultMap id="buildingAddress" type="jp.co.forrentsystem.dto.BuildingDto">
+			<result property="province" column="province"/>
+			<result property="city" column="city"/>
+			<result property="townArea" column="town_area"/>
+		</resultMap>
+
+		<insert id="registBuilding" parameterType="jp.co.forrentsystem.dto.BuildingDto" keyProperty="buildingId">
+			<selectKey resultType="int" keyProperty="buildingId" order="BEFORE">
+				select @@IDENTITY
+			</selectKey>
+
+			INSERT INTO
+				m_building
+			(
+				building_id,
+				building_code,
+				building_name,
+				building_type,
+				zip_code,
+				province,
+				city,
+				town_area,
+				town_area_below,
+				GEO_CODE,
+				latitude,
+				longitude,
+				built_year,
+				built_month,
+				number_of_storeys,
+				structure_id,
+				pr_title,
+				pr_detail,
+				CREATED,
+				MODIFIED,
+				delete_flag
+			)
+			VALUES
+			(
+				#{buildingId},
+				#{buildingCode},
+				#{buildingName},
+				#{buildingType},
+				#{zipCode},
+				#{province},
+				#{city},
+				#{townArea},
+				#{townAreaBelow},
+				GeomFromText(#{geoCode}),
+				#{latitude},
+				#{longitude},
+				#{builtYear},
+				#{builtMonth},
+				#{numberOfStoreys},
+				#{structureId},
+				#{prTitle},
+				#{prDetail},
+				sysdate(),
+				sysdate(),
+				#{deleteFlag}
+			)
+		</insert>
+
+		<update id="updateBuilding" parameterType="jp.co.forrentsystem.dto.BuildingDto">
+			UPDATE
+				m_building
+			SET
+				building_code = #{buildingCode},
+				building_name = #{buildingName},
+				building_type = #{buildingType},
+				zip_code = #{zipCode},
+				province = #{province},
+				city = #{city},
+				town_area = #{townArea},
+				town_area_below = #{townAreaBelow},
+				GEO_CODE = GeomFromText(#{geoCode}),
+				latitude = #{latitude},
+				longitude = #{longitude},
+				built_year = #{builtYear},
+				built_month = #{builtMonth},
+				number_of_storeys = #{numberOfStoreys},
+				structure_id = #{structureId},
+				pr_title = #{prTitle},
+				pr_detail = #{prDetail},
+				modified = sysdate(),
+				delete_flag = #{deleteFlag}
+			WHERE
+				building_id = #{buildingId}
+		</update>
+
+		<select id="getBuildingId"  parameterType="jp.co.forrentsystem.dto.BuildingDto" resultType="Integer">
+			SELECT
+				building_id AS building_id
+			FROM
+				m_building
+			WHERE
+				building_code = #{buildingCode}
+			AND
+				building_name = #{buildingName}
+			ORDER BY
+				modified DESC
+			LIMIT 1
+		</select>
+
+		<select id="countSearchBuildingList"  parameterType="jp.co.forrentsystem.dto.BuildingDto" resultType="Integer">
+			SELECT
+				count(*)
+			FROM
+				m_building BUILDING
+			<if test="routeId != null and routeId != 999">
+				INNER JOIN
+			        (
+						SELECT
+							INNER_NEAREST_STATION.building_id
+						FROM
+							t_nearest_station INNER_NEAREST_STATION
+						WHERE
+							INNER_NEAREST_STATION.route_id = #{routeId}
+						<if test="stationId != null and stationId != 999">
+							AND
+								INNER_NEAREST_STATION.station_id = #{stationId}
+						</if>
+						AND
+							INNER_NEAREST_STATION.delete_flag = 0
+						GROUP BY
+							INNER_NEAREST_STATION.building_id
+					) NEAREST_STATION
+				ON
+					NEAREST_STATION.building_id = BUILDING.building_id
+			</if>
+			WHERE
+				BUILDING.delete_flag = 0
+			<if test="buildingCode != null and buildingCode != ''">
+				AND
+					BUILDING.building_code LIKE CONCAT('%', #{buildingCode}, '%')
+			</if>
+			<if test="buildingName != null and buildingName != ''">
+				AND
+					BUILDING.building_name LIKE CONCAT('%', #{buildingName}, '%')
+			</if>
+			<if test="buildingType != null and buildingType != ''">
+				AND
+					BUILDING.building_type = #{buildingType}
+			</if>
+			<if test="zipCode != null and zipCode != ''">
+				AND
+					BUILDING.zip_code = #{zipCode}
+			</if>
+			<if test="province != null and province != ''">
+				AND
+					BUILDING.province = #{province}
+			</if>
+			<if test="city != null and city != ''">
+				AND
+					BUILDING.city = #{city}
+			</if>
+			<if test="builtYear != null and builtYear != ''">
+				AND
+					BUILDING.built_year >= DATE_FORMAT(sysdate(), '%Y') - #{builtYear}
+			</if>
+		</select>
+
+		<select id="searchBuildingList"  parameterType="jp.co.forrentsystem.dto.BuildingDto" resultMap="searchBuilding">
+			SELECT
+				BUILDING.building_id AS building_id,
+				BUILDING.building_code AS building_code,
+				BUILDING.building_name AS building_name,
+				BUILDING.building_type AS building_type,
+				BUILDING.zip_code AS zip_code,
+				BUILDING.province AS province,
+				BUILDING.city AS city,
+				BUILDING.built_year AS built_year,
+				BUILDING.built_month AS built_month
+			FROM
+				m_building BUILDING
+			<if test="routeId != null and routeId != 999">
+				INNER JOIN
+			        (
+						SELECT
+							INNER_NEAREST_STATION.building_id
+						FROM
+							t_nearest_station INNER_NEAREST_STATION
+						WHERE
+							INNER_NEAREST_STATION.route_id = #{routeId}
+						<if test="stationId != null and stationId != 999">
+							AND
+								INNER_NEAREST_STATION.station_id = #{stationId}
+						</if>
+						AND
+							INNER_NEAREST_STATION.delete_flag = 0
+						GROUP BY
+							INNER_NEAREST_STATION.building_id
+					) NEAREST_STATION
+				ON
+					NEAREST_STATION.building_id = BUILDING.building_id
+			</if>
+			WHERE
+				BUILDING.delete_flag = 0
+			<if test="buildingCode != null and buildingCode != ''">
+				AND
+					BUILDING.building_code LIKE CONCAT('%', #{buildingCode}, '%')
+			</if>
+			<if test="buildingName != null and buildingName != ''">
+				AND
+					BUILDING.building_name LIKE CONCAT('%', #{buildingName}, '%')
+			</if>
+			<if test="buildingType != null and buildingType != ''">
+				AND
+					BUILDING.building_type = #{buildingType}
+			</if>
+			<if test="zipCode != null and zipCode != ''">
+				AND
+					BUILDING.zip_code = #{zipCode}
+			</if>
+			<if test="province != null and province != ''">
+				AND
+					BUILDING.province = #{province}
+			</if>
+			<if test="city != null and city != ''">
+				AND
+					BUILDING.city = #{city}
+			</if>
+			<if test="builtYear != null and builtYear != ''">
+				AND
+					BUILDING.built_year >= DATE_FORMAT(sysdate(), '%Y') - #{builtYear}
+			</if>
+			ORDER BY
+				BUILDING.modified DESC
+			LIMIT #{fromNumber}, #{viewNumber}
+		</select>
+
+		<select id="getBuildingDtoByBuildingId"  parameterType="Integer" resultMap="buildingInfo">
+			SELECT
+				building_id AS building_id,
+				building_code AS building_code,
+				building_name AS building_name,
+				building_type AS building_type,
+				zip_code AS zip_code,
+				province AS province,
+				city AS city,
+				town_area AS town_area,
+				town_area_below AS town_area_below,
+				latitude AS latitude,
+				longitude AS longitude,
+				built_year AS built_year,
+				built_month AS built_month,
+				number_of_storeys AS number_of_storeys,
+				structure_id AS structure_id,
+				pr_title AS pr_title,
+				pr_detail AS pr_detail
+			FROM
+				m_building
+			WHERE
+				building_id = #{buildingId}
+		</select>
+
+		<select id="searchNewBuildingList" resultMap="searchBuilding">
+			SELECT
+				building_id AS building_id,
+				building_code AS building_code,
+				building_name AS building_name,
+				building_type AS building_type,
+				zip_code AS zip_code,
+				province AS province,
+				city AS city,
+				built_year AS built_year,
+				built_month AS built_month
+			FROM
+				m_building
+			WHERE
+				delete_flag = 0
+			ORDER BY
+				modified DESC
+			LIMIT 0, 5
+		</select>
+
+		<select id="getBuildingAddressList" resultMap="buildingAddress">
+			SELECT
+				BUILDING.province AS province,
+				BUILDING.city AS city,
+				BUILDING.town_area AS town_area,
+                count(*) AS count
+			FROM
+				m_building BUILDING
+			INNER JOIN
+				m_address_sort ADDRESS_SORT
+				ON
+				ADDRESS_SORT.province = BUILDING.province
+			INNER JOIN
+				m_rooms ROOMS
+				ON
+					BUILDING.building_id = ROOMS.building_id
+			WHERE
+				BUILDING.delete_flag = 0
+			AND
+				BUILDING.province != ''
+			AND
+				BUILDING.city != ''
+			AND
+				BUILDING.town_area != ''
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.delete_flag = 0
+			GROUP BY
+				BUILDING.province, BUILDING.city, BUILDING.town_area
+			ORDER BY
+				ADDRESS_SORT.display_number, BUILDING.province, BUILDING.city, BUILDING.town_area
+		</select>
+
+		<select id="getAddressList" parameterType="jp.co.forrentsystem.dto.SearchConditionDto" resultMap="buildingAddress">
+			SELECT
+				BUILDING.province AS province,
+				BUILDING.city AS city,
+				BUILDING.town_area AS town_area
+			FROM
+				m_building BUILDING
+			INNER JOIN
+				m_rooms ROOMS
+				ON
+					BUILDING.building_id = ROOMS.building_id
+			WHERE
+				BUILDING.delete_flag = 0
+			AND
+				BUILDING.province != ''
+			AND
+				BUILDING.city != ''
+			AND
+				BUILDING.town_area != ''
+			<if test="provinceList != null and provinceList.size() &gt; 0">
+				AND
+					BUILDING.province in
+					<foreach item="provinceItem" index="index" collection="provinceList"
+						open="(" separator="," close=")">
+						#{provinceItem}
+					</foreach>
+			</if>
+			<if test="cityList != null and cityList.size() &gt; 0">
+				AND
+					BUILDING.city in
+					<foreach item="cityItem" index="index" collection="cityList"
+						open="(" separator="," close=")">
+						#{cityItem}
+					</foreach>
+			</if>
+			<if test="townAreaList != null and townAreaList.size() &gt; 0">
+				AND
+					BUILDING.town_area in
+					<foreach item="townAreaItem" index="index" collection="townAreaList"
+						open="(" separator="," close=")">
+						#{townAreaItem}
+					</foreach>
+			</if>
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+			GROUP BY
+				BUILDING.province, BUILDING.city, BUILDING.town_area
+			ORDER BY
+				BUILDING.province, BUILDING.city, BUILDING.town_area
+		</select>
+
+		<update id="deleteBuildingByBuildingId" parameterType="Integer">
+			UPDATE
+				m_building
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				building_id = #{buildingId}
+		</update>
+	</mapper>

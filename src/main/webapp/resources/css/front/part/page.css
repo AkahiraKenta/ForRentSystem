@@ -1,0 +1,273 @@
+@charset "utf-8";
+/*----------------------------------------------------------------------
+page.css
+各ページ共通設定
+見出し
+-----------------------------------------------------------------------*/
+/*----------------------------------------------------------------------
+見出し/h2（むらさきのアイコン付き）
+-----------------------------------------------------------------------*/
+
+.margin_b20{	margin-bottom: 20px;}
+.margin_b30{	margin-bottom: 30px;}
+.margin_b40{	margin-bottom: 40px;}
+.margin_b50{	margin-bottom: 50px;}
+.margin_b60{	margin-bottom: 60px;}
+.margin_b70{	margin-bottom: 70px;}
+
+/*----------見出し（むらさき）----------*/
+h2 {
+	height: 38px;
+	font-size: 190%;
+	color: #695c9f;
+	font-weight: bold;
+	background-image: url(/images/common/icon_nomal_vio.jpg);
+	background-repeat: no-repeat;
+	margin-top: 10px;
+	padding-top: 14px;
+	padding-left: 55px;
+}
+
+/*----------------------------------------------------------------------
+見出し/h4（むらさきのたてラインのみ）
+-----------------------------------------------------------------------*/
+h4 {
+	height: 40px;
+	font-size: 190%;
+	color: #695c9f;
+	font-weight: bold;
+	background-image: url(/images/common/midashi_line_v.jpg);
+	background-repeat: no-repeat;
+	padding-top: 14px;
+	padding-left: 18px;
+}
+
+/*----------------------------------------------------------------------
+見出し/h5（むらさきのたてラインのみ）
+-----------------------------------------------------------------------*/
+h5 {
+	height: 22px;
+	font-size: 160%;
+	color: #695c9f;
+	font-weight: bold;
+	margin-bottom: 10px;
+	padding-top: 9px;
+	padding-left: 18px;
+	background-image: url(/images/common/midashi_line_v.jpg);
+	background-repeat: no-repeat;
+	background-position: left center;
+
+}
+
+/*----------------------------------------------------------------------
+ボタンCSS
+-----------------------------------------------------------------------*/
+
+/*------------ボタンCSS/むらさき------------*/
+
+.btn_vio{
+}
+
+
+.btn_vio a:link{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #76738E;
+	display: block;
+	padding: 12px;
+	margin: 20px auto 0px auto;
+}
+
+
+
+.btn_vio a:visited{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #76738E;
+	display: block;
+	padding: 12px;
+	margin: 20px auto 0px auto;
+}
+
+.btn_vio a:hover{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #A6A4B5;
+	display: block;
+	padding: 12px;
+	margin: 20px auto 0px auto;
+}
+
+/*------------ボタンCSS/グリーン------------*/
+
+.btn_green{
+}
+
+
+.btn_green a:link{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #5FAFAD;
+	display: block;
+	padding: 12px;
+	margin: 20px auto 0px auto;
+}
+
+.btn_green a:visited{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #5FAFAD;
+	display: block;
+	padding: 12px;
+	margin: 20px auto 0px auto;
+}
+
+.btn_green a:hover{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #8BC5C4;
+	display: block;
+	padding: 12px;
+	margin: 20px auto 0px auto;
+}
+
+/*------------ボタンCSS/グレー------------*/
+
+.btn_gray{
+	margin-right: 15px;
+	margin-left: 22px;
+}
+
+
+.btn_gray a:link{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #999999;
+	display: block;
+	padding: 12px;
+	margin: 20px auto 0px auto;
+}
+
+.btn_gray a:visited{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #999999;
+	display: block;
+	padding: 12px;
+	margin: 20px auto 0px auto;
+}
+
+.btn_gray a:hover{
+	width: 300px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #CCCCCC;
+	display: block;
+	padding: 12px;
+	margin: 20px auto 0px auto;
+}
+
+
+/*----------------------------------------------------------------------
+ページ送り
+-----------------------------------------------------------------------*/
+
+/*----------検索結果・ページ送りー----------*/
+
+.page_nav{
+	text-align: center;
+	margin: 15px auto;
+}
+
+.page_nav ul{
+	text-align: center;
+	display: inline;
+	font-size: 140%;
+}
+
+.page_nav li{
+	display: inline-block;
+	padding: 8px;
+	text-align: center;
+	vertical-align: middle;
+	background-color: #F0EFEA;
+}
+
+.page_nav li a:link{
+	text-decoration: none;
+	color: #00C;
+}
+
+.page_nav li a:visited{
+	text-decoration: none;
+	color: #00C;
+}
+
+.page_nav li a:hover{
+	text-decoration: underline;
+	color: #F00;
+	font-weight: bold;
+}
+
+
+/*----------見出し（メール）----------*/
+h2.midashi_mail{
+	height: 38px;
+	font-size: 190%;
+	color: #695c9f;
+	font-weight: bold;
+	background-image: url(/images/common/icon_mail.jpg);
+	background-repeat: no-repeat;
+	margin-top: 10px;
+	padding-top: 14px;
+	padding-left: 55px;
+}
+
+
+/*----------見出し（メール・グリーン）----------*/
+h2.midashi_mail_gr{
+	height: 38px;
+	font-size: 190%;
+	color: #5FAFAD;
+	font-weight: bold;
+	background-image: url(/images/common/icon_mail_green.jpg);
+	background-repeat: no-repeat;
+	margin-top: 10px;
+	padding-top: 14px;
+	padding-left: 55px;
+}

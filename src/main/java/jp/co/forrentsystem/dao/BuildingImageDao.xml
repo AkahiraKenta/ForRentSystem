@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.BuildingImageDao">
+		<resultMap id="buildingImageList" type="jp.co.forrentsystem.dto.BuildingImageDto">
+			<result property="buildingId" column="building_id"/>
+			<result property="imageId" column="image_id"/>
+			<result property="buildingImageClass" column="building_image_class"/>
+			<result property="fileName" column="file_name"/>
+			<result property="imageCaption" column="image_caption"/>
+			<result property="publicationFlag" column="publication_flag"/>
+			<result property="created" column="created"/>
+			<result property="modified" column="modified"/>
+			<result property="deleteFlag" column="delete_flag"/>
+		</resultMap>
+		<resultMap id="newArticleList" type="jp.co.forrentsystem.dto.NewArticleDto">
+			<result property="buildingId" column="building_id"/>
+			<result property="imageId" column="image_id"/>
+			<result property="fileName" column="file_name"/>
+			<result property="roomId" column="room_id"/>
+			<result property="roomNumber" column="room_number"/>
+			<result property="buildingName" column="building_name"/>
+			<result property="rent" column="rent"/>
+			<result property="roomPrTitle" column="room_pr_title"/>
+		</resultMap>
+
+		<select id="countBuildingImage" parameterType="jp.co.forrentsystem.dto.BuildingImageDto" resultType="Integer">
+			SELECT
+				COUNT(1)
+			FROM
+				t_building_image
+			WHERE
+				building_id = #{buildingId}
+			AND
+				building_image_class = #{buildingImageClass}
+			AND
+				file_name = #{fileName}
+			AND
+				delete_flag = #{deleteFlag}
+		</select>
+
+		<select id="getBuildingImage" parameterType="Integer" resultMap="buildingImageList">
+			SELECT
+				building_id as building_id,
+				image_id as image_id,
+				building_image_class as building_image_class,
+				file_name as file_name,
+				image_caption as image_caption,
+				publication_flag as publication_flag,
+				created as created,
+				modified as modified,
+				delete_flag as delete_flag
+			FROM
+				t_building_image
+			WHERE
+				building_id = #{buildingId}
+			AND
+				delete_flag = 0
+		</select>
+
+		<insert id="registBuildingImage" parameterType="jp.co.forrentsystem.dto.BuildingImageDto" keyProperty="buildingId,imageId">
+			<selectKey resultType="int" keyProperty="imageId" order="BEFORE">
+				SELECT
+					IFNULL(MAX(image_id),0)+1
+				FROM
+					t_building_image
+				WHERE
+					building_id = #{buildingId}
+			</selectKey>
+			INSERT INTO
+				t_building_image
+				(
+					building_id,
+					image_id,
+					building_image_class,
+					file_name,
+					image_caption,
+					publication_flag,
+					created,
+					modified,
+					delete_flag
+				)
+			VALUES
+				(
+					#{buildingId},
+					#{imageId},
+					#{buildingImageClass},
+					#{fileName},
+					#{imageCaption},
+					#{publicationFlag},
+					sysdate(),
+					sysdate(),
+					#{deleteFlag}
+				)
+		</insert>
+
+		<delete id="deleteBuildingImage" parameterType="jp.co.forrentsystem.dto.BuildingImageDto">
+			DELETE FROM
+				t_building_image
+			WHERE
+				building_id = #{buildingId}
+			AND
+				image_id = #{imageId}
+		</delete>
+
+		<select id="getBuildingImageByNewArticle" parameterType="Integer" resultMap="newArticleList">
+			SELECT
+				BUILDING.building_id as building_id,
+				BUILDING_IMAGE.image_id as image_id,
+				BUILDING_IMAGE.file_name as file_name,
+				ROOMS.room_id as room_id,
+				ROOMS.room_number as room_number,
+				ROOMS.rent as rent,
+				ROOMS.room_pr_title as room_pr_title,
+				BUILDING.building_name as building_name
+			FROM
+				m_building BUILDING
+			INNER JOIN
+				m_rooms ROOMS
+				ON
+					ROOMS.building_id = BUILDING.building_id
+			LEFT OUTER JOIN
+				t_building_image BUILDING_IMAGE
+				ON
+					BUILDING_IMAGE.building_id = BUILDING.building_id
+				AND
+					BUILDING_IMAGE.publication_flag = 1
+				AND
+					BUILDING_IMAGE.delete_flag = 0
+			WHERE
+				BUILDING.building_id = ROOMS.building_id
+			AND
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+			ORDER BY ROOMS.modified DESC
+			LIMIT 0,  #{newArticleViewNumber}
+		</select>
+
+		<update id="deleteBuildingImageByBuildingId" parameterType="Integer">
+			UPDATE
+				t_building_image
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				building_id = #{buildingId}
+		</update>
+
+	</mapper>

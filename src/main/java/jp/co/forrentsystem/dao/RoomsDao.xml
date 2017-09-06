@@ -1,0 +1,1365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.RoomsDao">
+		<resultMap id="roomList" type="jp.co.forrentsystem.dto.RoomsDto">
+			<result property="buildingId" column="building_id"/>
+			<result property="roomId" column="room_id"/>
+			<result property="roomCode" column="room_code"/>
+			<result property="roomNumber" column="room_number"/>
+			<result property="rent" column="rent"/>
+			<result property="space" column="space"/>
+			<result property="securityDepositClass" column="security_deposit_class"/>
+			<result property="securityDeposit" column="security_deposit"/>
+			<result property="keyMoneyClass" column="key_money_class"/>
+			<result property="keyMoney" column="key_money"/>
+			<result property="numberOfStoreysId" column="number_of_storeys_id"/>
+			<result property="floorName" column="floor_name"/>
+			<result property="recruitmentStatus" column="recruitment_status"/>
+			<result property="floorPlanId" column="floor_plan_id"/>
+			<result property="floorPlanName" column="floor_plan_name"/>
+		</resultMap>
+
+		<resultMap id="room" type="jp.co.forrentsystem.dto.RoomsDetailDto">
+			<result property="buildingId" column="building_id"/>
+			<result property="roomId" column="room_id"/>
+			<result property="roomCode" column="room_code"/>
+			<result property="roomNumber" column="room_number"/>
+			<result property="numberOfStoreysId" column="number_of_storeys_id"/>
+			<result property="numberOfStoreysName" column="number_of_storeys_name"/>
+			<result property="recruitmentStatus" column="recruitment_status"/>
+			<result property="floorPlanId" column="floor_plan_id"/>
+			<result property="floorPlanName" column="floor_plan_name"/>
+			<result property="space" column="space"/>
+			<result property="securityDepositClass" column="security_deposit_class"/>
+			<result property="securityDeposit" column="security_deposit"/>
+			<result property="keyMoneyClass" column="key_money_class"/>
+			<result property="keyMoney" column="key_money"/>
+			<result property="rent" column="rent"/>
+			<result property="commonServiceFeeClass" column="common_service_fee_class"/>
+			<result property="commonServiceFee" column="common_service_fee"/>
+			<result property="administrativeCostClass" column="administrative_cost_class"/>
+			<result property="administrativeCost" column="administrative_cost"/>
+			<result property="renewalFeeClass" column="renewal_fee_class"/>
+			<result property="renewalFee" column="renewal_fee"/>
+			<result property="securityMoney" column="security_money"/>
+			<result property="amortization" column="amortization"/>
+			<result property="guarantyCompanyFlag" column="guaranty_company_flag"/>
+			<result property="publicationFlag" column="publication_flag"/>
+			<result property="contractForm" column="contract_form"/>
+			<result property="deliveryMethod" column="delivery_method"/>
+			<result property="deliveryTime" column="delivery_time"/>
+			<result property="contractPeriod" column="contract_period"/>
+			<result property="importantPoints" column="important_points"/>
+			<result property="roomPrTitle" column="room_pr_title"/>
+			<result property="roomPrDetail" column="room_pr_detail"/>
+		</resultMap>
+
+		<resultMap id="article" type="jp.co.forrentsystem.dto.ArticleDto">
+			<result property="buildingId" column="building_id"/>
+			<result property="buildingCode" column="building_code"/>
+			<result property="buildingName" column="building_name"/>
+			<result property="buildingType" column="building_type"/>
+			<result property="roomId" column="room_id"/>
+			<result property="roomCode" column="room_code"/>
+			<result property="roomNumber" column="room_number"/>
+			<result property="numberOfStoreysId" column="number_of_storeys_id"/>
+			<result property="space" column="space"/>
+			<result property="rent" column="rent"/>
+		</resultMap>
+
+		<resultMap id="articleList" type="jp.co.forrentsystem.dto.ArticleDto">
+			<result property="buildingId" column="building_id"/>
+			<result property="roomId" column="room_id"/>
+			<result property="buildingName" column="building_name"/>
+			<result property="roomNumber" column="room_number"/>
+			<result property="floorPlanId" column="floor_plan_id"/>
+			<result property="floorPlanName" column="floor_plan_name"/>
+			<result property="space" column="space"/>
+			<result property="securityDepositClass" column="security_deposit_class"/>
+			<result property="securityDeposit" column="security_deposit"/>
+			<result property="securityMoneyClass" column="security_money_class"/>
+			<result property="securityMoney" column="security_money"/>
+			<result property="keyMoneyClass" column="key_money_class"/>
+			<result property="keyMoney" column="key_money"/>
+			<result property="rent" column="rent"/>
+			<result property="commonServiceFeeClass" column="common_service_fee_class"/>
+			<result property="commonServiceFee" column="common_service_fee"/>
+			<result property="securityMoneyClass" column="security_money_class"/>
+			<result property="securityMoney" column="security_money"/>
+			<result property="roomPrTitle" column="room_pr_title"/>
+			<result property="fileName" column="file_name"/>
+			<result property="routeId1" column="route_id1"/>
+			<result property="stationId1" column="station_id1"/>
+			<result property="routeId1" column="route_id1"/>
+			<result property="stationId1" column="station_id1"/>
+			<result property="routeName1" column="route_name1"/>
+			<result property="stationName1" column="station_name1"/>
+			<result property="minutesWalk1" column="minutesWalk1"/>
+			<result property="routeId2" column="route_id2"/>
+			<result property="stationId2" column="station_id2"/>
+			<result property="routeName2" column="route_name2"/>
+			<result property="stationName2" column="station_name2"/>
+			<result property="minutesWalk2" column="minutesWalk2"/>
+			<result property="routeId3" column="route_id3"/>
+			<result property="stationId3" column="station_id3"/>
+			<result property="routeName3" column="route_name3"/>
+			<result property="stationName3" column="station_name3"/>
+			<result property="minutesWalk3" column="minutesWalk3"/>
+			<result property="province" column="province"/>
+			<result property="city" column="city"/>
+			<result property="townArea" column="town_area"/>
+			<result property="townAreaBelow" column="town_area_below"/>
+			<result property="administrativeCostClass" column="administrative_cost_class"/>
+			<result property="administrativeCost" column="administrative_cost"/>
+			<result property="roomPrDetail" column="room_pr_detail"/>
+			<result property="buildingType" column="building_type"/>
+			<result property="structureId" column="structure_id"/>
+			<result property="numberOfStoreys" column="number_of_storeys"/>
+			<result property="builtYear" column="built_year"/>
+			<result property="builtMonth" column="built_month"/>
+			<result property="premiumClass" column="premium_class"/>
+			<result property="premium" column="premium"/>
+			<result property="renewalFeeClass" column="renewal_fee_class"/>
+			<result property="renewalFee" column="renewal_fee"/>
+			<result property="foregiftClass" column="foregift_class"/>
+			<result property="foregift" column="foregift"/>
+			<result property="contractPeriod" column="contract_period"/>
+			<result property="deliveryTime" column="delivery_time"/>
+			<result property="zipCode" column="zip_code"/>
+			<result property="buildingFileName" column="building_file_name"/>
+			<result property="roomImageClass" column="room_image_class"/>
+			<result property="roomsFileName" column="rooms_file_name"/>
+			<result property="importantPoints" column="important_points"/>
+			<result property="numberOfStoreysId" column="number_of_storeys_id"/>
+			<result property="floorName" column="floor_name"/>
+			<result property="buildingImageCaption" column="building_image_caption"/>
+			<result property="longitude" column="longitude"/>
+			<result property="latitude" column="latitude"/>
+		</resultMap>
+
+		<insert id="registRooms" parameterType="jp.co.forrentsystem.dto.RoomsDto" keyProperty="roomId">
+			<selectKey resultType="int" keyProperty="roomId" order="BEFORE">
+				SELECT IFNULL(MAX(room_id),0)+1 FROM m_rooms WHERE building_id = #{buildingId}
+			</selectKey>
+
+			INSERT INTO
+				 m_rooms
+			(
+				building_id,
+				room_id,
+				room_code,
+				room_number,
+				number_of_storeys_id,
+				recruitment_status,
+				floor_plan_id,
+				space,
+				security_deposit_class,
+				security_deposit,
+				key_money_class,
+				key_money,
+				rent,
+				common_service_fee_class,
+				common_service_fee,
+				administrative_cost_class,
+				administrative_cost,
+				premium_class,
+				premium,
+				renewal_fee_class,
+				renewal_fee,
+				security_money_class,
+				security_money,
+				amortization,
+				guaranty_company_flag,
+				publication_flag,
+				contract_form,
+				delivery_method,
+				delivery_time,
+				contract_period,
+				important_points,
+				room_pr_title,
+				room_pr_detail,
+				created,
+				modified,
+				delete_flag
+			)
+			VALUES
+			(
+				#{buildingId},
+				#{roomId},
+				#{roomCode},
+				#{roomNumber},
+				#{numberOfStoreysId},
+				#{recruitmentStatus},
+				#{floorPlanId},
+				#{space},
+				#{securityDepositClass},
+				#{securityDeposit},
+				#{keyMoneyClass},
+				#{keyMoney},
+				#{rent},
+				#{commonServiceFeeClass},
+				#{commonServiceFee},
+				#{administrativeCostClass},
+				#{administrativeCost},
+				#{premiumClass},
+				#{premium},
+				#{renewalFeeClass},
+				#{renewalFee},
+				#{securityMoneyClass},
+				#{securityMoney},
+				#{amortization},
+				#{guarantyCompanyFlag},
+				#{publicationFlag},
+				#{contractForm},
+				#{deliveryMethod},
+				#{deliveryTime},
+				#{contractPeriod},
+				#{importantPoints},
+				#{roomPrTitle},
+				#{roomPrDetail},
+				sysdate(),
+				sysdate(),
+				#{deleteFlag}
+			)
+		</insert>
+
+		<select id="getRoomId"  parameterType="jp.co.forrentsystem.dto.RoomsDto" resultType="Integer">
+			SELECT
+				room_id AS roomId
+			FROM
+				m_rooms
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_code = #{roomCode}
+			AND
+				room_number = #{roomNumber}
+			ORDER BY
+				MODIFIED ASC
+			LIMIT 1
+		</select>
+
+		<select id="getRoomsListByBuildingId"  parameterType="Integer" resultMap="roomList">
+			SELECT
+				building_id as building_id,
+				room_id as room_id,
+				room_code as room_code,
+				room_number as room_number,
+				recruitment_status as recruitment_status
+			FROM
+				m_rooms
+			WHERE
+				building_id = #{buildingId}
+			AND
+				delete_flag = 0
+			ORDER BY
+				modified DESC
+
+		</select>
+
+		<select id="getRoomsDtoByBuildingIdAndRoomId"  parameterType="jp.co.forrentsystem.dto.RoomsDto" resultMap="room">
+			SELECT
+				building_id as building_id,
+				room_id as room_id,
+				room_code as room_code,
+				room_number as room_number,
+				number_of_storeys_id as number_of_storeys_id,
+				(SELECT floor_name FROM m_floor WHERE floor_class_id = rooms.number_of_storeys_id) as number_of_storeys_name,
+				recruitment_status as recruitment_status,
+				floor_plan_id as floor_plan_id,
+				(SELECT floor_plan_name FROM m_floor_plan WHERE floor_plan_id = rooms.floor_plan_id) as floor_plan_name,
+				space as space,
+				security_deposit_class as security_deposit_class,
+				security_deposit as security_deposit,
+				key_money_class as key_money_class,
+				key_money as key_money,
+				rent as rent,
+				common_service_fee_class as common_service_fee_class,
+				common_service_fee as common_service_fee,
+				administrative_cost_class as administrative_cost_class,
+				administrative_cost as administrative_cost,
+				premium_class as premium_class,
+				security_money_class as security_money_class,
+				premium as premium,
+				renewal_fee_class as renewal_fee_class,
+				renewal_fee as renewal_fee,
+				security_money as security_money,
+				amortization as amortization,
+				guaranty_company_flag as guaranty_company_flag,
+				publication_flag as publication_flag,
+				contract_form as contract_form,
+				delivery_method as delivery_method,
+				delivery_time as delivery_time,
+				contract_period as contract_period,
+				important_points as important_points,
+				room_pr_title as room_pr_title,
+				room_pr_detail as room_pr_detail
+			FROM
+				m_rooms rooms
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+		</select>
+
+		<update id="updateRooms" parameterType="jp.co.forrentsystem.dto.RoomsDto">
+			UPDATE
+				 m_rooms
+			SET
+				building_id = #{buildingId},
+				room_id = #{roomId},
+				room_code = #{roomCode},
+				room_number = #{roomNumber},
+				number_of_storeys_id = #{numberOfStoreysId},
+				recruitment_status = #{recruitmentStatus},
+				floor_plan_id = #{floorPlanId},
+				space = #{space},
+				security_deposit_class = #{securityDepositClass},
+				security_deposit = #{securityDeposit},
+				key_money_class = #{keyMoneyClass},
+				key_money = #{keyMoney},
+				rent = #{rent},
+				common_service_fee_class = #{commonServiceFeeClass},
+				common_service_fee = #{commonServiceFee},
+				administrative_cost_class = #{administrativeCostClass},
+				administrative_cost = #{administrativeCost},
+				premium_class = #{premiumClass},
+				premium = #{premium},
+				renewal_fee_class = #{renewalFeeClass},
+				renewal_fee = #{renewalFee},
+				security_money_class = #{securityMoneyClass},
+				security_money = #{securityMoney},
+				amortization = #{amortization},
+				guaranty_company_flag = #{guarantyCompanyFlag},
+				publication_flag = #{publicationFlag},
+				contract_form = #{contractForm},
+				delivery_method = #{deliveryMethod},
+				delivery_time = #{deliveryTime},
+				contract_period = #{contractPeriod},
+				important_points = #{importantPoints},
+				room_pr_title = #{roomPrTitle},
+				room_pr_detail = #{roomPrDetail},
+				modified = sysdate(),
+				delete_flag = #{deleteFlag}
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+		</update>
+
+		<select id="getCountTotalNumberForRecommenededRoom" resultType="Integer">
+			SELECT
+				count(ROOMS.building_id)
+			FROM
+				m_rooms ROOMS
+			INNER JOIN
+				m_building BUILDING
+				ON
+					BUILDING.building_id = ROOMS.building_id
+			WHERE
+				NOT EXISTS
+					(
+						SELECT
+							RECOMMEND.building_id
+						FROM
+							t_recommended_room RECOMMEND
+						WHERE
+							ROOMS.building_id = RECOMMEND.building_id
+						AND
+							ROOMS.room_id = RECOMMEND.room_id
+					)
+						<if test="buildingCode != null and buildingCode != ''">
+				AND
+					BUILDING.building_code = #{buildingCode}
+			</if>
+			<if test="buildingName != null and buildingName != ''">
+				AND
+					BUILDING.building_name = #{buildingName}
+			</if>
+			<if test="roomCode != null and roomCode != ''">
+				AND
+					ROOMS.room_code = #{roomCode}
+			</if>
+			<if test="roomNumber != null and roomNumber != ''">
+				AND
+					ROOMS.room_number = #{roomNumber}
+			</if>
+			<if test="buildingType != null and buildingType != 0">
+				AND
+					BUILDING.building_type = #{buildingType}
+			</if>
+			<if test="roomNumber != null and roomNumber != ''">
+				AND
+					ROOMS.room_number = #{roomNumber}
+			</if>
+			<if test="numberOfStoreysId != null and numberOfStoreysId != 0">
+				AND
+					ROOMS.number_of_storeys_id = #{numberOfStoreysId}
+			</if>
+			<if test="spaceFrom != null and spaceFrom != ''">
+				AND
+					ROOMS.space &gt;= #{spaceFrom}
+			</if>
+			<if test="spaceTo != null and spaceTo != ''">
+				AND
+					 ROOMS.space &lt;= #{spaceTo}
+			</if>
+			<if test="rentFrom != null and rentFrom != ''">
+				AND
+					ROOMS.rent &gt;= #{rentFrom}
+			</if>
+			<if test="rentTo != null and rentTo != ''">
+				AND
+					ROOMS.rent &lt;= #{rentTo}
+			</if>
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+			AND
+				BUILDING.delete_flag = 0
+		</select>
+
+		<select id="getArticleForRecommendedRoom" parameterType="jp.co.forrentsystem.dto.ArticleDto" resultMap="article">
+			SELECT
+				BUILDING.building_id as building_id,
+				BUILDING.building_code as building_code,
+				BUILDING.building_name as building_name,
+				BUILDING.building_type as building_type,
+				ROOMS.room_id as room_id,
+				ROOMS.room_code as room_code,
+				ROOMS.room_number as room_number,
+				ROOMS.number_of_storeys_id as number_of_storeys_id,
+				ROOMS.space as space,
+				ROOMS.rent as rent
+			FROM
+				m_rooms ROOMS
+			INNER JOIN
+				m_building BUILDING
+				ON
+					BUILDING.building_id = ROOMS.building_id
+			WHERE
+				NOT EXISTS
+					(
+						SELECT
+							RECOMMEND.building_id
+						FROM
+							t_recommended_room RECOMMEND
+						WHERE
+							ROOMS.building_id = RECOMMEND.building_id
+						AND
+							ROOMS.room_id = RECOMMEND.room_id
+					)
+			<if test="buildingCode != null and buildingCode != ''">
+				AND
+					BUILDING.building_code LIKE CONCAT('%', #{buildingCode}, '%')
+			</if>
+			<if test="buildingName != null and buildingName != ''">
+				AND
+					BUILDING.building_name LIKE CONCAT('%', #{buildingName}, '%')
+			</if>
+			<if test="roomCode != null and roomCode != ''">
+				AND
+					ROOMS.room_code = #{roomCode}
+			</if>
+			<if test="roomNumber != null and roomNumber != ''">
+				AND
+					ROOMS.room_number = #{roomNumber}
+			</if>
+			<if test="buildingType != null and buildingType != 0">
+				AND
+					BUILDING.building_type = #{buildingType}
+			</if>
+			<if test="roomNumber != null and roomNumber != ''">
+				AND
+					ROOMS.room_number = #{roomNumber}
+			</if>
+			<if test="numberOfStoreysId != null and numberOfStoreysId != 0">
+				AND
+					ROOMS.number_of_storeys_id = #{numberOfStoreysId}
+			</if>
+			<if test="spaceFrom != null and spaceFrom != ''">
+				AND
+					ROOMS.space &gt;= #{spaceFrom}
+			</if>
+			<if test="spaceTo != null and spaceTo != ''">
+				AND
+					 ROOMS.space &lt;= #{spaceTo}
+			</if>
+			<if test="rentFrom != null and rentFrom != ''">
+				AND
+					ROOMS.rent &gt;= #{rentFrom}
+			</if>
+			<if test="rentTo != null and rentTo != ''">
+				AND
+					ROOMS.rent &lt;= #{rentTo}
+			</if>
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+			AND
+				BUILDING.delete_flag = 0
+			LIMIT #{fromNumber}, #{viewNumber}
+		</select>
+
+		<select id="countArticle" parameterType="jp.co.forrentsystem.dto.ArticleDto" resultType="Integer">
+			SELECT
+				count(*) as count
+			FROM
+				m_building BUILDING
+			INNER JOIN
+				m_rooms ROOMS
+			    ON
+					ROOMS.building_id = BUILDING.building_id
+			LEFT OUTER JOIN
+				m_floor_plan FLOOR_PLAN
+			    ON
+					FLOOR_PLAN.floor_plan_id = ROOMS.floor_plan_id
+				AND
+					FLOOR_PLAN.delete_flag = 0
+			LEFT OUTER JOIN
+				m_floor FLOOR
+			    ON
+					FLOOR.floor_class_id = ROOMS.number_of_storeys_id
+				AND
+					FLOOR.delete_flag = 0
+			LEFT OUTER JOIN
+				t_building_image BUILDING_IMAGE
+			    ON
+					BUILDING_IMAGE.building_id = BUILDING.building_id
+				AND
+					BUILDING_IMAGE.publication_flag = 1
+				AND
+					BUILDING_IMAGE.delete_flag = 0
+			<if test="equipmentList != null and equipmentList != ''">
+				INNER JOIN
+					t_room_equipment ROOM_EQUiPMENT
+					ON
+						ROOM_EQUiPMENT.building_id = ROOMS.building_id
+					AND
+						ROOM_EQUiPMENT.room_id = ROOMS.room_id
+					AND
+						ROOM_EQUiPMENT.equipment_id in
+							<foreach item="equipmentId" index="index" collection="equipmentList"
+								open="(" separator="," close=")">
+								#{equipmentId}
+							</foreach>
+			</if>
+			<if test="goodForConditionList != null and goodForConditionList != ''">
+				INNER JOIN
+					t_room_good_for_condition ROOM_GOOD_FOR_CONDITION
+					ON
+						ROOM_GOOD_FOR_CONDITION.building_id = ROOMS.building_id
+					AND
+						ROOM_GOOD_FOR_CONDITION.room_id = ROOMS.room_id
+					AND
+						ROOM_GOOD_FOR_CONDITION.condition_id in
+							<foreach item="goodForConditionId" index="index" collection="goodForConditionList"
+								open="(" separator="," close=")">
+								#{goodForConditionId}
+							</foreach>
+			</if>
+			<if test="stationIdList == null and minutesWalk == null">
+				LEFT OUTER JOIN
+			</if>
+			<if test="(stationIdList != null and stationIdList.size() &gt; 0) or minutesWalk != null">
+				INNER JOIN
+			</if>
+				(
+					SELECT
+						BUILDING_SUB1.building_id as building_id,
+						NEAREST_STATION1.route_id as route_id1,
+						NEAREST_STATION1.station_id as station_id1,
+						NEAREST_STATION1.route_name as route_name1,
+						NEAREST_STATION1.station_name as station_name1,
+						NEAREST_STATION1.minutes_walk as minutes_walk1,
+						NEAREST_STATION2.route_id as route_id2,
+						NEAREST_STATION2.station_id as station_id2,
+						NEAREST_STATION2.route_name as route_name2,
+						NEAREST_STATION2.station_name as station_name2,
+						NEAREST_STATION2.minutes_walk as minutes_walk2,
+						NEAREST_STATION3.route_id as route_id3,
+						NEAREST_STATION3.station_id as station_id3,
+						NEAREST_STATION3.route_name as route_name3,
+						NEAREST_STATION3.station_name as station_name3,
+						NEAREST_STATION3.minutes_walk as minutes_walk3
+					FROM
+						m_building BUILDING_SUB1
+					LEFT OUTER JOIN
+						(
+							SELECT
+								NEAREST_STATION_SUB1.building_id as building_id,
+								NEAREST_STATION_SUB1.route_id as route_id,
+								NEAREST_STATION_SUB1.station_id as station_id,
+								NEAREST_STATION_SUB1.display_number as display_number,
+								NEAREST_STATION_SUB1.minutes_walk as minutes_walk,
+								ROUTE1.route_name as route_name,
+								STATION1.station_name as station_name
+							FROM
+								t_nearest_station NEAREST_STATION_SUB1
+							INNER JOIN
+								m_route ROUTE1
+								ON
+									ROUTE1.route_id = NEAREST_STATION_SUB1.route_id
+							INNER JOIN
+								m_station STATION1
+								ON
+									STATION1.station_id = NEAREST_STATION_SUB1.station_id
+							WHERE
+								NEAREST_STATION_SUB1.delete_flag = 0
+							AND
+								ROUTE1.delete_flag = 0
+						) NEAREST_STATION1
+						ON
+							BUILDING_SUB1.building_id = NEAREST_STATION1.building_id
+						AND
+							NEAREST_STATION1.display_number = 1
+						<if test="minutesWalk != null and minutesWalk != 0">
+							AND NEAREST_STATION1.minutes_walk &lt;= #{minutesWalk}
+						</if>
+					LEFT OUTER JOIN
+						(
+							SELECT
+								NEAREST_STATION_SUB2.building_id as building_id,
+								NEAREST_STATION_SUB2.route_id as route_id,
+								NEAREST_STATION_SUB2.station_id as station_id,
+								NEAREST_STATION_SUB2.display_number as display_number,
+								NEAREST_STATION_SUB2.minutes_walk as minutes_walk,
+								ROUTE2.route_name as route_name,
+								STATION2.station_name as station_name
+							FROM
+								t_nearest_station NEAREST_STATION_SUB2
+							INNER JOIN
+								m_route ROUTE2
+								ON
+									ROUTE2.route_id = NEAREST_STATION_SUB2.route_id
+							INNER JOIN
+								m_station STATION2
+								ON
+									STATION2.station_id = NEAREST_STATION_SUB2.station_id
+							WHERE
+								NEAREST_STATION_SUB2.delete_flag = 0
+							AND
+								ROUTE2.delete_flag = 0
+						) NEAREST_STATION2
+						ON
+							BUILDING_SUB1.building_id = NEAREST_STATION2.building_id
+						AND
+							NEAREST_STATION2.display_number = 2
+						<if test="minutesWalk != null and minutesWalk != 0">
+							AND NEAREST_STATION2.minutes_walk &lt;= #{minutesWalk}
+						</if>
+					LEFT OUTER JOIN
+						(
+							SELECT
+								NEAREST_STATION_SUB3.building_id as building_id,
+								NEAREST_STATION_SUB3.route_id as route_id,
+								NEAREST_STATION_SUB3.station_id as station_id,
+								NEAREST_STATION_SUB3.display_number as display_number,
+								NEAREST_STATION_SUB3.minutes_walk as minutes_walk,
+								ROUTE3.route_name as route_name,
+								STATION3.station_name as station_name
+							FROM
+								t_nearest_station NEAREST_STATION_SUB3
+							INNER JOIN
+								m_route ROUTE3
+								ON
+									ROUTE3.route_id = NEAREST_STATION_SUB3.route_id
+							INNER JOIN
+								m_station STATION3
+								ON
+									STATION3.station_id = NEAREST_STATION_SUB3.station_id
+							WHERE
+								NEAREST_STATION_SUB3.delete_flag = 0
+							AND
+								ROUTE3.delete_flag = 0
+						) NEAREST_STATION3
+						ON
+							BUILDING_SUB1.building_id = NEAREST_STATION3.building_id
+						AND
+							NEAREST_STATION3.display_number = 3
+						<if test="minutesWalk != null and minutesWalk != 0">
+							AND NEAREST_STATION3.minutes_walk &lt;= #{minutesWalk}
+						</if>
+						<if test="(stationIdList != null and stationIdList.size() &gt; 0) or minutesWalk != null">
+							INNER JOIN
+								t_nearest_station NEAREST_STATION_CONDITION
+								ON
+									EXISTS
+										(
+											SELECT
+												*
+											FROM
+												t_nearest_station NEAREST_STATION_EXISTS
+											WHERE
+												NEAREST_STATION_EXISTS.delete_flag = 0
+												<if test="stationIdList != null and stationIdList.size() &gt; 0 ">
+													AND
+														NEAREST_STATION_EXISTS.station_id in
+															<foreach item="stationItem" index="index" collection="stationIdList"
+																open="(" separator="," close=")">
+																#{stationItem}
+															</foreach>
+												</if>
+												<if test="minutesWalk != null and minutesWalk != 0">
+													AND
+														NEAREST_STATION_EXISTS.minutes_walk &lt;= #{minutesWalk}
+												</if>
+												AND (
+														NEAREST_STATION1.station_id = NEAREST_STATION_EXISTS.station_id
+													OR
+														NEAREST_STATION2.station_id = NEAREST_STATION_EXISTS.station_id
+													OR
+														NEAREST_STATION3.station_id = NEAREST_STATION_EXISTS.station_id
+													)
+											)
+						</if>
+					GROUP BY
+						BUILDING_SUB1.building_id
+			    ) NEAREST_STATION
+				ON
+				BUILDING.building_id = NEAREST_STATION.building_id
+			WHERE
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			<if test="provinceList != null and provinceList.size() &gt; 0">
+				AND
+					BUILDING.province in
+						<foreach item="provinceItem" index="index" collection="provinceList"
+							open="(" separator="," close=")">
+							#{provinceItem}
+						</foreach>
+			</if>
+			<if test="cityList != null and cityList.size() &gt; 0">
+				AND
+					BUILDING.city in
+						<foreach item="cityItem" index="index" collection="cityList"
+							open="(" separator="," close=")">
+							#{cityItem}
+						</foreach>
+			</if>
+			<if test="townAreaList != null and townAreaList.size() &gt; 0">
+				AND
+					BUILDING.town_area in
+						<foreach item="townAreaItem" index="index" collection="townAreaList"
+							open="(" separator="," close=")">
+							#{townAreaItem}
+						</foreach>
+			</if>
+			<if test="buildingTypeList != null and buildingTypeList != ''">
+				AND
+					BUILDING.building_type in
+						<foreach item="buildingType" index="index" collection="buildingTypeList"
+							open="(" separator="," close=")">
+							#{buildingType}
+						</foreach>
+			</if>
+			<if test="rentFrom != null and rentTo != 0">
+				AND
+					ROOMS.rent &gt;= #{rentFrom}
+			</if>
+			<if test="rentTo != null and rentTo != 0">
+				AND
+					ROOMS.rent &lt;= #{rentTo}
+			</if>
+			<if test="floorPlanIdList != null and floorPlanIdList != ''">
+				AND
+					ROOMS.floor_plan_id in
+						<foreach item="floorPlanId" index="index" collection="floorPlanIdList"
+							open="(" separator="," close=")">
+							#{floorPlanId}
+						</foreach>
+			</if>
+			<if test="builtYear != null">
+				AND (
+				 		BUILDING.built_year = #{builtYear} AND BUILDING.built_month &gt;= #{builtMonth}
+				 		OR
+				 			BUILDING.built_year &gt;= #{builtYear} AND BUILDING.built_year &lt; DATE_FORMAT(CurDate(),'%Y')
+				 		OR
+				 			BUILDING.built_year = DATE_FORMAT(CurDate(),'%Y') AND BUILDING.built_month &lt;= #{builtMonth}
+			 		)
+			</if>
+		</select>
+
+		<select id="getArticleList" parameterType="jp.co.forrentsystem.dto.ArticleDto" resultMap="articleList">
+			SELECT
+				BUILDING.building_id as building_id,
+			    ROOMS.room_id as room_id,
+			    BUILDING.building_name as building_name,
+			    ROOMS.room_number as room_number,
+			    ROOMS.floor_plan_id as floor_plan_id,
+			    FLOOR_PLAN.floor_plan_name as floor_plan_name,
+			    ROOMS.space as space,
+			    ROOMS.security_deposit_class as security_deposit_class,
+			    ROOMS.security_deposit as security_deposit,
+			    ROOMS.key_money_class as key_money_class,
+			    ROOMS.key_money as key_money,
+			    ROOMS.rent as rent,
+			    ROOMS.common_service_fee_class as common_service_fee_class,
+			    ROOMS.common_service_fee as common_service_fee,
+			    ROOMS.security_money as security_money,
+			    ROOMS.room_pr_title as room_pr_title,
+			    BUILDING_IMAGE.file_name as file_name,
+			    NEAREST_STATION.route_id1 as route_id1,
+				NEAREST_STATION.station_id1 as station_id1,
+				NEAREST_STATION.route_name1 as route_name1,
+				NEAREST_STATION.station_name1 as station_name1,
+				NEAREST_STATION.minutes_walk1 as minutes_walk1,
+				NEAREST_STATION.route_id2 as route_id2,
+				NEAREST_STATION.station_id2 as station_id2,
+				NEAREST_STATION.route_name2 as route_name2,
+				NEAREST_STATION.station_name2 as station_name2,
+				NEAREST_STATION.minutes_walk2 as minutes_walk2,
+				NEAREST_STATION.route_id3 as route_id3,
+				NEAREST_STATION.station_id3 as station_id3,
+				NEAREST_STATION.route_name3 as route_name3,
+				NEAREST_STATION.station_name3 as station_name3,
+				NEAREST_STATION.minutes_walk3 as minutes_walk3,
+				BUILDING.province as province,
+				BUILDING.city as city,
+				BUILDING.town_area as town_area,
+				BUILDING.built_year as built_year,
+				BUILDING.built_month as built_month,
+				FLOOR.floor_name as floor_name,
+				ROOMS.administrative_cost_class as administrative_cost_class,
+				ROOMS.administrative_cost as administrative_cost
+			FROM
+				m_building BUILDING
+			INNER JOIN
+				m_rooms ROOMS
+			    ON
+					ROOMS.building_id = BUILDING.building_id
+			LEFT OUTER JOIN
+				m_floor_plan FLOOR_PLAN
+			    ON
+					FLOOR_PLAN.floor_plan_id = ROOMS.floor_plan_id
+				AND
+					FLOOR_PLAN.delete_flag = 0
+			LEFT OUTER JOIN
+				m_floor FLOOR
+			    ON
+					FLOOR.floor_class_id = ROOMS.number_of_storeys_id
+				AND
+					FLOOR.delete_flag = 0
+			LEFT OUTER JOIN
+				t_building_image BUILDING_IMAGE
+			    ON
+					BUILDING_IMAGE.building_id = BUILDING.building_id
+				AND
+					BUILDING_IMAGE.publication_flag = 1
+				AND
+					BUILDING_IMAGE.delete_flag = 0
+			<if test="equipmentList != null and equipmentList != ''">
+				INNER JOIN
+					t_room_equipment ROOM_EQUIPMENT
+					ON
+						ROOM_EQUIPMENT.building_id = ROOMS.building_id
+					AND
+						ROOM_EQUIPMENT.room_id = ROOMS.room_id
+					AND
+						ROOM_EQUIPMENT.equipment_id in
+							<foreach item="equipmentId" index="index" collection="equipmentList"
+								open="(" separator="," close=")">
+								#{equipmentId}
+							</foreach>
+			</if>
+			<if test="goodForConditionList != null and goodForConditionList != ''">
+				INNER JOIN
+					t_room_good_for_condition ROOM_GOOD_FOR_CONDITION
+					ON
+						ROOM_GOOD_FOR_CONDITION.building_id = ROOMS.building_id
+					AND
+						ROOM_GOOD_FOR_CONDITION.room_id = ROOMS.room_id
+					AND
+						ROOM_GOOD_FOR_CONDITION.condition_id in
+							<foreach item="goodForConditionId" index="index" collection="goodForConditionList"
+								open="(" separator="," close=")">
+								#{goodForConditionId}
+							</foreach>
+			</if>
+						<if test="stationIdList == null and minutesWalk == null">
+				LEFT OUTER JOIN
+			</if>
+			<if test="(stationIdList != null and stationIdList.size() &gt; 0) or minutesWalk != null">
+				INNER JOIN
+			</if>
+				(
+					SELECT
+						BUILDING_SUB1.building_id as building_id,
+						NEAREST_STATION1.route_id as route_id1,
+						NEAREST_STATION1.station_id as station_id1,
+						NEAREST_STATION1.route_name as route_name1,
+						NEAREST_STATION1.station_name as station_name1,
+						NEAREST_STATION1.minutes_walk as minutes_walk1,
+						NEAREST_STATION2.route_id as route_id2,
+						NEAREST_STATION2.station_id as station_id2,
+						NEAREST_STATION2.route_name as route_name2,
+						NEAREST_STATION2.station_name as station_name2,
+						NEAREST_STATION2.minutes_walk as minutes_walk2,
+						NEAREST_STATION3.route_id as route_id3,
+						NEAREST_STATION3.station_id as station_id3,
+						NEAREST_STATION3.route_name as route_name3,
+						NEAREST_STATION3.station_name as station_name3,
+						NEAREST_STATION3.minutes_walk as minutes_walk3
+					FROM
+						m_building BUILDING_SUB1
+					LEFT OUTER JOIN
+						(
+							SELECT
+								NEAREST_STATION_SUB1.building_id as building_id,
+								NEAREST_STATION_SUB1.route_id as route_id,
+								NEAREST_STATION_SUB1.station_id as station_id,
+								NEAREST_STATION_SUB1.display_number as display_number,
+								NEAREST_STATION_SUB1.minutes_walk as minutes_walk,
+								ROUTE1.route_name as route_name,
+								STATION1.station_name as station_name
+							FROM
+								t_nearest_station NEAREST_STATION_SUB1
+							INNER JOIN
+								m_route ROUTE1
+								ON
+									ROUTE1.route_id = NEAREST_STATION_SUB1.route_id
+							INNER JOIN
+								m_station STATION1
+								ON
+									STATION1.station_id = NEAREST_STATION_SUB1.station_id
+							WHERE
+								NEAREST_STATION_SUB1.delete_flag = 0
+							AND
+								ROUTE1.delete_flag = 0
+						) NEAREST_STATION1
+						ON
+							BUILDING_SUB1.building_id = NEAREST_STATION1.building_id
+						AND
+							NEAREST_STATION1.display_number = 1
+						<if test="minutesWalk != null and minutesWalk != 0">
+							AND NEAREST_STATION1.minutes_walk &lt;= #{minutesWalk}
+						</if>
+					LEFT OUTER JOIN
+						(
+							SELECT
+								NEAREST_STATION_SUB2.building_id as building_id,
+								NEAREST_STATION_SUB2.route_id as route_id,
+								NEAREST_STATION_SUB2.station_id as station_id,
+								NEAREST_STATION_SUB2.display_number as display_number,
+								NEAREST_STATION_SUB2.minutes_walk as minutes_walk,
+								ROUTE2.route_name as route_name,
+								STATION2.station_name as station_name
+							FROM
+								t_nearest_station NEAREST_STATION_SUB2
+							INNER JOIN
+								m_route ROUTE2
+								ON
+									ROUTE2.route_id = NEAREST_STATION_SUB2.route_id
+							INNER JOIN
+								m_station STATION2
+								ON
+									STATION2.station_id = NEAREST_STATION_SUB2.station_id
+							WHERE
+								NEAREST_STATION_SUB2.delete_flag = 0
+							AND
+								ROUTE2.delete_flag = 0
+						) NEAREST_STATION2
+						ON
+							BUILDING_SUB1.building_id = NEAREST_STATION2.building_id
+						AND
+							NEAREST_STATION2.display_number = 2
+						<if test="minutesWalk != null and minutesWalk != 0">
+							AND NEAREST_STATION2.minutes_walk &lt;= #{minutesWalk}
+						</if>
+					LEFT OUTER JOIN
+						(
+							SELECT
+								NEAREST_STATION_SUB3.building_id as building_id,
+								NEAREST_STATION_SUB3.route_id as route_id,
+								NEAREST_STATION_SUB3.station_id as station_id,
+								NEAREST_STATION_SUB3.display_number as display_number,
+								NEAREST_STATION_SUB3.minutes_walk as minutes_walk,
+								ROUTE3.route_name as route_name,
+								STATION3.station_name as station_name
+							FROM
+								t_nearest_station NEAREST_STATION_SUB3
+							INNER JOIN
+								m_route ROUTE3
+								ON
+									ROUTE3.route_id = NEAREST_STATION_SUB3.route_id
+							INNER JOIN
+								m_station STATION3
+								ON
+									STATION3.station_id = NEAREST_STATION_SUB3.station_id
+							WHERE
+								NEAREST_STATION_SUB3.delete_flag = 0
+							AND
+								ROUTE3.delete_flag = 0
+						) NEAREST_STATION3
+						ON
+							BUILDING_SUB1.building_id = NEAREST_STATION3.building_id
+						AND
+							NEAREST_STATION3.display_number = 3
+						<if test="minutesWalk != null and minutesWalk != 0">
+							AND NEAREST_STATION3.minutes_walk &lt;= #{minutesWalk}
+						</if>
+						<if test="(stationIdList != null and stationIdList.size() &gt; 0) or minutesWalk != null">
+							INNER JOIN
+								t_nearest_station NEAREST_STATION_CONDITION
+								ON
+									EXISTS
+										(
+											SELECT
+												*
+											FROM
+												t_nearest_station NEAREST_STATION_EXISTS
+											WHERE
+												NEAREST_STATION_EXISTS.delete_flag = 0
+												<if test="stationIdList != null and stationIdList.size() &gt; 0 ">
+													AND
+														NEAREST_STATION_EXISTS.station_id in
+															<foreach item="stationItem" index="index" collection="stationIdList"
+																open="(" separator="," close=")">
+																#{stationItem}
+															</foreach>
+												</if>
+												<if test="minutesWalk != null and minutesWalk != 0">
+													AND
+														NEAREST_STATION_EXISTS.minutes_walk &lt;= #{minutesWalk}
+												</if>
+												AND (
+														NEAREST_STATION1.station_id = NEAREST_STATION_EXISTS.station_id
+													OR
+														NEAREST_STATION2.station_id = NEAREST_STATION_EXISTS.station_id
+													OR
+														NEAREST_STATION3.station_id = NEAREST_STATION_EXISTS.station_id
+													)
+											)
+						</if>
+					GROUP BY
+						BUILDING_SUB1.building_id
+			    ) NEAREST_STATION
+				ON
+				BUILDING.building_id = NEAREST_STATION.building_id
+			WHERE
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			<if test="provinceList != null and provinceList.size() &gt; 0">
+				AND
+					BUILDING.province in
+						<foreach item="provinceItem" index="index" collection="provinceList"
+							open="(" separator="," close=")">
+							#{provinceItem}
+						</foreach>
+			</if>
+			<if test="cityList != null and cityList.size() &gt; 0">
+				AND
+					BUILDING.city in
+						<foreach item="cityItem" index="index" collection="cityList"
+							open="(" separator="," close=")">
+							#{cityItem}
+						</foreach>
+			</if>
+			<if test="townAreaList != null and townAreaList.size() &gt; 0">
+				AND
+					BUILDING.town_area in
+						<foreach item="townAreaItem" index="index" collection="townAreaList"
+							open="(" separator="," close=")">
+							#{townAreaItem}
+						</foreach>
+			</if>
+			<if test="buildingTypeList != null and buildingTypeList != ''">
+				AND
+					BUILDING.building_type in
+						<foreach item="buildingType" index="index" collection="buildingTypeList"
+							open="(" separator="," close=")">
+							#{buildingType}
+						</foreach>
+			</if>
+			<if test="rentFrom != null and rentTo != 0">
+				AND
+					ROOMS.rent &gt;= #{rentFrom}
+			</if>
+			<if test="rentTo != null and rentTo != 0">
+				AND
+					ROOMS.rent &lt;= #{rentTo}
+			</if>
+			<if test="floorPlanIdList != null and floorPlanIdList != ''">
+				AND
+					ROOMS.floor_plan_id in
+						<foreach item="floorPlanId" index="index" collection="floorPlanIdList"
+							open="(" separator="," close=")">
+							#{floorPlanId}
+						</foreach>
+			</if>
+			<if test="builtYear != null">
+				AND (
+				 		BUILDING.built_year = #{builtYear} AND BUILDING.built_month &gt;= #{builtMonth}
+				 		OR
+				 			BUILDING.built_year &gt;= #{builtYear} AND BUILDING.built_year &lt; DATE_FORMAT(CurDate(),'%Y')
+				 		OR
+				 			BUILDING.built_year = DATE_FORMAT(CurDate(),'%Y') AND BUILDING.built_month &lt;= #{builtMonth}
+			 		)
+			</if>
+			ORDER BY
+			<if test="sortArticleId == null or sortArticleId == 1">
+				ROOMS.rent ASC
+			</if>
+			<if test="sortArticleId == 2">
+				BUILDING.built_year  DESC,
+				BUILDING.built_month DESC
+			</if>
+			<if test="sortArticleId == 3">
+				ROOMS.space DESC
+			</if>
+			, BUILDING.building_id ASC
+			, ROOMS.room_id ASC
+			LIMIT #{fromNumber}, #{viewNumber}
+		</select>
+
+		<select id="getDetailArticle" parameterType="jp.co.forrentsystem.dto.ArticleDto" resultMap="articleList">
+			SELECT
+				BUILDING.building_id as building_id,
+				ROOMS.room_id as room_id,
+				BUILDING.building_name as building_name,
+				ROOMS.room_number as room_number,
+				ROOMS.room_pr_title as room_pr_title,
+				ROOMS.floor_plan_id as floor_plan_id,
+				FLOOR_PLAN.floor_plan_name as floor_plan_name,
+				ROOMS.rent as rent,
+				ROOMS.administrative_cost_class as administrative_cost_class,
+				ROOMS.administrative_cost as administrative_cost,
+				ROOMS.room_pr_detail as room_pr_detail,
+				BUILDING.building_type as building_type,
+				BUILDING.structure_id as structure_id,
+				BUILDING.number_of_storeys as number_of_storeys,
+				BUILDING.built_year as built_year,
+				BUILDING.built_month as built_month,
+				ROOMS.space as space,
+				ROOMS.premium_class as premium_class,
+				ROOMS.premium as premium,
+				ROOMS.renewal_fee_class as renewal_fee_class,
+				ROOMS.renewal_fee as renewal_fee,
+				ROOMS.foregift_class asforegift_class,
+				ROOMS.foregift as foregift,
+				ROOMS.security_deposit_class as security_deposit_class,
+				ROOMS.security_deposit as security_deposit,
+				ROOMS.key_money_class as key_money_class,
+				ROOMS.key_money as key_money,
+				ROOMS.contract_period as contract_period,
+				ROOMS.delivery_time as delivery_time,
+			    ROOMS.common_service_fee_class as common_service_fee_class,
+			    ROOMS.common_service_fee as common_service_fee,
+				BUILDING.zip_code as zip_code,
+				BUILDING.province as province,
+				BUILDING.city as city,
+				BUILDING.town_area as town_area,
+				BUILDING.town_area_below as town_area_below,
+				BUILDING_IMAGE.file_name as building_file_name,
+				BUILDING_IMAGE.image_caption as building_image_caption,
+				ROOMS.important_points as important_points,
+                NEAREST_STATION1.route_id as route_id1,
+                NEAREST_STATION1.station_id as station_id1,
+                NEAREST_STATION1.route_name as route_name1,
+                NEAREST_STATION1.station_name as station_name1,
+                NEAREST_STATION1.minutes_walk as minutes_walk1,
+                NEAREST_STATION2.route_id as route_id2,
+                NEAREST_STATION2.station_id as station_id2,
+                NEAREST_STATION2.route_name as route_name2,
+                NEAREST_STATION2.station_name as station_name2,
+                NEAREST_STATION2.minutes_walk as minutes_walk2,
+                NEAREST_STATION3.route_id as route_id3,
+                NEAREST_STATION3.station_id as station_id3,
+                NEAREST_STATION3.route_name as route_name3,
+                NEAREST_STATION3.station_name as station_name3,
+                NEAREST_STATION3.minutes_walk as minutes_walk3,
+                ROOMS.number_of_storeys_id as number_of_storeys_id,
+                FLOOR.floor_name as floor_name,
+                X(BUILDING.geo_code) as longitude,
+				Y(BUILDING.geo_code) as latitude,
+				ROOMS.security_money_class as security_money_class,
+				ROOMS.security_money as security_money
+			FROM
+				m_building BUILDING
+			INNER JOIN
+				m_rooms ROOMS
+				ON
+					ROOMS.building_id = BUILDING.building_id
+			INNER JOIN
+				m_floor_plan FLOOR_PLAN
+                ON
+                FLOOR_PLAN.floor_plan_id = ROOMS.floor_plan_id
+            LEFT OUTER JOIN
+            	t_building_image BUILDING_IMAGE
+            	ON
+            	BUILDING_IMAGE.building_id = BUILDING.building_id
+			LEFT OUTER JOIN
+            	m_floor FLOOR
+            	ON
+            	FLOOR.floor_class_id = ROOMS.number_of_storeys_id
+			LEFT OUTER JOIN
+            	(
+            		SELECT
+            			SUB_NEAREST_STATION1.building_id as building_id,
+            			SUB_NEAREST_STATION1.route_id as route_id,
+            			ROUTE1.route_name as route_name,
+            			SUB_NEAREST_STATION1.station_id as station_id,
+            			STATION1.station_name as station_name,
+            			SUB_NEAREST_STATION1.minutes_walk as minutes_walk
+            		FROM
+            			t_nearest_station SUB_NEAREST_STATION1
+            		INNER JOIN
+            			m_route ROUTE1
+            			ON
+            			ROUTE1.route_id = SUB_NEAREST_STATION1.route_id
+            		INNER JOIN
+            			m_station STATION1
+            			ON
+            			STATION1.station_id = SUB_NEAREST_STATION1.station_id
+            		WHERE
+            			ROUTE1.delete_flag = 0
+            		AND
+            			SUB_NEAREST_STATION1.display_number = 1
+            	) NEAREST_STATION1
+            	ON
+            		NEAREST_STATION1.building_id = BUILDING.building_id
+             LEFT OUTER JOIN
+            	(
+            		SELECT
+            			SUB_NEAREST_STATION2.building_id as building_id,
+            			SUB_NEAREST_STATION2.route_id as route_id,
+            			ROUTE2.route_name as route_name,
+            			SUB_NEAREST_STATION2.station_id as station_id,
+            			STATION2.station_name as station_name,
+            			SUB_NEAREST_STATION2.minutes_walk as minutes_walk
+            		FROM
+            			t_nearest_station SUB_NEAREST_STATION2
+            		INNER JOIN
+            			m_route ROUTE2
+            			ON
+            			ROUTE2.route_id = SUB_NEAREST_STATION2.route_id
+            		INNER JOIN
+            			m_station STATION2
+            			ON
+            			STATION2.station_id = SUB_NEAREST_STATION2.station_id
+            		WHERE
+            			ROUTE2.delete_flag = 0
+	            	AND
+            			SUB_NEAREST_STATION2.display_number = 2
+            	) NEAREST_STATION2
+            	ON
+            		NEAREST_STATION2.building_id = BUILDING.building_id
+             LEFT OUTER JOIN
+            	(
+            		SELECT
+            			SUB_NEAREST_STATION3.building_id as building_id,
+            			SUB_NEAREST_STATION3.route_id as route_id,
+            			ROUTE3.route_name as route_name,
+            			SUB_NEAREST_STATION3.station_id as station_id,
+            			STATION3.station_name as station_name,
+            			SUB_NEAREST_STATION3.minutes_walk as minutes_walk
+            		FROM
+            			t_nearest_station SUB_NEAREST_STATION3
+            		INNER JOIN
+            			m_route ROUTE3
+            			ON
+            			ROUTE3.route_id = SUB_NEAREST_STATION3.route_id
+            		INNER JOIN
+            			m_station STATION3
+            			ON
+            			STATION3.station_id = SUB_NEAREST_STATION3.station_id
+            		WHERE
+            			ROUTE3.delete_flag = 0
+	            	AND
+            			SUB_NEAREST_STATION3.display_number = 3
+            	) NEAREST_STATION3
+            	ON
+            		NEAREST_STATION3.building_id = BUILDING.building_id
+			WHERE
+				BUILDING.building_id = #{buildingId}
+			AND
+				ROOMS.room_id = #{roomId}
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.delete_flag = 0
+			GROUP BY
+				BUILDING.building_id, ROOMS.room_id
+		</select>
+		<select id="getRoomsListForVacancy"  parameterType="jp.co.forrentsystem.dto.RoomsDto" resultMap="roomList">
+			SELECT
+				ROOMS.building_id as building_id,
+				ROOMS.room_id as room_id,
+				ROOMS.room_code as room_code,
+				ROOMS.room_number as room_number,
+				ROOMS.rent as rent,
+				ROOMS.space as space,
+				ROOMS.security_deposit_class as security_deposit_class,
+				ROOMS.security_deposit as security_deposit,
+				ROOMS.key_money_class as key_money_class,
+				ROOMS.key_money as key_money,
+				ROOMS.number_of_storeys_id as number_of_storeys_id,
+				FLOOR.floor_name as floor_name,
+				ROOMS.recruitment_status as recruitment_status,
+				ROOMS.floor_plan_id,
+				FLOOR_PLAN.floor_plan_name
+			FROM
+				m_rooms ROOMS
+			INNER JOIN
+				m_floor FLOOR
+				ON
+				FLOOR.floor_class_id = ROOMS.number_of_storeys_id
+			INNER JOIN
+				m_floor_plan FLOOR_PLAN
+				ON
+				FLOOR_PLAN.floor_plan_id = ROOMS.floor_plan_id
+			WHERE
+				ROOMS.building_id = #{buildingId}
+			AND
+				ROOMS.room_id &lt;&gt; #{roomId}
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			ORDER BY
+				ROOMS.modified DESC
+		</select>
+
+		<update id="deleteRoomByBuildingId" parameterType="Integer">
+			UPDATE
+				m_rooms
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				building_id = #{buildingId}
+		</update>
+
+		<update id="deleteRoomByRoomId" parameterType="jp.co.forrentsystem.dto.RoomsDto">
+			UPDATE
+				m_rooms
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+		</update>
+	</mapper>

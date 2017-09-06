@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.BuildingContactDetailDao">
+		<resultMap id="buildingContact" type="jp.co.forrentsystem.dto.BuildingContactDto">
+			<result property="buildingContactId" column="building_contact_id"/>
+			<result property="buildingId" column="building_id"/>
+			<result property="roomId" column="room_id"/>
+			<result property="processStatus" column="process_status"/>
+			<result property="processClass" column="process_class"/>
+			<result property="lastName" column="last_name"/>
+			<result property="firstName" column="first_name"/>
+			<result property="mailAddress" column="mail_address"/>
+			<result property="tel" column="tel"/>
+			<result property="contactMeansId" column="contact_means_id"/>
+			<result property="residentsHopeTime" column="residents_hope_time"/>
+			<result property="contactContent" column="contact_content"/>
+			<result property="buildingId" column="building_id"/>
+			<result property="roomId" column="room_id"/>
+			<result property="buildingName" column="building_name"/>
+			<result property="roomNumber" column="room_number"/>
+			<result property="created" column="created"/>
+		</resultMap>
+
+		<insert id="registBuildingContactDetail" parameterType="jp.co.forrentsystem.dto.BuildingContactDto" keyProperty="buildingContactId">
+			<selectKey resultType="int" keyProperty="buildingContactId" order="BEFORE">
+				SELECT IFNULL(MAX(building_contact_id),0)+1 FROM t_building_contact_detail
+			</selectKey>
+			INSERT INTO
+				t_building_contact_detail
+				(
+					building_contact_id,
+					building_id,
+					room_id,
+					created,
+					modified,
+					delete_flag
+				)
+			VALUE
+				(
+					#{buildingContactId},
+					#{buildingId},
+					#{roomId},
+					sysdate(),
+					sysdate(),
+					0
+				)
+		</insert>
+
+		<select id="getBuildingContactId" resultType="Integer">
+			SELECT IFNULL(MAX(building_contact_id),0) as buildingContactId FROM t_building_contact_detail
+		</select>
+
+		<select id="getNewBuildingContact" resultMap="buildingContact">
+			SELECT
+				BUILDING_CONTACT_DETAIL.building_contact_id as building_contact_id,
+				BUILDING_CONTACT_DETAIL.building_id as building_id,
+				BUILDING_CONTACT_DETAIL.room_id as room_id,
+				BUILDING_CONTACT_HEADER.process_status as process_status,
+				BUILDING_CONTACT_HEADER.process_class as process_class,
+				BUILDING_CONTACT_HEADER.last_name as last_name,
+				BUILDING_CONTACT_HEADER.first_name as first_name,
+				BUILDING_CONTACT_HEADER.mail_address as mail_address,
+				BUILDING_CONTACT_HEADER.tel as tel,
+				BUILDING_CONTACT_HEADER.contact_means_id as contact_means_id,
+				BUILDING_CONTACT_HEADER.residents_hope_time as residents_hope_time,
+				BUILDING_CONTACT_HEADER.contact_content as contact_content,
+				DATE_FORMAT(BUILDING_CONTACT_HEADER.created, '%Y/%m/%d') as created
+			FROM
+				t_building_contact_detail BUILDING_CONTACT_DETAIL
+			INNER JOIN
+				t_building_contact_header BUILDING_CONTACT_HEADER
+				ON
+					BUILDING_CONTACT_HEADER.building_contact_id = BUILDING_CONTACT_DETAIL.building_contact_id
+			LEFT OUTER JOIN
+				m_building BUILDING
+				ON
+				BUILDING.building_id = BUILDING_CONTACT_DETAIL.building_id
+			LEFT OUTER JOIN
+				m_rooms ROOMS
+				ON
+				ROOMS.building_id = BUILDING_CONTACT_DETAIL.building_id
+				AND
+				ROOMS.room_id = BUILDING_CONTACT_DETAIL.room_id
+			WHERE
+				BUILDING_CONTACT_DETAIL.delete_flag = 0
+			AND
+				BUILDING_CONTACT_HEADER.delete_flag = 0
+			AND
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+			ORDER BY
+				BUILDING_CONTACT_DETAIL.modified DESC
+			LIMIT 0, 5
+		</select>
+
+		<select id="getBuildingContactList" parameterType="jp.co.forrentsystem.dto.BuildingContactDto" resultMap="buildingContact">
+			SELECT
+				BUILDING_CONTACT_DETAIL.building_contact_id as building_contact_id,
+				BUILDING_CONTACT_DETAIL.building_id as building_id,
+				BUILDING_CONTACT_DETAIL.room_id as room_id,
+				BUILDING_CONTACT_HEADER.process_status as process_status,
+				BUILDING_CONTACT_HEADER.process_class as process_class,
+				BUILDING_CONTACT_HEADER.last_name as last_name,
+				BUILDING_CONTACT_HEADER.first_name as first_name,
+				BUILDING_CONTACT_HEADER.mail_address as mail_address,
+				BUILDING_CONTACT_HEADER.tel as tel,
+				BUILDING_CONTACT_HEADER.contact_means_id as contact_means_id,
+				BUILDING_CONTACT_HEADER.residents_hope_time as residents_hope_time,
+				BUILDING_CONTACT_HEADER.contact_content as contact_content,
+				BUILDING.building_name as building_name,
+				ROOMS.room_number as room_number,
+				DATE_FORMAT(BUILDING_CONTACT_HEADER.created, '%Y/%m/%d') as created
+			FROM
+				t_building_contact_detail BUILDING_CONTACT_DETAIL
+			INNER JOIN
+				t_building_contact_header BUILDING_CONTACT_HEADER
+				ON
+					BUILDING_CONTACT_HEADER.building_contact_id = BUILDING_CONTACT_DETAIL.building_contact_id
+			LEFT OUTER JOIN
+				m_building BUILDING
+				ON
+				BUILDING.building_id = BUILDING_CONTACT_DETAIL.building_id
+			LEFT OUTER JOIN
+				m_rooms ROOMS
+				ON
+				ROOMS.building_id = BUILDING_CONTACT_DETAIL.building_id
+				AND
+				ROOMS.room_id = BUILDING_CONTACT_DETAIL.room_id
+			WHERE
+				BUILDING_CONTACT_HEADER.process_status = #{processStatus}
+			AND
+				BUILDING_CONTACT_DETAIL.delete_flag = 0
+			AND
+				BUILDING_CONTACT_HEADER.delete_flag = 0
+			AND
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+			<if test="processStatus != 2">
+				ORDER BY
+					BUILDING_CONTACT_DETAIL.modified ASC
+			</if>
+			<if test="processStatus == 2">
+				ORDER BY
+					BUILDING_CONTACT_DETAIL.modified DESC
+			</if>
+			LIMIT #{fromNumber}, #{viewNumber}
+		</select>
+
+		<select id="getBuildingContactByContactId" parameterType="Integer" resultMap="buildingContact">
+			SELECT
+				BUILDING_CONTACT_DETAIL.building_contact_id as building_contact_id,
+				BUILDING_CONTACT_DETAIL.building_id as building_id,
+				BUILDING_CONTACT_DETAIL.room_id as room_id,
+				BUILDING_CONTACT_HEADER.process_status as process_status,
+				BUILDING_CONTACT_HEADER.process_class as process_class,
+				BUILDING_CONTACT_HEADER.last_name as last_name,
+				BUILDING_CONTACT_HEADER.first_name as first_name,
+				BUILDING_CONTACT_HEADER.mail_address as mail_address,
+				BUILDING_CONTACT_HEADER.tel as tel,
+				BUILDING_CONTACT_HEADER.contact_means_id as contact_means_id,
+				BUILDING_CONTACT_HEADER.residents_hope_time as residents_hope_time,
+				BUILDING_CONTACT_HEADER.contact_content as contact_content,
+				BUILDING.building_name as building_name,
+				ROOMS.room_number as room_number,
+				DATE_FORMAT(BUILDING_CONTACT_HEADER.created, '%Y/%m/%d') as created
+			FROM
+				t_building_contact_detail BUILDING_CONTACT_DETAIL
+			INNER JOIN
+				t_building_contact_header BUILDING_CONTACT_HEADER
+				ON
+					BUILDING_CONTACT_HEADER.building_contact_id = BUILDING_CONTACT_DETAIL.building_contact_id
+			LEFT OUTER JOIN
+				m_building BUILDING
+				ON
+				BUILDING.building_id = BUILDING_CONTACT_DETAIL.building_id
+			LEFT OUTER JOIN
+				m_rooms ROOMS
+				ON
+				ROOMS.building_id = BUILDING_CONTACT_DETAIL.building_id
+				AND
+				ROOMS.room_id = BUILDING_CONTACT_DETAIL.room_id
+			WHERE
+				BUILDING_CONTACT_HEADER.building_contact_id = #{buildingContactId}
+			AND
+				BUILDING_CONTACT_DETAIL.delete_flag = 0
+			AND
+				BUILDING_CONTACT_HEADER.delete_flag = 0
+			AND
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+			ORDER BY
+				BUILDING_CONTACT_DETAIL.building_id ASC
+		</select>
+
+		<update id="updateBuildingContactForProcessStatus" parameterType="jp.co.forrentsystem.dto.BuildingContactDto">
+			UPDATE
+				t_building_contact_header BUILDING_CONTACT_HEADER
+			SET
+				BUILDING_CONTACT_HEADER.process_status = #{processStatus},
+				BUILDING_CONTACT_HEADER.modified = sysdate()
+			WHERE
+				BUILDING_CONTACT_HEADER.building_contact_id = #{buildingContactId}
+		</update>
+
+		<select id="getBuildingContactCount" parameterType="Integer" resultType="Integer">
+			SELECT
+				count(*)
+			FROM
+				t_building_contact_detail BUILDING_CONTACT_DETAIL
+			INNER JOIN
+				t_building_contact_header BUILDING_CONTACT_HEADER
+				ON
+					BUILDING_CONTACT_HEADER.building_contact_id = BUILDING_CONTACT_DETAIL.building_contact_id
+			LEFT OUTER JOIN
+				m_building BUILDING
+				ON
+				BUILDING.building_id = BUILDING_CONTACT_DETAIL.building_id
+			LEFT OUTER JOIN
+				m_rooms ROOMS
+				ON
+				ROOMS.building_id = BUILDING_CONTACT_DETAIL.building_id
+				AND
+				ROOMS.room_id = BUILDING_CONTACT_DETAIL.room_id
+			WHERE
+				BUILDING_CONTACT_HEADER.process_status = #{processStatus}
+			AND
+				BUILDING_CONTACT_DETAIL.delete_flag = 0
+			AND
+				BUILDING_CONTACT_HEADER.delete_flag = 0
+			AND
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+		</select>
+
+	</mapper>

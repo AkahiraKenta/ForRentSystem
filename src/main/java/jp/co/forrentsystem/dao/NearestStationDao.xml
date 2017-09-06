@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.forrentsystem.dao.NearestStationDao">
+	<resultMap id="nearestStationName" type="jp.co.forrentsystem.dto.NearestStationNameDto">
+		<result property="buildingId" column="building_id"/>
+		<result property="routeId" column="route_id"/>
+		<result property="stationId" column="station_id"/>
+		<result property="minutesWalk" column="minutes_walk"/>
+		<result property="routeName" column="route_name"/>
+		<result property="stationName" column="station_name"/>
+		<result property="count" column="count" />
+	</resultMap>
+
+	<insert id="registNearestStation" parameterType="jp.co.forrentsystem.dto.NearestStationDto" keyProperty="buildingId,routeId,stationId">
+		INSERT INTO
+			t_nearest_station
+		(
+			building_id,
+			route_id,
+			station_id,
+			minutes_walk,
+			display_number,
+			created,
+			modified,
+			delete_flag
+		)
+		VALUES
+		(
+			#{buildingId},
+			#{routeId},
+			#{stationId},
+			#{minutesWalk},
+			#{displayNumber},
+			sysdate(),
+			sysdate(),
+			#{deleteFlag}
+		)
+	</insert>
+
+	<select id="getNearestStationNameList"  parameterType="Integer" resultMap="nearestStationName">
+		SELECT
+			NEAREST.building_id AS building_id,
+			NEAREST.route_id AS route_id,
+			NEAREST.station_id AS station_id,
+			NEAREST.minutes_walk AS minutes_walk,
+			ROUTE.route_name AS route_name,
+			STATION.station_name AS station_name
+		FROM
+			t_nearest_station AS NEAREST
+		INNER JOIN
+			m_route AS ROUTE
+			ON
+				ROUTE.route_id = NEAREST.route_id
+		INNER JOIN
+			m_station AS STATION
+			ON
+				STATION.station_id = NEAREST.station_id
+		WHERE
+			NEAREST.building_id = #{buildingId}
+		AND
+			NEAREST.delete_flag = 0
+		AND
+			ROUTE.delete_flag = 0
+		ORDER BY
+			NEAREST.display_number
+	</select>
+
+	<select id="countNearestStationByBuildingId"  parameterType="Integer" resultType="Integer">
+		SELECT
+			count(1)
+		FROM
+			t_nearest_station AS NEAREST
+		WHERE
+			NEAREST.building_id = #{buildingId}
+		AND
+			NEAREST.delete_flag = 0
+	</select>
+
+	<delete id="deleteNearestStationByBuildingId" parameterType="Integer">
+		DELETE FROM
+			t_nearest_station
+		WHERE
+			building_id = #{buildingId}
+	</delete>
+
+	<select id="getRouteAndStationList" resultMap="nearestStationName">
+		SELECT
+			NEAREST.route_id as route_id,
+			NEAREST.station_id as station_id,
+			ROUTE.route_name as route_name,
+			STATION.station_name as station_name,
+			count(*) as count
+		FROM
+			t_nearest_station NEAREST
+		INNER JOIN
+			m_route ROUTE
+            ON
+				ROUTE.route_id = NEAREST.route_id
+		INNER JOIN
+			m_station STATION
+            ON
+				STATION.station_id = NEAREST.station_id
+		INNER JOIN
+			m_stop_station STOP_STATION
+			ON
+				STOP_STATION.route_id = ROUTE.route_id
+			AND
+				STOP_STATION.station_id = STATION.station_id
+		INNER JOIN
+			m_rooms ROOMS
+		    ON
+				ROOMS.building_id = NEAREST.building_id
+		WHERE
+			NEAREST.delete_flag = 0
+		AND
+			ROUTE.delete_flag = 0
+		AND
+			ROOMS.recruitment_status &lt; 3
+		AND
+			ROOMS.publication_flag = 1
+		AND
+			ROOMS.delete_flag = 0
+		AND
+			exists
+			(
+				SELECT
+					*
+				FROM
+					m_building BUILDING
+				WHERE
+					BUILDING.building_id = NEAREST.building_id
+			)
+		GROUP BY
+			NEAREST.route_id, NEAREST.station_id
+		ORDER BY
+			ROUTE.display_number, NEAREST.route_id, NEAREST.station_id
+	</select>
+
+	<select id="getRouteAndStationNameList" parameterType="jp.co.forrentsystem.dto.SearchConditionDto" resultMap="nearestStationName">
+		SELECT
+			<if test="routeIdList.size() > 0">
+				NEAREST.route_id as route_id,
+				ROUTE.route_name as route_name,
+			</if>
+			<!--
+				NEAREST.station_id as station_id,
+			 -->
+			STATION.station_name as station_name
+		FROM
+			t_nearest_station NEAREST
+		<if test="routeIdList.size() > 0">
+		INNER JOIN
+			m_route ROUTE
+            ON
+				ROUTE.route_id = NEAREST.route_id
+		</if>
+		INNER JOIN
+			m_station STATION
+            ON
+				STATION.station_id = NEAREST.station_id
+		WHERE
+			NEAREST.delete_flag = 0
+		<if test="routeIdList.size() > 0">
+			AND
+				ROUTE.delete_flag = 0
+			AND
+				NEAREST.route_id in
+				<foreach item="routeItem" index="index" collection="routeIdList"
+					open="(" separator="," close=")">
+					#{routeItem}
+				</foreach>
+		</if>
+		<if test="stationIdList.size() > 0">
+			AND
+				NEAREST.station_id in
+				<foreach item="stationItem" index="index" collection="stationIdList"
+					open="(" separator="," close=")">
+					#{stationItem}
+				</foreach>
+		</if>
+		GROUP BY
+			<if test="routeIdList.size() > 0">
+				NEAREST.route_id,
+			</if>
+				NEAREST.station_id
+		ORDER BY
+			<if test="routeIdList.size() > 0">
+				NEAREST.route_id,
+			</if>
+				NEAREST.station_id
+	</select>
+
+	<update id="deleteNearestStationDeleteFlagByBuildingId" parameterType="Integer">
+		UPDATE
+			t_nearest_station
+		SET
+			delete_flag = 1,
+			modified = sysdate()
+		WHERE
+			building_id = #{buildingId}
+	</update>
+
+</mapper>

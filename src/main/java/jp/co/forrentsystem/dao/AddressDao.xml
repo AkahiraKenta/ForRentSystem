@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.AddressDao">
+		<resultMap id="getAddressListViewByZipCode" type="jp.co.forrentsystem.dto.AddressDto">
+			<result property="province" column="province"/>
+			<result property="city" column="city"/>
+			<result property="town" column="town"/>
+		</resultMap>
+
+		<resultMap id="getProvince" type="jp.co.forrentsystem.dto.AddressDto">
+			<result property="province" column="province"/>
+		</resultMap>
+
+		<resultMap id="getAddress" type="jp.co.forrentsystem.dto.AddressDto">
+			<result property="province" column="province"/>
+			<result property="city" column="city"/>
+			<result property="town" column="town"/>
+			<result property="zipCode" column="zip_code"/>
+		</resultMap>
+
+		<select id="getAddressListViewByZipCode" parameterType="String" resultMap="getAddressListViewByZipCode">
+			SELECT
+				province as province,
+				city as city,
+				town as town
+			FROM
+				m_address
+			WHERE
+				zip_code = #{zipCode}
+		</select>
+
+		<select id="getProvinceListForPopularityArea" resultMap="getProvince">
+			SELECT
+				ADDRESS.province as province
+			FROM
+				m_address ADDRESS
+			INNER JOIN
+				m_address_sort ADDRESS_SORT
+				ON
+					ADDRESS.province = ADDRESS_SORT.province
+			INNER JOIN
+				m_building BUILDING
+				ON
+					BUILDING.province = ADDRESS.province
+				AND
+					BUILDING.city = ADDRESS.city
+				AND
+					BUILDING.town_area = ADDRESS.town
+			INNER JOIN
+				m_rooms ROOMS
+				ON
+					ROOMS.building_id = BUILDING.building_id
+			WHERE
+				NOT EXISTS
+				(
+					SELECT
+						POPULARITY_AREA.province
+					FROM
+						t_popularity_area POPULARITY_AREA
+					WHERE
+						POPULARITY_AREA.province = ADDRESS.province
+					AND
+						POPULARITY_AREA.city = ADDRESS.city
+					AND
+						POPULARITY_AREA.town_area = ADDRESS.town
+					)
+			AND
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+			GROUP BY
+				ADDRESS_SORT.display_number, ADDRESS.province
+		</select>
+
+		<select id="getAddressListForPopularityAreaByProvince" parameterType="String" resultMap="getAddress">
+			SELECT
+				ADDRESS.province as province,
+				ADDRESS.city as city,
+				ADDRESS.town as town
+			FROM
+				m_address ADDRESS
+			INNER JOIN
+				m_address_sort ADDRESS_SORT
+				ON
+				ADDRESS.province = ADDRESS_SORT.province
+			INNER JOIN
+				m_building BUILDING
+				ON
+					BUILDING.province = #{province}
+				AND
+					BUILDING.city = ADDRESS.city
+				AND
+					BUILDING.town_area = ADDRESS.town
+			INNER JOIN
+				m_rooms ROOMS
+				ON
+					ROOMS.building_id = BUILDING.building_id
+			WHERE
+				NOT EXISTS
+				(
+					SELECT
+						POPULARITY_AREA.province
+					FROM
+						t_popularity_area POPULARITY_AREA
+					WHERE
+						POPULARITY_AREA.province = #{province}
+					AND
+						POPULARITY_AREA.city = ADDRESS.city
+					AND
+						POPULARITY_AREA.town_area = ADDRESS.town
+					)
+			AND
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+			GROUP BY
+				ADDRESS_SORT.display_number,ADDRESS.province, ADDRESS.city, ADDRESS.town
+		</select>
+
+		<select id="getZipCode" parameterType="jp.co.forrentsystem.dao.AddressDao" resultMap="getAddress">
+			SELECT
+				zip_code as zip_code,
+				province as province,
+				city as city,
+				town as town
+			FROM
+				m_address ADDRESS
+			WHERE
+				ADDRESS.province = #{province}
+			AND
+				ADDRESS.city = #{city}
+			AND
+				ADDRESS.town = #{town}
+			LIMIT 1
+		</select>
+	</mapper>

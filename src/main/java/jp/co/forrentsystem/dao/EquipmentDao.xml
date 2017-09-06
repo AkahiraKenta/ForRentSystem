@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.EquipmentDao">
+		<resultMap id="equipmentList" type="jp.co.forrentsystem.constants.MasterDto">
+			<result property="id" column="equipment_id"/>
+			<result property="name" column="equipment_name"/>
+		</resultMap>
+
+		<select id="getEquipmentList" resultMap="equipmentList">
+			SELECT
+				equipment_id as equipment_id,
+				equipment_name as equipment_name
+			FROM
+				m_equipment
+			WHERE
+				delete_flag = 0
+		</select>
+	</mapper>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.RecommendedRoomDao">
+		<resultMap id="recommendedRoom" type="jp.co.forrentsystem.dto.ArticleDto">
+			<result property="id" column="id"/>
+			<result property="buildingId" column="building_id"/>
+			<result property="roomId" column="room_id"/>
+			<result property="buildingCode" column="building_code"/>
+			<result property="roomCode" column="room_code"/>
+			<result property="buildingName" column="building_name"/>
+			<result property="roomNumber" column="room_number"/>
+			<result property="buildingType" column="building_type"/>
+			<result property="numberOfStoreysId" column="number_of_storeys_id"/>
+			<result property="space" column="space"/>
+			<result property="rent" column="rent"/>
+			<result property="rank" column="rank"/>
+		</resultMap>
+		<resultMap id="recommendedRoomList" type="jp.co.forrentsystem.dto.RecommendedRoomImageDto">
+			<result property="id" column="id"/>
+			<result property="buildingId" column="building_id"/>
+			<result property="roomId" column="room_id"/>
+			<result property="rank" column="rank"/>
+			<result property="fileName" column="file_name"/>
+			<result property="buildingName" column="building_name"/>
+			<result property="roomNumber" column="room_number"/>
+			<result property="roomPrTitle" column="room_pr_title"/>
+			<result property="rent" column="rent"/>
+		</resultMap>
+
+		<select id="selectMaxRank" resultType="Integer">
+			SELECT
+				MAX(rank)+1 as rank
+			FROM
+				t_recommended_room RECOMMENDED
+			WHERE
+				delete_flag = 0
+		</select>
+
+		<insert id="registRecommendedRoom" parameterType="jp.co.forrentsystem.dto.RecommendedRoomDto" keyProperty="id">
+			<selectKey resultType="int" keyProperty="id" order="BEFORE">
+				select @@IDENTITY
+			</selectKey>
+			INSERT INTO
+				t_recommended_room
+				(
+					building_id,
+					room_id,
+					rank,
+					created,
+					modified,
+					delete_flag
+				)
+				VALUES
+				(
+					#{buildingId},
+					#{roomId},
+					#{rank},
+					sysdate(),
+					sysdate(),
+					#{deleteFlag}
+				)
+		</insert>
+
+		<select id="getRecoomendedRoom" parameterType="jp.co.forrentsystem.dto.ArticleDto" resultMap="recommendedRoom">
+			SELECT
+				RECOMMENDED.id as id,
+				RECOMMENDED.building_id as building_id,
+				BUILDING.building_code as building_code,
+				RECOMMENDED.room_id as roomId,
+				BUILDING.building_name as building_name,
+				BUILDING.building_type as building_type,
+				ROOMS.room_code as room_code,
+				ROOMS.room_number as room_number,
+				ROOMS.number_of_storeys_id as number_of_storeys_id,
+				ROOMS.space as space,
+				ROOMS.rent as rent,
+				RECOMMENDED.rank as rank
+			FROM
+				t_recommended_room RECOMMENDED
+			INNER JOIN
+				m_building BUILDING
+				ON
+					BUILDING.building_id = RECOMMENDED.building_id
+			INNER JOIN
+				m_rooms ROOMS
+				ON
+					ROOMS.building_id = RECOMMENDED.building_id
+				AND
+					ROOMS.room_id = RECOMMENDED.room_id
+			WHERE
+				BUILDING.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			AND
+				ROOMS.delete_flag = 0
+			AND
+				RECOMMENDED.delete_flag = 0
+			ORDER BY
+				RECOMMENDED.rank
+		</select>
+
+		<delete id="deleteRecommendRoom" parameterType="Integer">
+			DELETE FROM
+				t_recommended_room
+			WHERE
+				id = #{id}
+		</delete>
+
+		<update id="updateRankForRecommendRoom" parameterType="jp.co.forrentsystem.dto.ArticleDto">
+			UPDATE
+				t_recommended_room
+			SET
+				rank = #{rank},
+				modified = sysdate()
+			WHERE
+				id = #{id}
+		</update>
+
+		<select id="getRecoomendedRoomListByViewNumber" parameterType="Integer" resultMap="recommendedRoomList">
+			SELECT
+				RECOMMENDED_ROOM.id as id,
+				RECOMMENDED_ROOM.rank as rank,
+				RECOMMENDED_ROOM.building_id as building_id,
+				BUILDING_IMAGE.image_id as image_id,
+				BUILDING_IMAGE.file_name as file_name,
+                RECOMMENDED_ROOM.room_id as room_id,
+                ROOMS.room_number as room_number,
+                BUILDING.building_name as building_name,
+                ROOMS.room_pr_title as room_pr_title,
+                ROOMS.rent as rent
+			FROM
+				t_recommended_room RECOMMENDED_ROOM
+			INNER JOIN
+				m_rooms ROOMS
+                ON
+					ROOMS.building_id = RECOMMENDED_ROOM.building_id
+				AND
+					RECOMMENDED_ROOM.room_id = ROOMS.room_id
+				AND
+					ROOMS.delete_flag = 0
+			INNER JOIN
+				m_building BUILDING
+				ON
+					BUILDING.building_id = RECOMMENDED_ROOM.building_id
+				AND
+					BUILDING.delete_flag = 0
+			LEFT OUTER JOIN
+				t_building_image BUILDING_IMAGE
+				ON
+					BUILDING_IMAGE.building_id = RECOMMENDED_ROOM.building_id
+				AND
+					BUILDING_IMAGE.delete_flag = 0
+				AND
+					BUILDING_IMAGE.publication_flag = 1
+			WHERE
+				RECOMMENDED_ROOM.delete_flag = 0
+			AND
+				ROOMS.publication_flag = 1
+			AND
+				ROOMS.recruitment_status &lt; 3
+			ORDER BY
+				RECOMMENDED_ROOM.rank
+			LIMIT 0,  #{recommendedRoomViewNumber}
+		</select>
+
+		<update id="deleteRecommendedByBuildingId" parameterType="Integer">
+			UPDATE
+				t_recommended_room
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				building_id = #{buildingId}
+		</update>
+
+		<update id="deleteRecommendedByRoomId" parameterType="jp.co.forrentsystem.dto.RoomsDto">
+			UPDATE
+				t_recommended_room
+			SET
+				delete_flag = 1,
+				modified = sysdate()
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+		</update>
+
+	</mapper>

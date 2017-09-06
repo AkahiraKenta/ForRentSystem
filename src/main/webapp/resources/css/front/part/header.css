@@ -1,0 +1,83 @@
+@charset "utf-8";
+
+/*----------------------------------------------------------------------
+header ヘッダー
+-----------------------------------------------------------------------*/
+
+header {
+	margin: 0px auto;
+	border-top-width: 6px;
+	border-top-style: solid;
+	border-top-color: #695c9f;
+}
+
+header h1 {
+	font-size: 100%;
+	clear: both;
+	color: #999;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+header div {
+	width: 1000px;
+	margin: 0px auto 3px auto;
+    overflowd: hidden;
+}
+
+#logo {
+	height: 73px;
+	width: 271px;
+	float: left;
+}
+
+#tel_bnr {
+	height: 68px;
+	width: 224px;
+	float: right;
+}
+
+
+/*----------------------------------------------------------------------
+nav ヘッダーメニュー
+-----------------------------------------------------------------------*/
+
+nav{
+	margin: 0px auto;
+	background-color: #C0BFB6;
+}
+
+nav ul {
+	width: 1000px;
+	margin: 0px auto;
+	overflow: hidden;
+}
+
+nav ul li {
+	float: left;
+	text-align: center;
+	font-size: 150%;
+}
+
+nav ul li a:link{
+	display: block;
+	color: #3C3C3C;
+	text-decoration: none;
+	padding: 17px 30px ;
+}
+
+nav ul li a:visited{
+	color: #3C3C3C;
+	text-decoration: none;
+}
+
+nav ul li a:hover {
+	color: #3C3C3C;
+	background-color: #E4E3DC;
+	/*
+	font-weight: bold;
+	*/
+}
+
+nav ul #active a {
+}

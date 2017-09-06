@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.forrentsystem.dao.RoomsImageDao">
+	<resultMap id="roomImageList" type="jp.co.forrentsystem.dto.RoomsImageDto">
+		<result property="buildingId" column="building_id"/>
+		<result property="roomId" column="room_id"/>
+		<result property="imageId" column="image_id"/>
+		<result property="roomImageClass" column="room_image_class"/>
+		<result property="fileName" column="file_name"/>
+		<result property="imageCaption" column="image_caption"/>
+		<result property="publicationFlag" column="publication_flag"/>
+		<result property="created" column="created"/>
+		<result property="modified" column="modified"/>
+		<result property="deleteFlag" column="delete_flag"/>
+	</resultMap>
+
+	<select id="getRoomImageList" parameterType="jp.co.forrentsystem.dto.RoomsImageDto" resultMap="roomImageList">
+		SELECT
+			building_id as building_id,
+			room_id as room_Id,
+			image_id as image_id,
+			room_image_class as room_image_class,
+			file_name as file_name,
+			image_caption as image_caption,
+			publication_flag as publication_flag,
+			created as created,
+			modified as modified,
+			delete_flag as delete_flag
+		FROM
+			t_rooms_image
+		WHERE
+			building_id = #{buildingId}
+		ANd
+			room_id = #{roomId}
+		AND
+			delete_flag = 0
+	</select>
+
+	<select id="countRoomImage" parameterType="jp.co.forrentsystem.dto.RoomsImageDto" resultType="Integer">
+			SELECT
+				COUNT(1)
+			FROM
+				t_rooms_image
+			WHERE
+				building_id = #{buildingId}
+			AND
+				room_id = #{roomId}
+			AND
+				room_image_class = #{roomImageClass}
+			AND
+				file_name = #{fileName}
+			AND
+				delete_flag = #{deleteFlag}
+	</select>
+
+	<insert id="registRoomImage" parameterType="jp.co.forrentsystem.dto.RoomsImageDto" keyProperty="buildingId,roomId,imageId">
+		<selectKey resultType="int" keyProperty="imageId" order="BEFORE">
+			SELECT
+				IFNULL(MAX(image_id),0)+1
+			FROM
+				t_rooms_image
+			WHERE
+				building_id = #{buildingId}
+			ANd
+				room_id = #{roomId}
+		</selectKey>
+		INSERT INTO
+			t_rooms_image
+			(
+				building_id,
+				room_id,
+				image_id,
+				room_image_class,
+				file_name,
+				image_caption,
+				publication_flag,
+				created,
+				modified,
+				delete_flag
+			)
+		VALUES
+			(
+				#{buildingId},
+				#{roomId},
+				#{imageId},
+				#{roomImageClass},
+				#{fileName},
+				#{imageCaption},
+				#{publicationFlag},
+				sysdate(),
+				sysdate(),
+				#{deleteFlag}
+			)
+	</insert>
+
+	<delete id="deleteRoomImage" parameterType="jp.co.forrentsystem.dto.BuildingDto">
+		DELETE FROM
+			t_rooms_image
+		WHERE
+			building_id = #{buildingId}
+		AND
+			room_id = #{roomId}
+		AND
+			image_id = #{imageId}
+	</delete>
+
+	<update id="deleteRoomImageByBuildingId" parameterType="Integer">
+		UPDATE
+			t_rooms_image
+		SET
+			delete_flag = 1,
+			modified = sysdate()
+		WHERE
+			building_id = #{buildingId}
+	</update>
+
+	<update id="deleteRoomImageByRoomId" parameterType="jp.co.forrentsystem.dto.RoomsDto">
+		UPDATE
+			t_rooms_image
+		SET
+			delete_flag = 1,
+			modified = sysdate()
+		WHERE
+			building_id = #{buildingId}
+		AND
+			room_id = #{roomId}
+	</update>
+
+</mapper>

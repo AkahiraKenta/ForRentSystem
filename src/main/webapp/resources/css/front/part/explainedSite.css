@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+/*----------当サイトについて----------*/
+
+.aside_about{
+	width: 140px;
+	margin: 0px 0px 20px 5px;
+	padding-top: 10px;
+	color: #EDEDF1;
+}
+
+.aside_about p{
+	font-size: 110%;
+}

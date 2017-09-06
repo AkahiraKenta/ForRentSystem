@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.NewsDao">
+		<resultMap id="news" type="jp.co.forrentsystem.dto.NewsDto">
+			<result property="newsId" column="news_id"/>
+			<result property="newsTitle" column="news_title"/>
+			<result property="newsContent" column="news_content"/>
+			<result property="postedDate" column="posted_date"/>
+			<result property="linkClass" column="link_class"/>
+			<result property="linkUmuFlag" column="link_umu_flag"/>
+			<result property="linkUrl" column="link_url"/>
+		</resultMap>
+
+		<select id="getListNews"  resultMap="news">
+			SELECT
+				NEWS.news_id as news_id,
+				NEWS.news_title as news_title,
+				NEWS.news_content as news_content,
+				DATE_FORMAT(NEWS.posted_date, '%Y/%m/%d') as posted_date,
+				NEWS.link_class as link_class,
+				NEWS.link_umu_flag as link_umu_flag,
+				NEWS.link_url as link_url
+			FROM
+				t_news NEWS
+			ORDER BY
+				NEWS.posted_date DESC, NEWS.news_id ASC
+		</select>
+
+		<insert id="registNews" parameterType="jp.co.forrentsystem.dto.NewsDto" keyProperty="newsId">
+			<selectKey resultType="int" keyProperty="newsId" order="BEFORE">
+				select @@IDENTITY
+			</selectKey>
+
+			INSERT INTO
+				t_news
+				(
+					news_id,
+					news_title,
+					news_content,
+					posted_date,
+					link_class,
+					link_umu_flag,
+					link_url,
+					created,
+					modified,
+					delete_flag
+				)
+			VALUES
+				(
+					#{newsId},
+					#{newsTitle},
+					#{newsContent},
+					#{postedDate},
+					#{linkClass},
+					#{linkUmuFlag},
+					#{linkUrl},
+					sysdate(),
+					sysdate(),
+					#{deleteFlag}
+				)
+		</insert>
+
+		<select id="getNewsByNewsId" parameterType="Integer" resultMap="news">
+			SELECT
+				NEWS.news_id as news_id,
+				NEWS.news_title as news_title,
+				NEWS.news_content as news_content,
+				DATE_FORMAT(NEWS.posted_date, '%Y/%m/%d') as posted_date,
+				NEWS.link_class as link_class,
+				NEWS.link_umu_flag as link_umu_flag,
+				NEWS.link_url as link_url
+			FROM
+				t_news NEWS
+			WHERE
+				NEWS.news_id = #{newsId}
+		</select>
+
+		<update id="updateNews" parameterType="jp.co.forrentsystem.dto.NewsDto">
+			UPDATE
+				t_news NEWS
+			SET
+				NEWS.news_title = #{newsTitle},
+				NEWS.news_content = #{newsContent},
+				NEWS.posted_date = #{postedDate},
+				NEWS.link_class = #{linkClass},
+				NEWS.link_umu_flag = #{linkUmuFlag},
+				NEWS.link_url = #{linkUrl},
+				NEWS.modified = sysdate()
+			WHERE
+				NEWS.news_id = #{newsId}
+		</update>
+
+		<delete id="deleteNews" parameterType="Integer">
+			DELETE FROM
+				t_news
+			WHERE
+				news_id = #{newsId}
+		</delete>
+
+		<select id="getListNewsByViewNumber" parameterType="Integer" resultMap="news">
+			SELECT
+				NEWS.news_id as news_id,
+				NEWS.news_title as news_title,
+				NEWS.news_content as news_content,
+				DATE_FORMAT(NEWS.posted_date, '%Y/%m/%d') as posted_date,
+				NEWS.link_class as link_class,
+				NEWS.link_umu_flag as link_umu_flag,
+				NEWS.link_url as link_url
+			FROM
+				t_news NEWS
+			WHERE
+				NEWS.delete_flag = 0
+			ORDER BY
+				NEWS.posted_date DESC
+			LIMIT
+				0, #{newsViewNumber}
+		</select>
+
+		<select id="getMaxNewsId" resultType="Integer">
+			SELECT
+				MAX(news_id)
+			FROM
+				t_news
+			where
+				delete_flag=0
+		</select>
+	</mapper>

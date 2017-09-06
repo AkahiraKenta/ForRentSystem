@@ -1,0 +1,87 @@
+@charset "utf-8";
+
+/*----------見出し（電車）----------*/
+h2.midashi_train {
+	height: 38px;
+	font-size: 190%;
+	color: #695c9f;
+	font-weight: bold;
+	background-image: url(/images/common/icon_train.jpg);
+	background-repeat: no-repeat;
+	margin-top: 10px;
+	padding-top: 14px;
+	padding-left: 55px;
+}
+
+/*----------人気駅から探す----------*/
+.top_eki{
+	width: 370px;
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+.top_eki_box{
+	width: 320px;
+	float: left;
+	margin: 0 20px 0 0;
+	padding: 15px;
+	background-color: #f0efea;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.top_eki dl{
+	width: 320px;
+	height:140px;
+	font-size: 140%;
+	line-height: 0.6em;
+}
+
+.top_eki dt{
+	width: 30px;
+	float: left;
+	margin-right: 20px;
+}
+
+.top_eki dd{
+	width: 250px;
+	float: left;
+}
+
+.top_eki dd a:link{
+    color: #434343;
+	text-decoration: none;
+}
+
+.top_eki dd a:visited{
+    color: #434343;
+	text-decoration: none;
+}
+
+.top_eki dd a:hover{
+	color: #FF0000;
+	text-decoration: underline;
+}
+
+.lank1{
+	font-size: 120%;
+	font-weight: bold;
+}
+
+.search_other{/*他の○○を探す*/
+	font-size: 120%;
+	width: 290px;
+	padding: 0px 20px 5px 15px;
+	background-color: #f0efea;
+	color: #FF0000;
+	text-decoration: underline;
+	text-align: right;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+
+}
+
+.search_other a:link,a:visited,a:hover{
+	color: #FF0000;
+	text-decoration: underline;
+}

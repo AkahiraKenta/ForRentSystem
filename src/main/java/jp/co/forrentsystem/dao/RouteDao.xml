@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.RouteDao">
+		<resultMap id="route" type="jp.co.forrentsystem.dto.RouteDto">
+			<result property="routeId" column="route_id"/>
+			<result property="routeName" column="route_name"/>
+		</resultMap>
+
+		<select id="getAllRouteList"  resultMap="route">
+			SELECT
+				ROUTE.route_id as route_id,
+				ROUTE.route_name as route_name
+			FROM
+				m_route ROUTE
+			INNER JOIN
+				m_stop_station STOP_STATION
+				ON
+					ROUTE.route_id = STOP_STATION.route_id
+			INNER JOIN
+				m_station STATION
+			    ON
+					STATION.station_id = STOP_STATION.station_id
+			WHERE
+				ROUTE.delete_flag = 0
+			GROUP BY
+				ROUTE.route_id, ROUTE.route_name
+			ORDER BY
+				ROUTE.display_number
+		</select>
+
+		<select id="getRouteName" parameterType="Integer" resultMap="route">
+			SELECT
+				ROUTE.route_id as route_id,
+				ROUTE.route_name as route_name
+			FROM
+				m_route ROUTE
+			INNER JOIN
+				m_stop_station STOP_STATION
+				ON
+					ROUTE.route_id = STOP_STATION.route_id
+			INNER JOIN
+				m_station STATION
+			    ON
+					STATION.station_id = STOP_STATION.station_id
+			WHERE
+				ROUTE.route_id = #{routeId}
+			AND
+				ROUTE.delete_flag = 0
+			GROUP BY
+				ROUTE.route_id, ROUTE.route_name
+		</select>
+
+		<select id="getAllExistRouteList" resultMap="route">
+			SELECT
+				ROUTE.route_id as route_id,
+				ROUTE.route_name as route_name
+			FROM
+				m_route ROUTE
+			INNER JOIN
+				t_nearest_station NEAREST_STATION
+				ON
+					NEAREST_STATION.route_id = ROUTE.route_id
+			WHERE
+				NEAREST_STATION.delete_flag = 0
+			AND
+				ROUTE.delete_flag = 0
+			GROUP BY
+				ROUTE.route_id, ROUTE.route_name
+		</select>
+
+		<select id="getPopularityRouteList" resultMap="route">
+			SELECT
+				ROUTE.route_id as route_id,
+				ROUTE.route_name as route_name
+			FROM
+				m_route ROUTE
+			INNER JOIN
+				m_stop_station STOP_STATION
+				ON
+					ROUTE.route_id = STOP_STATION.route_id
+			INNER JOIN
+				(
+					SELECT
+						NEAREST_STATION.route_id,
+						STATION.station_id
+					FROM
+						m_station STATION
+					INNER JOIN
+						t_nearest_station NEAREST_STATION
+						ON
+							NEAREST_STATION.station_id = STATION.station_id
+					WHERE
+						EXISTS
+						(
+							SELECT
+								*
+							FROM
+								t_nearest_station NEAREST_STATION
+							INNER JOIN
+								m_rooms ROOMS
+								ON
+									ROOMS.building_id = NEAREST_STATION.building_id
+							WHERE
+								STATION.station_id = NEAREST_STATION.station_id
+							AND
+								NEAREST_STATION.delete_flag = 0
+							AND
+								ROOMS.publication_flag = 1
+							AND
+								ROOMS.recruitment_status &lt; 3
+							AND
+								ROOMS.delete_flag = 0
+						)
+					AND
+						NOT EXISTS
+							(
+								SELECT
+									INNER_STATION.station_name
+								FROM
+									m_station INNER_STATION
+								INNER JOIN
+									t_popularity_station POPULARITY_STATION
+									ON
+										INNER_STATION.station_id = POPULARITY_STATION.station_id
+								WHERE
+									STATION.station_name = INNER_STATION.station_name
+								AND
+									POPULARITY_STATION.delete_flag = 0
+							)
+				GROUP BY
+					NEAREST_STATION.route_id, STATION.station_id
+				) TARGET_STATION
+				ON
+					TARGET_STATION.station_id = STOP_STATION.station_id
+			WHERE
+				ROUTE.delete_flag = 0
+			AND
+				TARGET_STATION.route_id = ROUTE.route_id
+			GROUP BY
+				ROUTE.route_id,ROUTE.route_name
+			ORDER BY
+				ROUTE.display_number
+		</select>
+	</mapper>

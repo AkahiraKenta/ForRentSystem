@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="jp.co.forrentsystem.dao.BannerDao">
+		<resultMap id="banner" type="jp.co.forrentsystem.dto.BannerDto">
+			<result property="bannerId" column="banner_id"/>
+			<result property="displayNumber" column="display_number"/>
+			<result property="fileName" column="file_name"/>
+			<result property="filePath" column="file_path"/>
+			<result property="transitionUrl" column="transition_url"/>
+			<result property="transitionFlag" column="transition_flag"/>
+			<result property="publicationFlag" column="publication_flag"/>
+		</resultMap>
+
+		<select id="getBannerList" resultMap="banner">
+			SELECT
+				banner_id as banner_id,
+				display_number as display_number,
+				file_name as file_name,
+				file_path as file_path,
+				transition_url as transition_url,
+				transition_flag as transition_flag,
+				publication_flag as publication_flag
+			FROM
+				m_banner
+			ORDER BY
+				display_number
+		</select>
+
+		<select id="getMaxDisplayNumber" resultType="Integer">
+			SELECT
+				IFNULL(MAX(display_number),0)+1 as displayNumber
+			 FROM
+			 	 m_banner
+		</select>
+
+		<insert id="registBanner" parameterType="jp.co.forrentsystem.dto.BannerDto" keyProperty="bannerId">
+			<selectKey resultType="int" keyProperty="bannerId" order="BEFORE">
+				SELECT
+					IFNULL(MAX(banner_id),0)+1 as bunnerId
+				 FROM
+				 	 m_banner
+			</selectKey>
+
+			INSERT INTO
+				m_banner
+				(
+					banner_id,
+					display_number,
+					file_name,
+					file_path,
+					transition_url,
+					transition_flag,
+					publication_flag,
+					created,
+					modified,
+					delete_flag
+				)
+				VALUES
+				(
+					#{bannerId},
+					#{displayNumber},
+					#{fileName},
+					#{filePath},
+					#{transitionUrl},
+					#{transitionFlag},
+					#{publicationFlag},
+					sysdate(),
+					sysdate(),
+					#{deleteFlag}
+				)
+		</insert>
+
+		<select id="getBannerByBannerId" parameterType="Integer"  resultMap="banner">
+			SELECT
+				banner_id as banner_id,
+				display_number as display_number,
+				file_name as file_name,
+				file_path as file_path,
+				transition_url as transition_url,
+				transition_flag as transition_flag,
+				publication_flag as publication_flag
+			FROM
+				m_banner
+			WHERE
+				banner_id = #{bannerId}
+		</select>
+
+		<update id="updateBanner" parameterType="jp.co.forrentsystem.dto.BannerDto" >
+			UPDATE
+				m_banner
+			SET
+				<if test="fileName != null and fileName != ''">
+					file_name = #{fileName},
+				</if>
+				<if test="filePath != null and filePath != ''">
+					file_path = #{filePath},
+				</if>
+				transition_url = #{transitionUrl},
+				transition_flag = #{transitionFlag},
+				publication_flag = #{publicationFlag},
+				modified = sysdate()
+			WHERE
+				banner_id = #{bannerId}
+		</update>
+
+		<delete id="deleteBanner" parameterType="Integer">
+			DELETE FROM
+				m_banner
+			WHERE
+				banner_id = #{bannerId}
+		</delete>
+
+		<update id="updateBannerDisplayNumber" parameterType="jp.co.forrentsystem.dto.BannerDto">
+			UPDATE
+				m_banner
+			SET
+				display_number = #{displayNumber},
+				modified = sysdate()
+			WHERE
+				banner_id = #{bannerId}
+		</update>
+
+		<select id="getBannerListByViewNumber" parameterType="Integer"  resultMap="banner">
+			SELECT
+				banner_id as banner_id,
+				display_number as display_number,
+				file_name as file_name,
+				file_path as file_path,
+				transition_url as transition_url,
+				transition_flag as transition_flag,
+				publication_flag as publication_flag
+			FROM
+				m_banner
+			ORDER BY
+				display_number
+			LIMIT
+				0, #{bannerViewNumber}
+		</select>
+	</mapper>

@@ -1,0 +1,76 @@
+@charset "utf-8";
+
+/*----------------------------------------------------------------------
+ footer フッター
+-----------------------------------------------------------------------*/
+ footer{
+	margin: 0px auto;
+	background-color: #C0BFB6;
+}
+
+
+ footer ul {
+	width: 1000px;
+	margin: 0px auto;
+	overflow: hidden;
+}
+
+ footer ul li {
+	float: left;
+	text-align: center;
+	font-size: 110%;
+}
+
+ footer ul li a:link {
+	display: block;
+	color: #3C3C3C;
+	text-decoration: none;
+	padding: 17px 15px;
+}
+
+ footer ul li a:visited {
+	color: #3C3C3C;
+	text-decoration: none;
+}
+
+ footer ul li a:hover {
+	color: #3C3C3C;
+	background-color: #E4E3DC;
+	/*
+	font-weight: bold;
+	*/
+	text-decoration: underline;
+}
+
+
+ footer #footer_add{
+	background-color: #FFFFFF;
+	overflow: hidden;
+	color: #999999;
+	margin: 0px auto;
+}
+
+ footer #footer_add_in{
+	width: 1000px;
+	overflow: hidden;
+	clear: both;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+address{
+	float: left;
+	margin: 15px 0 ;
+}
+
+address p{
+	float: left;
+	margin: 0 10px ;
+
+}
+
+#footer_add img{
+	margin-top: 5px;
+	margin-right: 20px;
+	float: right;
+}

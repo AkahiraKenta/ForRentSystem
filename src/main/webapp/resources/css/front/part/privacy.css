@@ -1,0 +1,28 @@
+@charset "utf-8";
+/*----------------------------------------------------------------------
+privacy.css 
+プライバシーポリシー
+-----------------------------------------------------------------------*/
+
+/*------------プライバシーポリシー------------*/
+.privacy{	
+	width: 700px;
+	margin-bottom: 50px;
+}
+
+.privacy h6{
+	width: 700px;
+	font-size: 130%;
+	font-weight: bold;
+	margin: 30px 0px 10px 0px;
+	padding-bottom: 6px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #CCC;
+}
+
+.privacy p{
+	font-size: 120%;
+	line-height: 1.6em;
+}
+
