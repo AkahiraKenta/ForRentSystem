@@ -5,6 +5,14 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
 import jp.co.forrentsystem.constants.BuildingType;
 import jp.co.forrentsystem.constants.FBuiltClass;
 import jp.co.forrentsystem.constants.FMinutesWalkClass;
@@ -31,14 +39,6 @@ import jp.co.forrentsystem.service.SystemSettingService;
 import jp.co.forrentsystem.util.FileUtil;
 import jp.co.forrentsystem.util.PagerUtil;
 import jp.co.forrentsystem.util.UtilService;
-
-import org.apache.ibatis.annotations.Param;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * フロント検索結果コントローラ
@@ -422,6 +422,12 @@ public class FSearchResultController {
 
 		// バナー
 		List<BannerDto> bannerList = bannerService.getBannerListByViewNumber();
+
+		if (session.getAttribute("fSearchConditionForm") == null) {
+			// セッションが存在しない場合
+			session.setAttribute("fSearchConditionForm", fSearchConditionForm);
+
+		}
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("fSearchConditionForm", fSearchConditionForm);
