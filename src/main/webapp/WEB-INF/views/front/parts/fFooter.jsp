@@ -23,7 +23,7 @@
 			<p> &copy; 2015 KURASHI inc. All Rights Reserved.</p>
 			<p>当サイトの情報・画像等を、権利者の許可なく二次利用（複製・転用・販売など）することを固く禁じます。</p>
 		</address>
-		<img src="/images/common/logo_footer.jpg" alt="KURASHI" width="169" height="49">
+		<img src="resources/images/common/logo_footer.jpg" alt="KURASHI" width="169" height="49">
 	</div>
 </div>
 </footer>

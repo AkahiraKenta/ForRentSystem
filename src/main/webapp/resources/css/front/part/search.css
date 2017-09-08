@@ -12,7 +12,7 @@ h2.midashi_search {
 	font-size: 190%;
 	color: #695c9f;
 	font-weight: bold;
-	background-image: url(/images/common/icon_search.jpg);
+	background-image: url(../images/common/icon_search.jpg);
 	background-repeat: no-repeat;
 	margin-top: 10px;
 	padding-top: 14px;
@@ -34,7 +34,7 @@ h2.midashi_search {
 	color: #695c9f;
 	font-weight: bold;
 	padding: 7px 0px 2px 18px;
-	background-image: url(/images/common/midashi_line_v.jpg);
+	background-image: url(../images/common/midashi_line_v.jpg);
 	background-repeat: no-repeat;
 	background-position: left center;
 }

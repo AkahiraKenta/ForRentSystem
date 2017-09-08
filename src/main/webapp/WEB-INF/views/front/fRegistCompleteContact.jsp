@@ -48,7 +48,7 @@
 		<%-- ページ上部へ戻る --%>
 		<div id="gototop">
 			<a href="#">
-				<img src="/images/common/gototop.jpg" width="89" height="70" alt="ページ上部へ">
+				<img src="resources/images/common/gototop.jpg" width="89" height="70" alt="ページ上部へ">
 			</a>
 		</div>
 		<%-- フッター --%>

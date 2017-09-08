@@ -77,7 +77,7 @@ aside {
 	width: 1000px;
 	height: 123px;
 	text-align: right;
-	background-image: url(/images/common/footer_bg.jpg);
+	background-image: url(../images/common/footer_bg.jpg);
 	background-repeat: no-repeat;
 	margin-right: auto;
 	margin-left: auto;

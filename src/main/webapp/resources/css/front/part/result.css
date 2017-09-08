@@ -55,7 +55,7 @@ h2.midashi_jyouken {
 	font-size: 190%;
 	color: #695c9f;
 	font-weight: bold;
-	background-image: url(/images/common/icon_arrow_bottom.jpg);
+	background-image: url(../images/common/icon_arrow_bottom.jpg);
 	background-repeat: no-repeat;
 	margin-top: 10px;
 	padding-top: 14px;
@@ -68,7 +68,7 @@ h2.midashi_jyouken_block {
 	font-size: 190%;
 	color: #695c9f;
 	font-weight: bold;
-	background-image: url(/images/common/icon_arrow_bottom_on.jpg);
+	background-image: url(../images/common/icon_arrow_bottom_on.jpg);
 	background-repeat: no-repeat;
 	margin-top: 10px;
 	padding-top: 14px;

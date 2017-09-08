@@ -6,11 +6,11 @@
 		<h1>h1テキスト。賃貸マンション、賃貸アパート、賃貸一戸建て、賃貸物件の総合サイトです。</h1>
 		<div id="logo">
 			<a href="./frontTop">
-				<img src="/images/common/logo.jpg" width="271" height="73" alt="KURASHI">
+				<img src="resources/images/common/logo.jpg" width="271" height="73" alt="KURASHI">
 			</a>
 		</div>
 		<div id="tel_bnr">
-			<img src="/images/common/header_tel.jpg" width="224" height="68" alt="お電話でのお問合せは">
+			<img src="resources/images/common/header_tel.jpg" width="224" height="68" alt="お電話でのお問合せは">
 		</div>
 	</div>
 

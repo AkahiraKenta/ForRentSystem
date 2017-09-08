@@ -9,8 +9,8 @@
 <h2 class="midashi_tower">新着物件情報</h2>
 <div class="top_newarrival">
 	<div id="carouselWrap">
-		<p id="carouselPrev"><img src="/images/common/icon_arrow_left.png" width="18" height="28" class="top_newarrival_arrow"></p>
-	    <p id="carouselNext"><img src="/images/common/icon_arrow_right.png" width="18" height="28" class="top_newarrival_arrow"></p>
+		<p id="carouselPrev"><img src="resources/images/common/icon_arrow_left.png" width="18" height="28" class="top_newarrival_arrow"></p>
+	    <p id="carouselNext"><img src="resources/images/common/icon_arrow_right.png" width="18" height="28" class="top_newarrival_arrow"></p>
 		<div id="carouse">
 			<div id="carouselInner">
 				<ul class="column">

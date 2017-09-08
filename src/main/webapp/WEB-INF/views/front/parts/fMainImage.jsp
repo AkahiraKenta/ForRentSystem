@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8" %>
 <%-- メイン画像  --%>
 <figire>
-	<img src="/images/top/top_main.jpg" width="760" height="200">
+	<img src="resources/images/top/top_main.jpg" width="760" height="200">
 </figire>
 
 <%--

@@ -421,7 +421,7 @@
 						<input id="townAreaBelow" name="townAreaBelow" type="hidden" value="${article.townAreaBelow}" />
 						<input id="commonServiceFee" name="commonServiceFee" type="hidden" value="${article.commonServiceFee}" />
 						<input id="administrativeCost" name="administrativeCost" type="hidden" value="${article.administrativeCost}" />
-						<img src="/images/room/room_tel.png" width="372" height="25" class="fl">
+						<img src="resources/images/room/room_tel.png" width="372" height="25" class="fl">
 						<p class="btn_room_toiawase">
 							<a href="#" id="contactArticle" onclick="onSubmit('fContactArticleForm',this); return false;">
 								お問合せフォーム
@@ -510,7 +510,7 @@
 		<%-- ページ上部へ戻る --%>
 		<div id="gototop">
 			<a href="#">
-				<img src="/images/common/gototop.jpg" width="89" height="70" alt="ページ上部へ">
+				<img src="resources/images/common/gototop.jpg" width="89" height="70" alt="ページ上部へ">
 			</a>
 		</div>
 		<%-- フッター --%>

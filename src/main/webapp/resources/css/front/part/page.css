@@ -21,7 +21,7 @@ h2 {
 	font-size: 190%;
 	color: #695c9f;
 	font-weight: bold;
-	background-image: url(/images/common/icon_nomal_vio.jpg);
+	background-image: url(../images/common/icon_nomal_vio.jpg);
 	background-repeat: no-repeat;
 	margin-top: 10px;
 	padding-top: 14px;
@@ -36,7 +36,7 @@ h4 {
 	font-size: 190%;
 	color: #695c9f;
 	font-weight: bold;
-	background-image: url(/images/common/midashi_line_v.jpg);
+	background-image: url(../images/common/midashi_line_v.jpg);
 	background-repeat: no-repeat;
 	padding-top: 14px;
 	padding-left: 18px;
@@ -53,7 +53,7 @@ h5 {
 	margin-bottom: 10px;
 	padding-top: 9px;
 	padding-left: 18px;
-	background-image: url(/images/common/midashi_line_v.jpg);
+	background-image: url(../images/common/midashi_line_v.jpg);
 	background-repeat: no-repeat;
 	background-position: left center;
 
@@ -251,7 +251,7 @@ h2.midashi_mail{
 	font-size: 190%;
 	color: #695c9f;
 	font-weight: bold;
-	background-image: url(/images/common/icon_mail.jpg);
+	background-image: url(../images/common/icon_mail.jpg);
 	background-repeat: no-repeat;
 	margin-top: 10px;
 	padding-top: 14px;
@@ -265,7 +265,7 @@ h2.midashi_mail_gr{
 	font-size: 190%;
 	color: #5FAFAD;
 	font-weight: bold;
-	background-image: url(/images/common/icon_mail_green.jpg);
+	background-image: url(../images/common/icon_mail_green.jpg);
 	background-repeat: no-repeat;
 	margin-top: 10px;
 	padding-top: 14px;
