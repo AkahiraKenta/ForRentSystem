@@ -3,6 +3,10 @@ package jp.co.forrentsystem.service;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.ui.ModelMap;
+
 import jp.co.forrentsystem.dto.BannerDto;
 import jp.co.forrentsystem.form.backend.BannerForm;
 
@@ -72,4 +76,13 @@ public interface BannerService {
 	 * @return バナー情報DTOリスト
 	 */
 	public abstract List<BannerDto> getBannerListByViewNumber();
+
+	/**
+	 * パラメータ情報のリロード処理
+	 * パラメータがnullの場合、sessionから取得する
+	 *
+	 * @param model パラメータ
+	 * @param session セッション
+	 */
+	public abstract ModelMap reloadModel(ModelMap model, HttpSession session);
 }

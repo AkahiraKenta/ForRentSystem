@@ -1,6 +1,19 @@
 package jp.co.forrentsystem.controller.backend;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.forrentsystem.constants.ContractForm;
 import jp.co.forrentsystem.constants.DeliveryMethod;
@@ -20,18 +33,6 @@ import jp.co.forrentsystem.service.FloorService;
 import jp.co.forrentsystem.service.GoodForConditionService;
 import jp.co.forrentsystem.service.RoomsService;
 import jp.co.forrentsystem.util.UtilService;
-
-import org.apache.ibatis.annotations.Param;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 部屋情報登録コントローラ
@@ -63,11 +64,13 @@ public class RegistRoomController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/registRoom", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("RegistRoomController-init");
 
 		// 部屋登録FORMに建物情報を設定
-		RegistRoomsForm registRoomsForm = roomsService.getBuildingInfoForRoom((DetailBuildingForm)model.get("detailBuildingForm"));
+		RegistRoomsForm registRoomsForm = roomsService.getBuildingInfoForRoom(
+				(DetailBuildingForm)buildingService.reloadModel(model, session).get("detailBuildingForm"));
+
 
 		ModelAndView mav = new ModelAndView();
 
@@ -191,10 +194,11 @@ public class RegistRoomController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/backRegistRoomFromConfirm", method = RequestMethod.GET)
-	public ModelAndView backRegistRoomFromConfirm(ModelMap model) {
+	public ModelAndView backRegistRoomFromConfirm(ModelMap model, HttpSession session) {
 		logger.info("RegistRoomController-init");
 
-		RegistRoomsForm registRoomsForm = (RegistRoomsForm)model.get("backRegistRoomForm");
+		RegistRoomsForm registRoomsForm = (RegistRoomsForm)roomsService.reloadModel(model, session).get("backRegistRoomForm");
+
 		// 部屋登録FORMに建物情報を設定
 		ModelAndView mav = new ModelAndView();
 

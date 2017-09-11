@@ -2,7 +2,20 @@
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.forrentsystem.constants.ContractForm;
 import jp.co.forrentsystem.constants.DeliveryMethod;
@@ -25,20 +38,8 @@ import jp.co.forrentsystem.service.RoomsService;
 import jp.co.forrentsystem.util.FileUtil;
 import jp.co.forrentsystem.util.UtilService;
 
-import org.apache.ibatis.annotations.Param;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 /**
- * 建物情報登録コントローラ
+ * 部屋編集情報コントローラ
  * @author k.akahira
  */
 @Controller
@@ -68,10 +69,11 @@ public class EditRoomController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/editRoom", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("EditRoomController-init");
 
-		DetailRoomForm detailRoomForm = (DetailRoomForm)model.get("detailRoomForm");
+		DetailRoomForm detailRoomForm = (DetailRoomForm)roomsService.reloadModel(model, session).get("detailRoomForm");
+
 		// 部屋画像リスト
 		List<RoomsImageDto> roomImageDtoList = roomsService.getRoomImageList(detailRoomForm.getBuildingId(), detailRoomForm.getRoomId());
 		// 部屋設備取得
@@ -211,10 +213,12 @@ public class EditRoomController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/backForEditRoomConfirm", method = RequestMethod.GET)
-	public ModelAndView backForEditRoomConfirm(ModelMap model) {
+	public ModelAndView backForEditRoomConfirm(ModelMap model, HttpSession session) {
 		logger.info("EditRoomController-backForEditRoomConfirm");
 
-		EditRoomsForm editRoomsForm =  (EditRoomsForm)model.get("editRoomsForm");
+		EditRoomsForm editRoomsForm =  (EditRoomsForm)roomsService.reloadModel(model, session).get("editRoomsForm");
+
+
 		List<Integer> roomEquilpmentIdList = UtilService.changeListInteger(editRoomsForm.getEquipmentArray());
 		List<Integer> roomGoodForConditionIdList = UtilService.changeListInteger(editRoomsForm.getGoodForConditionArray());
 

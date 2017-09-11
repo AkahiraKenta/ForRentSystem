@@ -1,11 +1,7 @@
 package jp.co.forrentsystem.controller.backend;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import jp.co.forrentsystem.constants.LinkClass;
-import jp.co.forrentsystem.form.backend.NewsForm;
-import jp.co.forrentsystem.service.NewsService;
-import jp.co.forrentsystem.util.UtilService;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.constants.LinkClass;
+import jp.co.forrentsystem.form.backend.NewsForm;
+import jp.co.forrentsystem.service.NewsService;
+import jp.co.forrentsystem.util.UtilService;
 
 /**
  * ニュース編集コントローラ
@@ -37,8 +38,10 @@ public class EditNewsController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/editNews", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("EditNewsController-init");
+
+		model = newsService.reloadModel(model, session);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("newsForm", (NewsForm)model.get("newsForm"));

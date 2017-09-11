@@ -9,18 +9,6 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import jp.co.forrentsystem.constants.BuildingImageClass;
-import jp.co.forrentsystem.constants.MasterDto;
-import jp.co.forrentsystem.dto.BuildingDto;
-import jp.co.forrentsystem.dto.BuildingImageDto;
-import jp.co.forrentsystem.form.backend.DetailBuildingForm;
-import jp.co.forrentsystem.form.backend.ListRoomsForm;
-import jp.co.forrentsystem.service.BuildingImageService;
-import jp.co.forrentsystem.service.BuildingService;
-import jp.co.forrentsystem.service.RoomsService;
-import jp.co.forrentsystem.util.FileUtil;
-import jp.co.forrentsystem.util.UtilService;
-
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +22,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.constants.BuildingImageClass;
+import jp.co.forrentsystem.constants.MasterDto;
+import jp.co.forrentsystem.dto.BuildingDto;
+import jp.co.forrentsystem.dto.BuildingImageDto;
+import jp.co.forrentsystem.form.backend.DetailBuildingForm;
+import jp.co.forrentsystem.form.backend.ListRoomsForm;
+import jp.co.forrentsystem.service.BuildingImageService;
+import jp.co.forrentsystem.service.BuildingService;
+import jp.co.forrentsystem.service.RoomsService;
+import jp.co.forrentsystem.util.FileUtil;
+import jp.co.forrentsystem.util.UtilService;
 
 /**
  * 建物詳細情報コントローラ
@@ -59,11 +59,13 @@ public class DetailBuildingController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/detailBuilding", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("DetailBuildingController-init");
 
 		// 建物詳細情報をセッションから取得
-		DetailBuildingForm detailBuildingForm = (DetailBuildingForm)model.get("detailBuildingForm");
+		DetailBuildingForm detailBuildingForm = (DetailBuildingForm)buildingService.reloadModel(model, session).get("detailBuildingForm");
+
+
 		// 部屋一覧表示のため、部屋情報取得
 		List<ListRoomsForm> roomsList = roomsService.getRoomsListByBuildingId(detailBuildingForm.getBuildingId());
 		// 建物画像区分リスト

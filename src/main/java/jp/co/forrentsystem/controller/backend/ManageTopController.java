@@ -2,12 +2,6 @@ package jp.co.forrentsystem.controller.backend;
 
 import java.util.List;
 
-import jp.co.forrentsystem.constants.ProcessStatus;
-import jp.co.forrentsystem.dto.BuildingContactDto;
-import jp.co.forrentsystem.dto.BuildingDto;
-import jp.co.forrentsystem.service.BuildingContactService;
-import jp.co.forrentsystem.service.BuildingService;
-
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.constants.ProcessStatus;
+import jp.co.forrentsystem.dto.BuildingContactDto;
+import jp.co.forrentsystem.dto.BuildingDto;
+import jp.co.forrentsystem.service.BuildingContactService;
+import jp.co.forrentsystem.service.BuildingService;
 
 /**
  * 管理TOPコントローラ

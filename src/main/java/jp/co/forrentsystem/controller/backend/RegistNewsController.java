@@ -1,12 +1,10 @@
 package jp.co.forrentsystem.controller.backend;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import jp.co.forrentsystem.constants.LinkClass;
-import jp.co.forrentsystem.form.backend.NewsForm;
-import jp.co.forrentsystem.util.UtilService;
-
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -14,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.constants.LinkClass;
+import jp.co.forrentsystem.form.backend.NewsForm;
+import jp.co.forrentsystem.service.NewsService;
+import jp.co.forrentsystem.util.UtilService;
 
 /**
  * ニュース登録コントローラ
@@ -24,6 +27,9 @@ public class RegistNewsController {
 
 	private Logger logger = org.slf4j.LoggerFactory.getLogger(RegistNewsController.class);
 
+	@Autowired
+	private NewsService newsService;
+
 	/**
 	 * ニュース登録初期表示
 	 *
@@ -32,14 +38,17 @@ public class RegistNewsController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/registNews", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("RegistNewsController-init");
 
-		NewsForm newsForm = new NewsForm();
+		model = newsService.reloadModel(model, session);
 
-		if (model.get("newsForm") != null) {
-			newsForm = (NewsForm)model.get("newsForm");
+		NewsForm newsForm = (NewsForm)model.get("newsForm");
+		if (newsForm == null) {
+			newsForm = new NewsForm();
+			newsForm.setNewsId((Integer)model.get("newsId"));
 		}
+
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("newsForm", newsForm);

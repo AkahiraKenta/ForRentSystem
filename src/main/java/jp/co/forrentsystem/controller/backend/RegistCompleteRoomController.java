@@ -1,12 +1,6 @@
 package jp.co.forrentsystem.controller.backend;
 
-import jp.co.forrentsystem.dto.BuildingDto;
-import jp.co.forrentsystem.dto.RoomsDetailDto;
-import jp.co.forrentsystem.dto.RoomsDto;
-import jp.co.forrentsystem.form.backend.DetailBuildingForm;
-import jp.co.forrentsystem.form.backend.RegistRoomsForm;
-import jp.co.forrentsystem.service.BuildingService;
-import jp.co.forrentsystem.service.RoomsService;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
@@ -17,6 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.dto.BuildingDto;
+import jp.co.forrentsystem.dto.RoomsDetailDto;
+import jp.co.forrentsystem.dto.RoomsDto;
+import jp.co.forrentsystem.form.backend.DetailBuildingForm;
+import jp.co.forrentsystem.form.backend.RegistRoomsForm;
+import jp.co.forrentsystem.service.BuildingService;
+import jp.co.forrentsystem.service.RoomsService;
 
 /**
  * 部屋登録完了コントローラ
@@ -40,8 +42,10 @@ public class RegistCompleteRoomController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/registCompleteRoom", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("RegistCompleteRoomController-init");
+
+		model = roomsService.reloadModel(model, session);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("buildingId", model.get("buildingId"));

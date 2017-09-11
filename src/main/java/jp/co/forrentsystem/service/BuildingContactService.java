@@ -2,6 +2,10 @@ package jp.co.forrentsystem.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.ui.ModelMap;
+
 import jp.co.forrentsystem.dto.BuildingContactDto;
 import jp.co.forrentsystem.form.backend.BuildingContactForm;
 import jp.co.forrentsystem.form.frontend.FContactArticleForm;
@@ -64,5 +68,14 @@ public interface BuildingContactService {
 	 */
 	public abstract BuildingContactForm getPagerInfo(
 			BuildingContactForm buildingContactForm);
+
+	/**
+	 * パラメータ情報のリロード処理
+	 * パラメータがnullの場合、sessionから取得する
+	 *
+	 * @param model パラメータ
+	 * @param session セッション
+	 */
+	public abstract ModelMap reloadModel(ModelMap model, HttpSession session);
 
 }

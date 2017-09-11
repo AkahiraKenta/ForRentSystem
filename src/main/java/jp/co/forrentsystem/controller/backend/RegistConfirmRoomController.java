@@ -1,14 +1,7 @@
 package jp.co.forrentsystem.controller.backend;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import jp.co.forrentsystem.dto.RoomsDto;
-import jp.co.forrentsystem.form.backend.RegistRoomsForm;
-import jp.co.forrentsystem.service.EquipmentService;
-import jp.co.forrentsystem.service.GoodForConditionService;
-import jp.co.forrentsystem.service.RoomEquipmentService;
-import jp.co.forrentsystem.service.RoomGoodForConditionService;
-import jp.co.forrentsystem.service.RoomsService;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.dto.RoomsDto;
+import jp.co.forrentsystem.form.backend.RegistRoomsForm;
+import jp.co.forrentsystem.service.EquipmentService;
+import jp.co.forrentsystem.service.GoodForConditionService;
+import jp.co.forrentsystem.service.RoomEquipmentService;
+import jp.co.forrentsystem.service.RoomGoodForConditionService;
+import jp.co.forrentsystem.service.RoomsService;
 
 /**
  * 部屋情報登録確認コントローラ
@@ -47,11 +48,10 @@ public class RegistConfirmRoomController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/registConfirmRoom", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("RegistConfirmRoomController-execute");
 
-		RegistRoomsForm registRoomsForm = (RegistRoomsForm)model.get("registConfirmRoomForm");
-
+		RegistRoomsForm registRoomsForm = (RegistRoomsForm)roomsService.reloadModel(model, session).get("registConfirmRoomForm");
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("registConfirmRoomForm", registRoomsForm);

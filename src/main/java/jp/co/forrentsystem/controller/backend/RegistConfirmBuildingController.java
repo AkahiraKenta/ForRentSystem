@@ -1,11 +1,7 @@
 package jp.co.forrentsystem.controller.backend;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import jp.co.forrentsystem.dto.BuildingDto;
-import jp.co.forrentsystem.form.backend.RegistBuildingForm;
-import jp.co.forrentsystem.service.BuildingService;
-import jp.co.forrentsystem.service.NearestStationService;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.dto.BuildingDto;
+import jp.co.forrentsystem.form.backend.RegistBuildingForm;
+import jp.co.forrentsystem.service.BuildingService;
+import jp.co.forrentsystem.service.NearestStationService;
 
 /**
  * 建物情報登録確認コントローラ
@@ -38,10 +39,10 @@ public class RegistConfirmBuildingController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/registConfirmBuilding", method = RequestMethod.GET, produces="text/plain;charset=utf-8")
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("RegistConfirmBuildingController-execute");
 
-		RegistBuildingForm registConfirmBuildingForm = (RegistBuildingForm)model.get("registBuildingForm");
+		RegistBuildingForm registConfirmBuildingForm = (RegistBuildingForm)buildingService.reloadModel(model, session).get("registBuildingForm");
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("registConfirmBuildingForm", registConfirmBuildingForm);

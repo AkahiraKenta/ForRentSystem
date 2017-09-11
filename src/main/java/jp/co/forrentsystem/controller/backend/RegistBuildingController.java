@@ -2,7 +2,20 @@ package jp.co.forrentsystem.controller.backend;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.forrentsystem.constants.BuildingType;
 import jp.co.forrentsystem.constants.MasterDto;
@@ -16,18 +29,6 @@ import jp.co.forrentsystem.service.BuildingService;
 import jp.co.forrentsystem.service.RouteService;
 import jp.co.forrentsystem.service.StationService;
 import jp.co.forrentsystem.service.StructureService;
-
-import org.apache.ibatis.annotations.Param;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 建物情報登録コントローラ
@@ -57,7 +58,7 @@ public class RegistBuildingController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/registBuilding", method = RequestMethod.GET,  produces="text/plain;charset=utf-8")
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("RegistBuildingController-init");
 		// 建物種別リスト取得
 		List<MasterDto> buildingTypeList = BuildingType.getBuildingTypeList();
@@ -67,6 +68,8 @@ public class RegistBuildingController {
 		List<RouteDto> routeList = routeService.getAllRouteList();
 		// 駅リスト取得(初期表示用）
 		List<StationDto> stationList = stationService.getStationListByRouteId(routeList.get(0).getRouteId());
+
+		model = buildingService.reloadModel(model, session);
 
 		ModelAndView mav = new ModelAndView();
 		// 建物完了画面から遷移した場合、modelから取得する

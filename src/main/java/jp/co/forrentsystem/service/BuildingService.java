@@ -3,6 +3,10 @@ package jp.co.forrentsystem.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.ui.ModelMap;
+
 import jp.co.forrentsystem.dto.BuildingDto;
 import jp.co.forrentsystem.dto.NearestStationNameDto;
 import jp.co.forrentsystem.dto.StructureDto;
@@ -124,4 +128,13 @@ public interface BuildingService {
 	 */
 	public abstract DetailBuildingForm getBuildingDtoForDetailBuildingForm(
 			BuildingDto buildingDto);
+
+	/**
+	 * パラメータ情報のリロード処理
+	 * パラメータがnullの場合、sessionから取得する
+	 *
+	 * @param model パラメータ
+	 * @param session セッション
+	 */
+	public abstract ModelMap reloadModel(ModelMap model, HttpSession session);
 }

@@ -3,7 +3,20 @@ package jp.co.forrentsystem.controller.backend;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.forrentsystem.constants.BuildingType;
 import jp.co.forrentsystem.dto.AddressDto;
@@ -22,18 +35,6 @@ import jp.co.forrentsystem.service.RouteService;
 import jp.co.forrentsystem.service.StationService;
 import jp.co.forrentsystem.service.StructureService;
 import jp.co.forrentsystem.util.FileUtil;
-
-import org.apache.ibatis.annotations.Param;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 建物情報編集コントローラ
@@ -67,11 +68,12 @@ public class EditBuildingController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/editBuilding", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("EditBuildingController-init");
 
 		// 初期表示データ
-		DetailBuildingForm detailBuildingForm = (DetailBuildingForm)model.get("detailBuildingForm");
+		DetailBuildingForm detailBuildingForm = (DetailBuildingForm)buildingService.reloadModel(model, session).get("detailBuildingForm");
+
 		// 沿線リスト取得
 		List<RouteDto> routeList = routeService.getAllRouteList();
 		// 駅リスト取得(初期表示用）
@@ -234,11 +236,13 @@ public class EditBuildingController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/backFromEditConfirm", method = RequestMethod.GET)
-	public ModelAndView backToEditConfirm(ModelMap model) {
+	public ModelAndView backToEditConfirm(ModelMap model, HttpSession session) {
 		logger.info("EditBuildingController-backToEditConfirm");
 
 		// 初期表示データ
-		EditBuildingForm editConfirmBuildingForm = (EditBuildingForm)model.get("editConfirmBuildingForm");
+		EditBuildingForm editConfirmBuildingForm = (EditBuildingForm)buildingService.reloadModel(model, session).get("editConfirmBuildingForm");
+
+
 		// 沿線リスト取得
 		List<RouteDto> routeList = routeService.getAllRouteList();
 		// 駅リスト取得(初期表示用）

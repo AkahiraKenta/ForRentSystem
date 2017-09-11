@@ -3,6 +3,13 @@ package jp.co.forrentsystem.service.impl;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
+
 import jp.co.forrentsystem.constants.Constants;
 import jp.co.forrentsystem.dao.BannerDao;
 import jp.co.forrentsystem.dto.BannerDto;
@@ -10,10 +17,6 @@ import jp.co.forrentsystem.form.backend.BannerForm;
 import jp.co.forrentsystem.service.BannerService;
 import jp.co.forrentsystem.service.SystemSettingService;
 import jp.co.forrentsystem.util.FileUtil;
-
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * バナーサービス実装クラス
@@ -123,4 +126,13 @@ public class BannerServiceImpl implements BannerService {
 		return bannerDao.getBannerListByViewNumber(bannerViewNumber);
 	}
 
+	@Override
+	public ModelMap reloadModel(ModelMap model, HttpSession session) {
+		if (model.isEmpty() == false) {
+			session.setAttribute("model", model);
+		} else {
+			model = (ModelMap)session.getAttribute("model");
+		}
+		return model;
+	}
 }

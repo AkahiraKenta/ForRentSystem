@@ -1,8 +1,6 @@
 package jp.co.forrentsystem.controller.backend;
 
-import jp.co.forrentsystem.dto.BuildingDto;
-import jp.co.forrentsystem.form.backend.DetailBuildingForm;
-import jp.co.forrentsystem.service.BuildingService;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
@@ -13,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.dto.BuildingDto;
+import jp.co.forrentsystem.form.backend.DetailBuildingForm;
+import jp.co.forrentsystem.service.BuildingService;
 
 /**
  * 建物情報登録完了コントローラ
@@ -34,8 +36,10 @@ public class EditCompleteBuildingController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/editCompleteBuilding", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("EditCompleteBuildingController-init");
+
+		model = buildingService.reloadModel(model, session);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("buildingId", model.get("buildingId"));

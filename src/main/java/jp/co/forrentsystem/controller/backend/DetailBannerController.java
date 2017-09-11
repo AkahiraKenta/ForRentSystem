@@ -6,12 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import jp.co.forrentsystem.constants.LinkClass;
-import jp.co.forrentsystem.dto.BannerDto;
-import jp.co.forrentsystem.form.backend.BannerForm;
-import jp.co.forrentsystem.service.BannerService;
-import jp.co.forrentsystem.util.UtilService;
-
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.constants.LinkClass;
+import jp.co.forrentsystem.dto.BannerDto;
+import jp.co.forrentsystem.form.backend.BannerForm;
+import jp.co.forrentsystem.service.BannerService;
+import jp.co.forrentsystem.util.UtilService;
 
 /**
  * バナー設定登録画面用コントローラー
@@ -43,10 +43,13 @@ public class DetailBannerController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/detailBanner", method = RequestMethod.GET)
-	public ModelAndView execute(ModelMap model) {
+	public ModelAndView execute(ModelMap model, HttpSession session) {
 		logger.info("DetailBannerController-execute");
 		// バナーFormにバナーIDを設定
 		BannerForm bannerForm = new BannerForm();
+
+		model = bannerService.reloadModel(model, session);
+
 		bannerForm.setBannerId((int)model.get("bannerId"));
 
 		BannerDto bannerDto = bannerService.getBannerByBannerId((int)model.get("bannerId"));

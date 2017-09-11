@@ -1,7 +1,6 @@
 package jp.co.forrentsystem.controller.backend;
 
-import jp.co.forrentsystem.form.backend.SystemUserForm;
-import jp.co.forrentsystem.service.SystemUserService;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.form.backend.SystemUserForm;
+import jp.co.forrentsystem.service.SystemUserService;
 
 /**
  * システムユーザー登録・編集確認画面用コントローラークラス
@@ -31,8 +33,10 @@ public class EditConfirmSystemUserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/back/editConfirmSystemUser", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("EditConfirmSystemUserController-init");
+
+		model = systemUserService.reloadModel(model, session);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("systemUserForm", model.get("systemUserForm"));

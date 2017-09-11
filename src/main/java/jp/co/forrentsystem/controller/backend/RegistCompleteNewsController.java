@@ -1,7 +1,6 @@
 package jp.co.forrentsystem.controller.backend;
 
-import jp.co.forrentsystem.form.backend.NewsForm;
-import jp.co.forrentsystem.service.NewsService;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
@@ -11,6 +10,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import jp.co.forrentsystem.form.backend.NewsForm;
+import jp.co.forrentsystem.service.NewsService;
 
 /**
  * ニュース登録完了コントローラ
@@ -30,8 +32,10 @@ public class RegistCompleteNewsController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/registCompleteNews", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("RegistCompleteNewsController-init");
+
+		model = newsService.reloadModel(model, session);
 
 		// ニュース登録画面へ
 		ModelAndView mav = new ModelAndView();

@@ -2,16 +2,19 @@ package jp.co.forrentsystem.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
+
 import jp.co.forrentsystem.constants.Constants;
 import jp.co.forrentsystem.dao.NewsDao;
 import jp.co.forrentsystem.dto.NewsDto;
 import jp.co.forrentsystem.form.backend.NewsForm;
 import jp.co.forrentsystem.service.NewsService;
 import jp.co.forrentsystem.service.SystemSettingService;
-
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * ニュースサービス実装クラス
@@ -121,5 +124,15 @@ public class NewsServiceImpl implements NewsService {
 
 		int newsId = newsDao.getMaxNewsId();
 		return newsId;
+	}
+
+	@Override
+	public ModelMap reloadModel(ModelMap model, HttpSession session) {
+		if (model.isEmpty() == false) {
+			session.setAttribute("model", model);
+		} else {
+			model = (ModelMap)session.getAttribute("model");
+		}
+		return model;
 	}
 }

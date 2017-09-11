@@ -2,6 +2,13 @@ package jp.co.forrentsystem.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
+
 import jp.co.forrentsystem.dao.BuildingContactDetailDao;
 import jp.co.forrentsystem.dao.BuildingContactHeaderDao;
 import jp.co.forrentsystem.dao.SystemUserDao;
@@ -13,10 +20,6 @@ import jp.co.forrentsystem.service.RoomsService;
 import jp.co.forrentsystem.util.FileUtil;
 import jp.co.forrentsystem.util.MailUtil;
 import jp.co.forrentsystem.util.PagerUtil;
-
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 物件お問合せサービス実装クラス
@@ -180,5 +183,15 @@ public class BuildingContactServiceImpl implements BuildingContactService {
 		// 全ページ数
 		buildingContactForm.setPageTotalNumber(PagerUtil.getPageTotalNumber(totalNumber, viewNumber));
 		return buildingContactForm;
+	}
+
+	@Override
+	public ModelMap reloadModel(ModelMap model, HttpSession session) {
+		if (model.isEmpty() == false) {
+			session.setAttribute("model", model);
+		} else {
+			model = (ModelMap)session.getAttribute("model");
+		}
+		return model;
 	}
 }

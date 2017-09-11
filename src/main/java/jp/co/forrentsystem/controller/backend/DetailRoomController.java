@@ -9,6 +9,20 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import jp.co.forrentsystem.constants.BuildingType;
 import jp.co.forrentsystem.constants.MasterDto;
 import jp.co.forrentsystem.constants.RoomImageClass;
@@ -30,20 +44,6 @@ import jp.co.forrentsystem.service.RoomsService;
 import jp.co.forrentsystem.service.StructureService;
 import jp.co.forrentsystem.util.FileUtil;
 import jp.co.forrentsystem.util.UtilService;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 部屋情報詳細コントローラ
@@ -81,6 +81,8 @@ public class DetailRoomController {
 	@RequestMapping(value = "/back/detailRoom", method = RequestMethod.GET)
 	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("DetailRoomController-init");
+
+		model = roomsService.reloadModel(model, session);
 
 		int buildingId = (int)model.get("buildingId");
 		int roomId = (int)model.get("roomId");

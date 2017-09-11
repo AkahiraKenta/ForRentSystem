@@ -1,13 +1,7 @@
 package jp.co.forrentsystem.controller.backend;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import jp.co.forrentsystem.dto.BuildingImageDto;
-import jp.co.forrentsystem.form.backend.EditBuildingForm;
-import jp.co.forrentsystem.service.BuildingImageService;
-import jp.co.forrentsystem.service.BuildingService;
-import jp.co.forrentsystem.service.NearestStationService;
-import jp.co.forrentsystem.util.FileUtil;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.dto.BuildingImageDto;
+import jp.co.forrentsystem.form.backend.EditBuildingForm;
+import jp.co.forrentsystem.service.BuildingImageService;
+import jp.co.forrentsystem.service.BuildingService;
+import jp.co.forrentsystem.service.NearestStationService;
+import jp.co.forrentsystem.util.FileUtil;
 
 /**
  * 建物情報編集確認コントローラ
@@ -42,11 +43,11 @@ public class EditConfirmBuildingController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/editConfirmBuilding", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("EditConfirmBuildingController-init");
 
 		// 建物編集確認FormをSESSIONから取得
-		EditBuildingForm editConfirmBuildingForm = (EditBuildingForm)model.get("editConfirmBuildingForm");
+		EditBuildingForm editConfirmBuildingForm = (EditBuildingForm)buildingService.reloadModel(model, session).get("editConfirmBuildingForm");
 
 		// 建物画像
 		BuildingImageDto buildingImage = buildingImageService.getBuildingImage(editConfirmBuildingForm.getBuildingId());

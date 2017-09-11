@@ -4,13 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import jp.co.forrentsystem.constants.ProcessClass;
-import jp.co.forrentsystem.constants.ProcessStatus;
-import jp.co.forrentsystem.constants.ResidentsHopeTimeClass;
-import jp.co.forrentsystem.dto.BuildingContactDto;
-import jp.co.forrentsystem.form.backend.BuildingContactForm;
-import jp.co.forrentsystem.service.BuildingContactService;
-
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.constants.ProcessClass;
+import jp.co.forrentsystem.constants.ProcessStatus;
+import jp.co.forrentsystem.constants.ResidentsHopeTimeClass;
+import jp.co.forrentsystem.dto.BuildingContactDto;
+import jp.co.forrentsystem.form.backend.BuildingContactForm;
+import jp.co.forrentsystem.service.BuildingContactService;
 
 /**
  * 物件お問合せ詳細情報コントローラ
@@ -43,10 +43,10 @@ public class DetailBuildingContactController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/initDetailBuildingContact", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("DetailBuildingContactController-init");
 
-		int buildingContactId = (int)model.get("buildingContactId");
+		int buildingContactId = (int)buildingContactService.reloadModel(model, session).get("buildingContactId");
 
 		// 物件お問合せ情報取得
 		List<BuildingContactDto> buildingContactList = buildingContactService.getBuildingContactByContactId(buildingContactId);

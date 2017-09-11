@@ -7,6 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
+
 import jp.co.forrentsystem.constants.BuildingType;
 import jp.co.forrentsystem.dao.BuildingDao;
 import jp.co.forrentsystem.dao.BuildingImageDao;
@@ -32,11 +40,6 @@ import jp.co.forrentsystem.service.BuildingService;
 import jp.co.forrentsystem.service.NearestStationService;
 import jp.co.forrentsystem.util.FileUtil;
 import jp.co.forrentsystem.util.PagerUtil;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 建物サービス実装クラス
@@ -492,6 +495,16 @@ public class BuildingServiceImpl implements BuildingService {
 		return registBuildingForm;
 	}
 
+	@Override
+	public ModelMap reloadModel(ModelMap model, HttpSession session) {
+		if (model.isEmpty() == false) {
+			session.setAttribute("model", model);
+		} else {
+			model = (ModelMap)session.getAttribute("model");
+		}
+		return model;
+	}
+
 	/**
 	 * 登録用建物情報Formから建物情報DTOに設定
 	 *
@@ -559,5 +572,4 @@ public class BuildingServiceImpl implements BuildingService {
 
 		return buildingDto;
 	}
-
 }

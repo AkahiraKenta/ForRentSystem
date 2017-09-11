@@ -5,6 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
+
 import jp.co.forrentsystem.constants.Constants;
 import jp.co.forrentsystem.constants.ContractForm;
 import jp.co.forrentsystem.constants.DeliveryMethod;
@@ -41,11 +49,6 @@ import jp.co.forrentsystem.util.FileUtil;
 import jp.co.forrentsystem.util.PagerUtil;
 import jp.co.forrentsystem.util.UtilService;
 import jp.co.forrentsystem.util.YearsUtil;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 部屋サービス実装クラス
@@ -683,7 +686,6 @@ public class RoomsServiceImpl implements RoomsService {
 		return registRoomsForm;
 	}
 
-
 	private RoomsDto getRoomsDto(RegistRoomsForm registRoomForm) {
 		logger.info("RoomsServiceImpl-getRoomsDto");
 
@@ -731,5 +733,15 @@ public class RoomsServiceImpl implements RoomsService {
 
 		// 部屋ID取得
 		return roomsDao.getRoomId(roomsDto);
+	}
+
+	@Override
+	public ModelMap reloadModel(ModelMap model, HttpSession session) {
+		if (model.isEmpty() == false) {
+			session.setAttribute("model", model);
+		} else {
+			model = (ModelMap)session.getAttribute("model");
+		}
+		return model;
 	}
 }

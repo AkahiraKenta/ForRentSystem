@@ -3,14 +3,8 @@ package jp.co.forrentsystem.controller.backend;
 import java.io.File;
 import java.io.IOException;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import jp.co.forrentsystem.constants.LinkClass;
-import jp.co.forrentsystem.dto.BannerDto;
-import jp.co.forrentsystem.form.backend.BannerForm;
-import jp.co.forrentsystem.service.BannerService;
-import jp.co.forrentsystem.util.FileUtil;
-import jp.co.forrentsystem.util.UtilService;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.forrentsystem.constants.LinkClass;
+import jp.co.forrentsystem.dto.BannerDto;
+import jp.co.forrentsystem.form.backend.BannerForm;
+import jp.co.forrentsystem.service.BannerService;
+import jp.co.forrentsystem.util.FileUtil;
+import jp.co.forrentsystem.util.UtilService;
 
 /**
  * バナー設定編集画面用コントローラー
@@ -45,11 +46,12 @@ public class EditBannerController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/editBanner", method = RequestMethod.GET)
-	public ModelAndView execute(ModelMap model) {
+	public ModelAndView execute(ModelMap model, HttpSession session) {
 		logger.info("EditBannerController-execute");
 
 		// バナーDTOをSESSIONから取得
-		BannerDto bannerDto = (BannerDto)model.get("bannerDto");
+		BannerDto bannerDto = (BannerDto)bannerService.reloadModel(model, session).get("bannerDto");
+
 		BannerForm bannerForm = bannerService.getBannerInfo(bannerDto);
 
 		ModelAndView mav = new ModelAndView();

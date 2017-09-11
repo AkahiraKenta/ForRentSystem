@@ -4,11 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import jp.co.forrentsystem.constants.ProcessStatus;
-import jp.co.forrentsystem.dto.ContactDto;
-import jp.co.forrentsystem.form.backend.ContactForm;
-import jp.co.forrentsystem.service.ContactService;
-
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +12,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import jp.co.forrentsystem.constants.ProcessStatus;
+import jp.co.forrentsystem.dto.ContactDto;
+import jp.co.forrentsystem.form.backend.ContactForm;
+import jp.co.forrentsystem.service.ContactService;
 
 /**
  * お問合せ詳細情報コントローラ
@@ -40,10 +40,10 @@ public class DetailContactController {
 	 * @return 画面表示情報
 	 */
 	@RequestMapping(value = "/back/initDetailContact", method = RequestMethod.GET)
-	public ModelAndView init(ModelMap model) {
+	public ModelAndView init(ModelMap model, HttpSession session) {
 		logger.info("DetailContactController-init");
 
-		int contactId = (int)model.get("contactId");
+		int contactId = (int)contactService.reloadModel(model, session).get("contactId");
 
 		// お問合せ情報取得
 		List<ContactDto> contactList = contactService.getContactByContactId(contactId);
