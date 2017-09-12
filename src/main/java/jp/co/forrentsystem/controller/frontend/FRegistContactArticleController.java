@@ -5,6 +5,13 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
 import jp.co.forrentsystem.constants.ProcessClass;
 import jp.co.forrentsystem.constants.ResidentsHopeTimeClass;
 import jp.co.forrentsystem.dto.BannerDto;
@@ -14,13 +21,6 @@ import jp.co.forrentsystem.form.frontend.FContactForm;
 import jp.co.forrentsystem.service.BannerService;
 import jp.co.forrentsystem.service.RecommendedRoomsService;
 import jp.co.forrentsystem.util.FileUtil;
-
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * フロント物件お問合わせ登録コントローラ
@@ -43,7 +43,7 @@ public class FRegistContactArticleController {
 	 */
 	@RequestMapping(value = "/registContactArticle", method = RequestMethod.POST)
 	public ModelAndView init(@Valid  FContactArticleForm fContactArticleForm, HttpSession session) {
-		logger.info("FContactArticleController-init");
+		logger.info("FRegistContactArticleController-init");
 
 		session.removeAttribute("fContactArticleForm");
 
@@ -79,7 +79,7 @@ public class FRegistContactArticleController {
 	 */
 	@RequestMapping(value = "/backRegistContactArticle", method = RequestMethod.GET)
 	public ModelAndView backRegistContactArticle(HttpSession session) {
-		logger.info("FContactArticleController-init");
+		logger.info("FRegistContactArticleController-init");
 
 		FContactArticleForm fContactArticleForm = (FContactArticleForm)session.getAttribute("fContactArticleForm");
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,23 +84,26 @@ public class ContactServiceImpl implements ContactService {
 	 */
 	private String getMessage(ContactDto contactDto) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("お問合せID：")
-		.append(String.valueOf(contactDto.getContactId()))
+		sb.append("お問合せID：        ")
+		.append(StringUtils.defaultString(String.valueOf(contactDto.getContactId())))
 		.append(MailUtil.NEW_LINE)
-		.append("お客様氏名（姓）：")
-		.append("")
+		.append("お客様氏名（姓）：    ")
+		.append(StringUtils.defaultString(contactDto.getLastName()))
 		.append(MailUtil.NEW_LINE)
-		.append("お客様氏名（名）：")
-		.append("")
+		.append("お客様氏名（名）：    ")
+		.append(StringUtils.defaultString(contactDto.getFirstName()))
 		.append(MailUtil.NEW_LINE)
-		.append("会社名：")
-		.append("")
+		.append("会社名：              ")
+		.append(StringUtils.defaultString(contactDto.getCompanyName()))
 		.append(MailUtil.NEW_LINE)
 		.append("お客様メールアドレス：")
-		.append("")
+		.append(StringUtils.defaultString(contactDto.getMailAddress()))
 		.append(MailUtil.NEW_LINE)
-		.append("お問い合せ内容：")
-		.append("")
+		.append("お客様電話番号：      ")
+		.append(StringUtils.defaultString(contactDto.getTel()))
+		.append(MailUtil.NEW_LINE)
+		.append("お問い合せ内容：      ")
+		.append(StringUtils.defaultString(contactDto.getContactContent()))
 		.append(MailUtil.NEW_LINE);
 		return sb.toString();
 	}

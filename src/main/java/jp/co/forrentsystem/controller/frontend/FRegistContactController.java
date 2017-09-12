@@ -4,6 +4,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
 import jp.co.forrentsystem.constants.ProcessClass;
 import jp.co.forrentsystem.constants.ResidentsHopeTimeClass;
 import jp.co.forrentsystem.dto.BannerDto;
@@ -12,13 +19,6 @@ import jp.co.forrentsystem.form.frontend.FContactForm;
 import jp.co.forrentsystem.service.BannerService;
 import jp.co.forrentsystem.service.RecommendedRoomsService;
 import jp.co.forrentsystem.util.FileUtil;
-
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * フロントお問合わせ登録コントローラ
@@ -41,7 +41,7 @@ public class FRegistContactController {
 	 */
 	@RequestMapping(value = "/registContact", method = RequestMethod.GET)
 	public ModelAndView init(HttpSession session) {
-		logger.info("FContactArticleController-init");
+		logger.info("FRegistContactController-init");
 
 		// おすすめ物件
 		List<RecommendedRoomImageDto> recommendedRoomImageList = recommendedRoomsService.getRecoomendedRoomListByViewNumber();
@@ -74,7 +74,7 @@ public class FRegistContactController {
 	 */
 	@RequestMapping(value = "/backRegistContact", method = RequestMethod.GET)
 	public ModelAndView backRegistContact(HttpSession session) {
-		logger.info("FContactArticleController-init");
+		logger.info("FRegistContactController-init");
 
 		FContactForm fContactForm = (FContactForm)session.getAttribute("fContactForm");
 

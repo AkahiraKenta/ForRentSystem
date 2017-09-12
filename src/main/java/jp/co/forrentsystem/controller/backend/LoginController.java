@@ -3,10 +3,6 @@ package jp.co.forrentsystem.controller.backend;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import jp.co.forrentsystem.dto.SystemUserDto;
-import jp.co.forrentsystem.form.backend.LoginForm;
-import jp.co.forrentsystem.service.SystemUserService;
-
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +10,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import jp.co.forrentsystem.dto.SystemUserDto;
+import jp.co.forrentsystem.form.backend.LoginForm;
+import jp.co.forrentsystem.service.SystemUserService;
 
 /**
  * ログインコントローラ
@@ -99,6 +99,8 @@ public class LoginController {
 		// 【使用箇所】メソッド名：init（おすすめ物件検索画面初期表示）
 		// ※最終的になくなる可能性あり
 		session.removeAttribute("searchRecommendedRoomForm");
+		//  リロード対策にて使用したmodel
+		session.removeAttribute("model");
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("loginForm", new LoginForm());

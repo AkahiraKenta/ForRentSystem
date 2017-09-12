@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
+import jp.co.forrentsystem.constants.ProcessClass;
 import jp.co.forrentsystem.dao.BuildingContactDetailDao;
 import jp.co.forrentsystem.dao.BuildingContactHeaderDao;
 import jp.co.forrentsystem.dao.SystemUserDao;
@@ -55,7 +57,12 @@ public class BuildingContactServiceImpl implements BuildingContactService {
 		buildingContactDto.setTel(fContactArticleForm.getTel());
 		buildingContactDto.setResidentsHopeTime(fContactArticleForm.getResidentsHopeTime());
 		buildingContactDto.setContactContent(fContactArticleForm.getContactContent());
+		buildingContactDto.setBuildingName(fContactArticleForm.getBuildingName());
+		buildingContactDto.setRoomNumber(fContactArticleForm.getRoomNumber());
 
+		// Enumからお問合せ種類の名称を取得
+		String process = ProcessClass.getTargetName(fContactArticleForm.getProcessClass());
+		buildingContactDto.setProcess(process);
 
 		// メール送信
 		// 物件お問合せ明細登録
@@ -90,39 +97,40 @@ public class BuildingContactServiceImpl implements BuildingContactService {
 	 * @return
 	 */
 	private String getMessage(BuildingContactDto buildingContactDto) {
+
 		StringBuffer sb = new StringBuffer();
-		sb.append("お問合せID：")
-		.append(String.valueOf(buildingContactDto.getBuildingContactId()))
+		sb.append("お問合せID：        ")
+		.append(StringUtils.defaultString(String.valueOf(buildingContactDto.getBuildingContactId())))
 		.append(MailUtil.NEW_LINE)
-		.append("建物ID：")
-		.append("")
+		.append("建物ID：              ")
+		.append(StringUtils.defaultString(String.valueOf(buildingContactDto.getBuildingId())))
 		.append(MailUtil.NEW_LINE)
-		.append("建物名称：")
-		.append("")
+		.append("建物名称：            ")
+		.append(StringUtils.defaultString(buildingContactDto.getBuildingName()))
 		.append(MailUtil.NEW_LINE)
-		.append("部屋ID：")
-		.append("")
+		.append("部屋ID：              ")
+		.append(StringUtils.defaultString(String.valueOf(buildingContactDto.getRoomId())))
 		.append(MailUtil.NEW_LINE)
-		.append("部屋名称：")
-		.append("")
+		.append("部屋番号：            ")
+		.append(StringUtils.defaultString(buildingContactDto.getRoomNumber()))
 		.append(MailUtil.NEW_LINE)
-		.append("お問合せ種類：")
-		.append("")
+		.append("お問合せ種類：        ")
+		.append(StringUtils.defaultString(buildingContactDto.getProcess()))
 		.append(MailUtil.NEW_LINE)
-		.append("お客様氏名（姓）：")
-		.append("")
+		.append("お客様氏名（姓）：    ")
+		.append(StringUtils.defaultString(buildingContactDto.getLastName()))
 		.append(MailUtil.NEW_LINE)
-		.append("お客様氏名（名）：")
-		.append("")
+		.append("お客様氏名（名）：    ")
+		.append(StringUtils.defaultString(buildingContactDto.getFirstName()))
 		.append(MailUtil.NEW_LINE)
 		.append("お客様メールアドレス：")
-		.append("")
+		.append(StringUtils.defaultString(buildingContactDto.getMailAddress()))
 		.append(MailUtil.NEW_LINE)
-		.append("電話番号：")
-		.append("")
+		.append("電話番号：           ")
+		.append(StringUtils.defaultString(buildingContactDto.getTel()))
 		.append(MailUtil.NEW_LINE)
-		.append("その他ご希望など：")
-		.append("")
+		.append("その他ご希望など：   ")
+		.append(StringUtils.defaultString(buildingContactDto.getContactContent()))
 		.append(MailUtil.NEW_LINE);
 		return sb.toString();
 	}

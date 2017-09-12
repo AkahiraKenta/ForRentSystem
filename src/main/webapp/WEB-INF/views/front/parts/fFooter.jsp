@@ -17,7 +17,7 @@
 	<div id="footer_add_in">
 		<address>
 			<p>運営元：株式会社KURASHI</p>
-			<p>住所：住所□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□</p>
+			<p>住所：□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□</p>
 		    <p>TEL：00-0000-0000</p>
 			<br>
 			<p> &copy; 2015 KURASHI inc. All Rights Reserved.</p>

@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="resources/css/front/part/header.css">
 <header>
 	<div class="cf">
-		<h1>h1テキスト。賃貸マンション、賃貸アパート、賃貸一戸建て、賃貸物件の総合サイトです。</h1>
+		<h1>賃貸マンション、賃貸アパート、賃貸一戸建て、賃貸物件の総合サイトです。</h1>
 		<div id="logo">
 			<a href="./frontTop">
 				<img src="resources/images/common/logo.jpg" width="271" height="73" alt="KURASHI">

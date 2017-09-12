@@ -42,13 +42,14 @@ public class RegistNewsController {
 		logger.info("RegistNewsController-init");
 
 		model = newsService.reloadModel(model, session);
+		NewsForm newsForm = new NewsForm();
+		if (model != null) {
+			newsForm = (NewsForm)model.get("newsForm");
 
-		NewsForm newsForm = (NewsForm)model.get("newsForm");
-		if (newsForm == null) {
-			newsForm = new NewsForm();
-			newsForm.setNewsId((Integer)model.get("newsId"));
+			if (newsForm.getNewsId() == null) {
+				newsForm.setNewsId((Integer)model.get("newsId"));
+			}
 		}
-
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("newsForm", newsForm);
